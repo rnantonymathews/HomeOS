@@ -31,9 +31,9 @@
   --text-muted: rgba(255, 255, 255, 0.75);
   --accent-glow: #38BDF8;
 
-  --icon-base-size: 44px;
-  --dock-padding: 7px 12px;
-  --dock-radius: 18px;
+  --icon-base-size: 58px;
+  --dock-padding: 10px 18px;
+  --dock-radius: 24px;
 }
 
 * {
@@ -432,7 +432,7 @@ body.clean-mode .top-bar {
   position: relative;
   display: flex;
   align-items: flex-end;
-  gap: 8px;
+  gap: 16px;
   padding: var(--dock-padding);
   
   /* See-Through But Blurry Frosted Glass */
@@ -546,6 +546,18 @@ body.clean-mode .top-bar {
 
 .dock-item.launching {
   animation: dock-bounce 0.8s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+}
+
+/* Active Category Illumination Dot */
+.dock-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  width: 5px;
+  height: 5px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.95), 0 0 14px var(--accent-glow);
 }
 
 /* ==========================================================================

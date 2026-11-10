@@ -158,16 +158,20 @@ function initAppLaunchers() {
   const items = document.querySelectorAll('.dock-item');
   items.forEach((item) => {
     item.addEventListener('click', (e) => {
-      // If left-click without modifier keys, trigger bounce animation and navigate in the application itself
-      if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
-        e.preventDefault();
-        item.classList.add('launching');
-        const url = item.getAttribute('href');
-        if (url && url !== '#') {
-          setTimeout(() => {
-            window.location.href = url;
-          }, 320);
-        }
+      e.preventDefault();
+      items.forEach((i) => i.classList.remove('active'));
+      item.classList.add('active');
+      item.classList.add('launching');
+
+      setTimeout(() => {
+        item.classList.remove('launching');
+      }, 700);
+
+      const url = item.getAttribute('href');
+      if (url && url !== '#' && !url.startsWith('#')) {
+        setTimeout(() => {
+          window.location.href = url;
+        }, 320);
       }
     });
   });

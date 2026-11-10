@@ -1,5 +1,5 @@
 // HomeOS Service Worker
-const CACHE_NAME = 'homeos-v2.7';
+const CACHE_NAME = 'homeos-v2.8';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -9,17 +9,9 @@ const ASSETS_TO_CACHE = [
   './sky.js',
   './wallpaper.js',
   './manifest.json',
-  './assets/wallpaper-hills.jpg',
-  './assets/icons/netflix-512.png',
-  './assets/icons/prime-512.png',
-  './assets/icons/jiohotstar-512.png',
-  './assets/icons/zee5-512.png',
-  './assets/icons/sony-512.png',
-  './assets/icons/apple-512.png',
-  './assets/icons/fancode-512.png',
-  './assets/icons/ytmusic-512.png',
-  './assets/icons/youtube-512.png',
-  './assets/icons/brave-512.png',
+  './assets/icons/movies.svg',
+  './assets/icons/shows.svg',
+  './assets/icons/music.svg',
   './assets/icons/homeos.svg',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Background Squircle Gradient (Vibrant Sunset Amber / Rose) -->
+    <linearGradient id="bg-music" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF5E62"/>
+      <stop offset="50%" stop-color="#FF9966"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+
+    <!-- Specular Highlight Top Glass -->
+    <linearGradient id="glass-shine-music" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.45"/>
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.0"/>
+    </linearGradient>
+
+    <filter id="shadow-music" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect x="4" y="4" width="120" height="120" rx="30" fill="url(#bg-music)" filter="url(#shadow-music)"/>
+  
+  <!-- Subtle Glass Highlight -->
+  <rect x="5" y="5" width="118" height="58" rx="28" fill="url(#glass-shine-music)"/>
+  <rect x="4" y="4" width="120" height="120" rx="30" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+
+  <!-- Music Notes Artwork -->
+  <g transform="translate(30, 24)" filter="url(#shadow-music)">
+    <!-- First Note Head -->
+    <ellipse cx="19" cy="56" rx="11" ry="8" transform="rotate(-18, 19, 56)" fill="#FFFFFF"/>
+    
+    <!-- Second Note Head -->
+    <ellipse cx="53" cy="48" rx="11" ry="8" transform="rotate(-18, 53, 48)" fill="#FFFFFF"/>
+
+    <!-- Left Stem -->
+    <rect x="25" y="18" width="5.5" height="40" rx="2" fill="#FFFFFF"/>
+
+    <!-- Right Stem -->
+    <rect x="59" y="10" width="5.5" height="40" rx="2" fill="#FFFFFF"/>
+
+    <!-- Top Connecting Beam -->
+    <polygon points="25,18 64.5,10 64.5,21 25,29" fill="#FFFFFF"/>
+    <polygon points="25,32 64.5,24 64.5,31 25,39" fill="#FFFFFF" opacity="0.85"/>
+  </g>
+</svg>

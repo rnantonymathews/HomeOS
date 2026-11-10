@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Background Squircle Gradient (Vibrant Indigo / Violet) -->
+    <linearGradient id="bg-shows" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="50%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#3B42C4"/>
+    </linearGradient>
+
+    <!-- Specular Highlight Top Glass -->
+    <linearGradient id="glass-shine-shows" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.42"/>
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.0"/>
+    </linearGradient>
+
+    <!-- Screen Bevel Gradient -->
+    <linearGradient id="tv-inner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E1B4B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+
+    <filter id="shadow-shows" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base -->
+  <rect x="4" y="4" width="120" height="120" rx="30" fill="url(#bg-shows)" filter="url(#shadow-shows)"/>
+  
+  <!-- Subtle Glass Highlight -->
+  <rect x="5" y="5" width="118" height="58" rx="28" fill="url(#glass-shine-shows)"/>
+  <rect x="4" y="4" width="120" height="120" rx="30" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+
+  <!-- TV Display Artwork -->
+  <g transform="translate(24, 25)" filter="url(#shadow-shows)">
+    <!-- Retro Antenna -->
+    <path d="M26,8 L39,20 M54,8 L41,20" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+    <circle cx="26" cy="8" r="2.5" fill="#FFFFFF"/>
+    <circle cx="54" cy="8" r="2.5" fill="#FFFFFF"/>
+
+    <!-- TV Frame Outer -->
+    <rect x="4" y="18" width="72" height="52" rx="9" fill="#090D16" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+
+    <!-- Screen Glass -->
+    <rect x="9" y="23" width="62" height="42" rx="6" fill="url(#tv-inner)"/>
+
+    <!-- Series Screen / Waves -->
+    <polygon points="34,34 50,44 34,54" fill="#FFFFFF" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.4))"/>
+
+    <!-- Live indicator dot -->
+    <circle cx="64" cy="29" r="2" fill="#38BDF8"/>
+
+    <!-- Stand -->
+    <path d="M28,74 L52,74 M40,70 L40,74" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+  </g>
+</svg>
