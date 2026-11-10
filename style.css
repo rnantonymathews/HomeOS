@@ -83,79 +83,80 @@ html, body {
 }
 
 /* ==========================================================================
-   Right-Aligned Neon Welcome Typography (Poppins)
+   Left-Top Electric Light Green Welcome Typography (Playfair Display)
    ========================================================================== */
 .greeting-container {
   position: fixed;
-  right: 64px;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: right;
+  left: 64px;
+  top: 10%;
+  text-align: left;
   z-index: 20;
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
-  animation: greetingFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: greetingFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes greetingFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-46%) translateX(20px);
+    transform: translateY(-16px);
   }
   to {
     opacity: 1;
-    transform: translateY(-50%) translateX(0);
+    transform: translateY(0);
   }
 }
 
 .greeting-sub {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 200; /* Poppins Thin */
-  font-size: 1.4rem;
-  letter-spacing: 2px;
-  color: #4efca0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 400; /* Playfair Thin/Regular */
+  font-style: italic;
+  font-size: 1.55rem;
+  letter-spacing: 0.5px;
+  color: #c8ff9e; /* Soft Electric Light Green */
   text-transform: lowercase;
   opacity: 0.88;
   margin-bottom: 2px;
-  text-shadow: 0 0 16px rgba(0, 255, 133, 0.3);
+  text-shadow: 0 0 16px rgba(118, 255, 3, 0.35);
 }
 
 .greeting-name {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 800; /* Poppins Thick */
-  font-size: 3.4rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900; /* Playfair Thick */
+  font-size: 3.8rem;
   line-height: 1.1;
-  color: #00FF85; /* Vivid Electric Neon Green */
-  letter-spacing: 0.5px;
+  color: #76FF03; /* Vivid Electric Light Green */
+  letter-spacing: -0.5px;
   text-shadow: 
-    0 0 10px rgba(0, 255, 133, 0.75),
-    0 0 30px rgba(0, 255, 133, 0.45),
-    0 0 60px rgba(0, 255, 133, 0.25);
+    0 0 12px rgba(118, 255, 3, 0.75),
+    0 0 32px rgba(118, 255, 3, 0.45),
+    0 0 65px rgba(118, 255, 3, 0.25);
 }
 
 @media (max-width: 768px) {
   .greeting-container {
-    right: 32px;
+    left: 32px;
+    top: 8%;
   }
   .greeting-sub {
-    font-size: 1.15rem;
-    letter-spacing: 1.5px;
+    font-size: 1.25rem;
   }
   .greeting-name {
-    font-size: 2.3rem;
+    font-size: 2.7rem;
   }
 }
 
 @media (max-width: 480px) {
   .greeting-container {
-    right: 22px;
+    left: 22px;
+    top: 6%;
   }
   .greeting-sub {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
   }
   .greeting-name {
-    font-size: 1.85rem;
+    font-size: 2.1rem;
   }
 }
 
