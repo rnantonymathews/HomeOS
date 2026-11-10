@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <radialGradient id="homeBg" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#343842"/>
+      <stop offset="50%" stop-color="#1B1E26"/>
+      <stop offset="100%" stop-color="#0E1015"/>
+    </radialGradient>
+    <linearGradient id="metalStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2E8F0"/>
+      <stop offset="50%" stop-color="#94A3B8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#818CF8"/>
+    </linearGradient>
+  </defs>
+  <!-- Squircle container -->
+  <rect width="512" height="512" rx="115" fill="url(#homeBg)"/>
+  <rect width="508" height="508" x="2" y="2" rx="113" fill="none" stroke="url(#metalStroke)" stroke-width="4"/>
+
+  <!-- HomeOS Minimalist House & Orbit -->
+  <g transform="translate(256, 245)">
+    <!-- Sleek Home Silhouette -->
+    <path d="M 0,-100 L 95,-15 L 75,-15 L 75,90 L -75,90 L -75,-15 L -95,-15 Z" fill="none" stroke="url(#metalStroke)" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/>
+    
+    <!-- Futuristic Core Orb -->
+    <circle cx="0" cy="35" r="24" fill="url(#glowGrad)"/>
+    
+    <!-- Dock bar symbol beneath -->
+    <rect x="-60" y="125" width="120" height="12" rx="6" fill="url(#metalStroke)"/>
+  </g>
+</svg>

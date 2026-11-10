@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1f29">
+  <meta name="description" content="HomeOS - Minimalist entertainment launcher and web desktop">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HomeOS">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/homeos.svg">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <title>HomeOS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Wallpaper Canvas / Viewport Layer -->
+  <div class="desktop-background" id="desktop"></div>
+
+  <!-- Top Glass Status Bar -->
+  <header class="top-bar">
+    <div class="status-left">
+      <div class="glass-pill clock-widget" id="clock-widget">
+        <span class="date-text" id="date-display">Tue, Nov 10</span>
+        <span class="separator">•</span>
+        <span class="time-text" id="time-display">12:00 PM</span>
+      </div>
+    </div>
+
+    <div class="status-right">
+      <button class="glass-pill icon-btn" id="search-btn" title="Search Apps (Press / or Space)"
+        aria-label="Search Apps">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span class="btn-label">Search</span>
+      </button>
+
+      <button class="glass-pill icon-btn" id="clean-view-btn" title="Toggle Clean View (H)"
+        aria-label="Toggle Clean View">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </button>
+
+      <button class="glass-pill icon-btn" id="fullscreen-btn" title="Fullscreen (F)" aria-label="Toggle Fullscreen">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+          </path>
+        </svg>
+      </button>
+
+      <button class="glass-pill install-btn" id="install-btn" title="Install HomeOS App" style="display: none;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Install App</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Spotlight Search Modal -->
+  <div class="search-overlay" id="search-overlay">
+    <div class="search-modal">
+      <div class="search-input-wrapper">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="app-search-input" placeholder="Search apps, stream, browse..." autocomplete="off">
+        <span class="esc-badge">ESC</span>
+      </div>
+      <div class="search-results" id="search-results">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Floating Frosted Glass Dock -->
+  <main class="dock-container" id="dock-container">
+    <div class="dock-reflection"></div>
+    <nav class="dock" id="dock" role="toolbar" aria-label="Application Dock">
+
+      <!-- 1. Netflix -->
+        <a href="https://www.netflix.com" class="dock-item" data-name="Netflix" data-category="Streaming">
+          <div class="dock-icon-wrapper">
+            <img src="assets/icons/netflix-512.png" alt="Netflix" class="dock-icon">
+          </div>
+          <div class="dock-tooltip">Netflix</div>
+        </a>
+
+        <!-- 2. Prime Video -->
+          <a href="https://www.primevideo.com" class="dock-item" data-name="Prime Video" data-category="Streaming">
+            <div class="dock-icon-wrapper">
+              <img src="assets/icons/prime-512.png" alt="Prime Video" class="dock-icon">
+            </div>
+            <div class="dock-tooltip">Prime Video</div>
+          </a>
+
+          <!-- 3. JioHotstar -->
+            <a href="https://www.hotstar.com" class="dock-item" data-name="JioHotstar" data-category="Streaming">
+              <div class="dock-icon-wrapper">
+                <img src="assets/icons/jiohotstar-512.png" alt="JioHotstar" class="dock-icon">
+              </div>
+              <div class="dock-tooltip">JioHotstar</div>
+            </a>
+
+            <!-- 4. Zee 5 -->
+              <a href="https://www.zee5.com" class="dock-item" data-name="ZEE5" data-category="Streaming">
+                <div class="dock-icon-wrapper">
+                  <img src="assets/icons/zee5-512.png" alt="ZEE5" class="dock-icon">
+                </div>
+                <div class="dock-tooltip">ZEE5</div>
+              </a>
+
+              <!-- 5. Sony LIV -->
+                <a href="https://www.sonyliv.com" class="dock-item" data-name="Sony LIV" data-category="Streaming">
+                  <div class="dock-icon-wrapper">
+                    <img src="assets/icons/sony-512.png" alt="Sony LIV" class="dock-icon">
+                  </div>
+                  <div class="dock-tooltip">Sony LIV</div>
+                </a>
+
+                <!-- 6. Apple TV -->
+                  <a href="https://tv.apple.com" class="dock-item" data-name="Apple TV" data-category="Streaming">
+                    <div class="dock-icon-wrapper">
+                      <img src="assets/icons/apple-512.png" alt="Apple TV" class="dock-icon">
+                    </div>
+                    <div class="dock-tooltip">Apple TV</div>
+                  </a>
+
+                  <!-- 7. FanCode -->
+                    <a href="https://www.fancode.com" class="dock-item" data-name="FanCode" data-category="Sports">
+                      <div class="dock-icon-wrapper">
+                        <img src="assets/icons/fancode-512.png" alt="FanCode" class="dock-icon">
+                      </div>
+                      <div class="dock-tooltip">FanCode</div>
+                    </a>
+
+                    <!-- 8. YouTube Music -->
+                      <a href="https://music.youtube.com" class="dock-item" data-name="YouTube Music"
+                        data-category="Music">
+                        <div class="dock-icon-wrapper">
+                          <img src="assets/icons/ytmusic-512.png" alt="YouTube Music" class="dock-icon">
+                        </div>
+                        <div class="dock-tooltip">YouTube Music</div>
+                      </a>
+
+                      <!-- 9. YouTube -->
+                        <a href="https://www.youtube.com" class="dock-item" data-name="YouTube" data-category="Video">
+                          <div class="dock-icon-wrapper">
+                            <img src="assets/icons/youtube-512.png" alt="YouTube" class="dock-icon">
+                          </div>
+                          <div class="dock-tooltip">YouTube</div>
+                        </a>
+
+                        <!-- 10. Brave -->
+                          <a href="https://search.brave.com" class="dock-item" data-name="Brave"
+                            data-category="Browser">
+                            <div class="dock-icon-wrapper">
+                              <img src="assets/icons/brave-512.png" alt="Brave Browser" class="dock-icon">
+                            </div>
+                            <div class="dock-tooltip">Brave</div>
+                          </a>
+
+    </nav>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
