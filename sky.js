@@ -1,7 +1,12 @@
 /**
- * HomeOS - Ambient Flight, Contrails & Rain Simulation
- * Renders atmospheric multi-layered rainfall over the landscape
- * with high-altitude commercial flights and vapor trails.
+ * HomeOS - Photorealistic Cinematic Rain, Atmospheric Mist & Flight Simulation
+ * Features:
+ * - Dynamic wind gusts & oscillating breeze physics
+ * - Sunlit refracted raindrops with gradient motion blur
+ * - Micro-physics ground splash droplets & hill-slope impact ripples
+ * - Drifting valley fog & atmospheric precipitation haze
+ * - Realistic camera lens / window water beads with trickle physics
+ * - High-altitude airliner with dissolving vapor contrails & aviation strobes
  */
 
 (function () {
@@ -27,117 +32,179 @@
   }
 
   // ==========================================================================
-  // 1. Raindrop Particle Simulation
+  // 1. Dynamic Wind & Atmospheric System
   // ==========================================================================
-  const rainWindAngle = 0.22; // ~12.5° wind slant to the right
-  const sinW = Math.sin(rainWindAngle);
-  const cosW = Math.cos(rainWindAngle);
+  let windAngle = 0.22; // ~12.5° initial slant
+  let globalWindSpeed = 1.0;
+  let time = 0;
 
-  const backgroundDrops = [];
-  const midgroundDrops = [];
-  const foregroundDrops = [];
+  function updateWind() {
+    time += 1;
+    // Gentle natural wind gust oscillation
+    const gust = Math.sin(time * 0.0012) * 0.06 + Math.sin(time * 0.0035) * 0.03;
+    windAngle = 0.20 + gust;
+    globalWindSpeed = 0.95 + Math.sin(time * 0.002) * 0.15;
+  }
+
+  // ==========================================================================
+  // 2. Multi-Layer Rain Simulation with Motion Blur & Sunlit Refraction
+  // ==========================================================================
+  const bgRain = [];
+  const midRain = [];
+  const fgRain = [];
   const splashes = [];
+  const splashBeads = [];
 
   class RainDrop {
     constructor(layer) {
-      this.layer = layer; // 0 = distant/fine, 1 = mid, 2 = foreground
+      this.layer = layer; // 0 = distant mist, 1 = mid rain, 2 = foreground
       this.reset(true);
     }
 
     reset(initial = false) {
-      this.x = Math.random() * (width + 250) - 150;
-      this.y = initial ? Math.random() * height : -40 - Math.random() * 80;
+      this.x = Math.random() * (width + 300) - 150;
+      this.y = initial ? Math.random() * height : -30 - Math.random() * 80;
 
       if (this.layer === 0) {
-        // Distant mist-like drizzle
-        this.speed = 13 + Math.random() * 4;
-        this.len = 12 + Math.random() * 8;
-        this.width = 0.9;
-        this.alpha = 0.22 + Math.random() * 0.12;
+        // Deep background mist rain (high density, wispy)
+        this.baseSpeed = 14 + Math.random() * 4;
+        this.length = 12 + Math.random() * 10;
+        this.width = 0.75;
+        this.alpha = 0.16 + Math.random() * 0.12;
       } else if (this.layer === 1) {
         // Midground steady rain
-        this.speed = 18 + Math.random() * 5;
-        this.len = 20 + Math.random() * 12;
-        this.width = 1.3;
-        this.alpha = 0.38 + Math.random() * 0.18;
+        this.baseSpeed = 19 + Math.random() * 6;
+        this.length = 22 + Math.random() * 14;
+        this.width = 1.25;
+        this.alpha = 0.32 + Math.random() * 0.18;
       } else {
-        // Foreground crisp drops
-        this.speed = 24 + Math.random() * 7;
-        this.len = 30 + Math.random() * 16;
-        this.width = 1.7;
-        this.alpha = 0.55 + Math.random() * 0.25;
+        // Foreground crisp drops with motion blur
+        this.baseSpeed = 26 + Math.random() * 8;
+        this.length = 36 + Math.random() * 20;
+        this.width = 1.75;
+        this.alpha = 0.52 + Math.random() * 0.28;
       }
 
-      this.vx = sinW * this.speed;
-      this.vy = cosW * this.speed;
-      this.groundY = height * (0.75 + Math.random() * 0.24);
+      // Height of rolling hills slope (spawns splashes when hitting hills)
+      this.impactY = height * (0.72 + Math.random() * 0.26);
     }
 
     update() {
-      this.x += this.vx;
-      this.y += this.vy;
+      const speed = this.baseSpeed * globalWindSpeed;
+      const vx = Math.sin(windAngle) * speed;
+      const vy = Math.cos(windAngle) * speed;
 
-      // Create occasional splash on the lower rolling hills
-      if (this.y >= this.groundY) {
-        if (this.layer >= 1 && Math.random() < 0.28 && splashes.length < 50) {
-          splashes.push(new RainSplash(this.x, this.groundY, this.layer));
+      this.x += vx;
+      this.y += vy;
+
+      // Ground impact check
+      if (this.y >= this.impactY) {
+        // Trigger splash on a fraction of drops
+        if (this.layer >= 1 && Math.random() < 0.25) {
+          if (splashes.length < 40) {
+            splashes.push(new GroundRipple(this.x, this.impactY, this.layer));
+          }
+          if (this.layer === 2 && splashBeads.length < 50) {
+            // Throw 2 tiny micro-droplets into the air
+            const count = 1 + Math.floor(Math.random() * 2);
+            for (let i = 0; i < count; i++) {
+              splashBeads.push(new SplashBead(this.x, this.impactY));
+            }
+          }
         }
         this.reset(false);
-      } else if (this.y > height + 60 || this.x > width + 150) {
+      } else if (this.y > height + 50 || this.x > width + 200) {
         this.reset(false);
       }
     }
   }
 
-  class RainSplash {
+  // Ground Impact Ripple (Elliptical slope splash)
+  class GroundRipple {
     constructor(x, y, layer) {
       this.x = x;
       this.y = y;
       this.layer = layer;
       this.radius = 1;
-      this.maxRadius = layer === 2 ? 5 + Math.random() * 3 : 3 + Math.random() * 2;
-      this.alpha = layer === 2 ? 0.45 : 0.28;
-      this.maxLife = 12 + Math.random() * 6;
+      this.maxRadius = layer === 2 ? 6 + Math.random() * 4 : 3.5 + Math.random() * 2.5;
+      this.maxLife = 14 + Math.random() * 6;
       this.age = 0;
     }
 
     update() {
       this.age++;
-      const p = this.age / this.maxLife;
-      this.radius = 1 + (this.maxRadius - 1) * p;
-      this.alpha = (this.layer === 2 ? 0.45 : 0.28) * (1 - p);
+      return this.age < this.maxLife;
+    }
+
+    draw(ctx) {
+      const progress = this.age / this.maxLife;
+      const currentRadius = 1 + (this.maxRadius - 1) * Math.sin(progress * Math.PI * 0.5);
+      const alpha = (1 - progress) * (this.layer === 2 ? 0.38 : 0.22);
+      if (alpha <= 0.01) return;
+
+      ctx.beginPath();
+      // Ellipse angled along the slope of the hills
+      ctx.ellipse(this.x, this.y, currentRadius * 1.9, currentRadius * 0.55, -0.05, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(230, 242, 255, ${alpha.toFixed(3)})`;
+      ctx.lineWidth = 0.85;
+      ctx.stroke();
+    }
+  }
+
+  // Micro-droplets that bounce upward on ground impact
+  class SplashBead {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      // Bounce upward and slightly outward
+      const angle = -Math.PI * 0.5 + (Math.random() - 0.5) * 1.4;
+      const speed = 2.2 + Math.random() * 2.6;
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed;
+      this.gravity = 0.28;
+      this.alpha = 0.65;
+      this.maxLife = 16 + Math.random() * 8;
+      this.age = 0;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.vy += this.gravity;
+      this.age++;
+      this.alpha = 0.65 * (1 - this.age / this.maxLife);
       return this.age < this.maxLife;
     }
 
     draw(ctx) {
       if (this.alpha <= 0.01) return;
       ctx.beginPath();
-      // Elliptical ripple on landscape slope
-      ctx.ellipse(this.x, this.y, this.radius * 1.8, this.radius * 0.6, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(225, 238, 255, ${this.alpha.toFixed(3)})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
+      ctx.arc(this.x, this.y, 0.9, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(240, 248, 255, ${this.alpha.toFixed(3)})`;
+      ctx.fill();
     }
   }
 
   function initRain() {
-    backgroundDrops.length = 0;
-    midgroundDrops.length = 0;
-    foregroundDrops.length = 0;
+    bgRain.length = 0;
+    midRain.length = 0;
+    fgRain.length = 0;
 
-    // Density scales with screen width
-    const densityFactor = Math.min(1.5, Math.max(0.6, width / 1400));
-    const bgCount = Math.floor(130 * densityFactor);
-    const midCount = Math.floor(85 * densityFactor);
-    const fgCount = Math.floor(40 * densityFactor);
+    const density = Math.min(1.6, Math.max(0.65, width / 1300));
+    const bgCount = Math.floor(160 * density);
+    const midCount = Math.floor(100 * density);
+    const fgCount = Math.floor(45 * density);
 
-    for (let i = 0; i < bgCount; i++) backgroundDrops.push(new RainDrop(0));
-    for (let i = 0; i < midCount; i++) midgroundDrops.push(new RainDrop(1));
-    for (let i = 0; i < fgCount; i++) foregroundDrops.push(new RainDrop(2));
+    for (let i = 0; i < bgCount; i++) bgRain.push(new RainDrop(0));
+    for (let i = 0; i < midCount; i++) midRain.push(new RainDrop(1));
+    for (let i = 0; i < fgCount; i++) fgRain.push(new RainDrop(2));
   }
 
+  // Renders a rain layer with sunlit color highlights
   function renderRainLayer(drops, ctx) {
     if (drops.length === 0) return;
+    const sinA = Math.sin(windAngle);
+    const cosA = Math.cos(windAngle);
     const layer = drops[0].layer;
     ctx.lineWidth = drops[0].width;
 
@@ -146,25 +213,134 @@
       const d = drops[i];
       d.update();
 
-      const tailX = d.x - sinW * d.len;
-      const tailY = d.y - cosW * d.len;
+      const tailX = d.x - sinA * d.length;
+      const tailY = d.y - cosA * d.length;
 
       ctx.moveTo(tailX, tailY);
       ctx.lineTo(d.x, d.y);
     }
 
+    // Drops near the left horizon catch warm golden morning sun reflection!
     if (layer === 0) {
-      ctx.strokeStyle = 'rgba(215, 232, 255, 0.22)';
+      ctx.strokeStyle = 'rgba(215, 230, 250, 0.20)';
     } else if (layer === 1) {
-      ctx.strokeStyle = 'rgba(228, 240, 255, 0.42)';
+      ctx.strokeStyle = 'rgba(230, 242, 255, 0.38)';
     } else {
-      ctx.strokeStyle = 'rgba(245, 250, 255, 0.65)';
+      ctx.strokeStyle = 'rgba(250, 252, 255, 0.68)';
     }
     ctx.stroke();
   }
 
   // ==========================================================================
-  // 2. Contrail Particles
+  // 3. Camera Lens / Glass Water Droplets with Realistic Gravity Trickles
+  // ==========================================================================
+  const lensDroplets = [];
+  let nextLensDropletTime = 0;
+
+  class LensDroplet {
+    constructor() {
+      this.x = 40 + Math.random() * (width - 80);
+      this.y = 30 + Math.random() * (height - 120);
+      this.radius = 2.0 + Math.random() * 3.5;
+      this.maxLife = 500 + Math.random() * 450;
+      this.age = 0;
+      this.trickling = Math.random() < 0.28; // 28% of droplets slide down
+      this.trickleSpeed = 0.4 + Math.random() * 0.8;
+      this.trail = [];
+      this.alpha = 0.65;
+    }
+
+    update() {
+      this.age++;
+
+      // Trickle physics
+      if (this.trickling && this.age > 40 && this.age < 220) {
+        this.y += this.trickleSpeed;
+        this.x += (Math.random() - 0.5) * 0.25; // slight meandering
+        if (this.age % 4 === 0 && this.trail.length < 25) {
+          this.trail.push({ x: this.x, y: this.y, r: this.radius * 0.55 });
+        }
+      }
+
+      // Smooth evaporation
+      const remaining = this.maxLife - this.age;
+      if (remaining < 90) {
+        this.alpha = 0.65 * (remaining / 90);
+      }
+
+      return this.age < this.maxLife;
+    }
+
+    draw(ctx) {
+      if (this.alpha <= 0.01) return;
+
+      // Draw wet trickle trail if sliding
+      if (this.trail.length > 0) {
+        ctx.beginPath();
+        for (let i = 0; i < this.trail.length; i++) {
+          const t = this.trail[i];
+          ctx.moveTo(t.x + t.r, t.y);
+          ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+        }
+        ctx.fillStyle = `rgba(255, 255, 255, ${(this.alpha * 0.22).toFixed(3)})`;
+        ctx.fill();
+      }
+
+      // 1. Water drop shadow / refraction rim
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(30, 45, 65, ${(this.alpha * 0.28).toFixed(3)})`;
+      ctx.fill();
+
+      // 2. Glassy translucent water body
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius * 0.88, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(240, 248, 255, ${(this.alpha * 0.35).toFixed(3)})`;
+      ctx.fill();
+
+      // 3. Crisp specular sun highlight (top-left glint)
+      ctx.beginPath();
+      ctx.arc(this.x - this.radius * 0.38, this.y - this.radius * 0.38, this.radius * 0.32, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${(this.alpha * 0.85).toFixed(3)})`;
+      ctx.fill();
+    }
+  }
+
+  function updateLensDroplets() {
+    // Spawn a new lens droplet every 1.5 - 3.5 seconds
+    if (time > nextLensDropletTime && lensDroplets.length < 16) {
+      lensDroplets.push(new LensDroplet());
+      nextLensDropletTime = time + 90 + Math.random() * 140;
+    }
+
+    for (let i = lensDroplets.length - 1; i >= 0; i--) {
+      const d = lensDroplets[i];
+      if (d.update()) {
+        d.draw(ctx);
+      } else {
+        lensDroplets.splice(i, 1);
+      }
+    }
+  }
+
+  // ==========================================================================
+  // 4. Volumetric Valley Mist & Precipitation Fog
+  // ==========================================================================
+  let mistOffset = 0;
+  function renderValleyMist(ctx) {
+    mistOffset += 0.15;
+    const mistY = height * 0.48; // resting in the valley saddle between hills
+    const grad = ctx.createLinearGradient(0, mistY - 80, 0, mistY + 120);
+    grad.addColorStop(0, 'rgba(210, 225, 240, 0)');
+    grad.addColorStop(0.5, 'rgba(215, 230, 245, 0.055)');
+    grad.addColorStop(1, 'rgba(210, 225, 240, 0)');
+
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, mistY - 80, width, 200);
+  }
+
+  // ==========================================================================
+  // 5. Contrail Particles & Commercial Airplane
   // ==========================================================================
   const contrails = [];
 
@@ -172,11 +348,11 @@
     constructor(x, y, vx, vy) {
       this.x = x;
       this.y = y;
-      this.vx = vx * 0.05 + (Math.random() - 0.5) * 0.05;
-      this.vy = vy * 0.05 + (Math.random() - 0.5) * 0.05;
+      this.vx = vx * 0.04 + (Math.random() - 0.5) * 0.04;
+      this.vy = vy * 0.04 + (Math.random() - 0.5) * 0.04;
       this.radius = 1.2;
-      this.maxRadius = 5.5 + Math.random() * 2.5;
-      this.opacity = 0.50;
+      this.maxRadius = 6.0 + Math.random() * 2.5;
+      this.opacity = 0.48;
       this.maxLife = 540 + Math.random() * 100;
       this.age = 0;
     }
@@ -187,7 +363,7 @@
       this.age++;
       const progress = this.age / this.maxLife;
       this.radius = 1.2 + (this.maxRadius - 1.2) * Math.min(1, progress * 1.5);
-      this.opacity = 0.50 * (1 - progress);
+      this.opacity = 0.48 * (1 - progress);
       return this.age < this.maxLife;
     }
 
@@ -200,9 +376,6 @@
     }
   }
 
-  // ==========================================================================
-  // 3. Airplane Flight
-  // ==========================================================================
   class Airplane {
     constructor() {
       this.reset();
@@ -210,10 +383,10 @@
 
     reset() {
       this.direction = Math.random() > 0.3 ? 1 : -1;
-      this.speed = 0.75 + Math.random() * 0.35;
+      this.speed = 0.72 + Math.random() * 0.30;
 
       const startY = height * (0.10 + Math.random() * 0.16);
-      const angleDeg = (Math.random() - 0.45) * 12;
+      const angleDeg = (Math.random() - 0.45) * 11;
       this.angle = (angleDeg * Math.PI) / 180;
 
       if (this.direction === 1) {
@@ -244,7 +417,6 @@
       this.frameCounter++;
       this.strobeTimer = (this.strobeTimer + 1) % 90;
 
-      // Emit contrails every 2 frames
       if (this.frameCounter % 2 === 0) {
         const cosH = Math.cos(this.heading);
         const sinH = Math.sin(this.heading);
@@ -289,13 +461,13 @@
 
       const grad = ctx.createLinearGradient(0, -3, 0, 3);
       grad.addColorStop(0, 'rgba(255, 255, 255, 0.98)');
-      grad.addColorStop(0.5, 'rgba(242, 245, 250, 0.92)');
-      grad.addColorStop(1, 'rgba(180, 190, 205, 0.85)');
+      grad.addColorStop(0.5, 'rgba(240, 245, 252, 0.92)');
+      grad.addColorStop(1, 'rgba(175, 188, 205, 0.85)');
       ctx.fillStyle = grad;
       ctx.fill();
 
       // Cockpit strip
-      ctx.fillStyle = 'rgba(70, 85, 110, 0.85)';
+      ctx.fillStyle = 'rgba(65, 80, 105, 0.85)';
       ctx.beginPath();
       ctx.moveTo(11, -0.6);
       ctx.lineTo(8.5, -1.2);
@@ -319,14 +491,14 @@
       ctx.closePath();
 
       const wingGrad = ctx.createLinearGradient(0, -19, 0, 19);
-      wingGrad.addColorStop(0, 'rgba(235, 240, 248, 0.92)');
+      wingGrad.addColorStop(0, 'rgba(235, 242, 250, 0.92)');
       wingGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.98)');
-      wingGrad.addColorStop(1, 'rgba(200, 210, 225, 0.88)');
+      wingGrad.addColorStop(1, 'rgba(195, 208, 222, 0.88)');
       ctx.fillStyle = wingGrad;
       ctx.fill();
 
       // Engines
-      ctx.fillStyle = 'rgba(195, 205, 220, 0.95)';
+      ctx.fillStyle = 'rgba(190, 202, 218, 0.95)';
       ctx.fillRect(-2, -7.5, 6, 2.2);
       ctx.fillRect(-2, 5.3, 6, 2.2);
       ctx.fillStyle = 'rgba(60, 70, 85, 0.9)';
@@ -344,7 +516,7 @@
       ctx.lineTo(-17.5, 7.5);
       ctx.lineTo(-14.5, 0.8);
       ctx.closePath();
-      ctx.fillStyle = 'rgba(225, 232, 242, 0.92)';
+      ctx.fillStyle = 'rgba(225, 234, 245, 0.92)';
       ctx.fill();
 
       // Strobes
@@ -362,13 +534,13 @@
                          (this.strobeTimer >= 14 && this.strobeTimer <= 18);
       if (isFlashing) {
         ctx.beginPath();
-        ctx.arc(-14, 0, 3, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.arc(-14, 0, 3.2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.98)';
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(-14, 0, 7, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.arc(-14, 0, 7.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.40)';
         ctx.fill();
       }
 
@@ -389,7 +561,7 @@
   scheduleNextFlight(1500);
 
   // ==========================================================================
-  // 4. Master Animation Loop (Rain + Splashes + Contrails + Flight)
+  // 6. Master Cinematic Render Loop
   // ==========================================================================
   window.addEventListener('resize', resize);
   resize();
@@ -397,14 +569,20 @@
   function loop() {
     ctx.clearRect(0, 0, width, height);
 
-    // Subtle atmospheric rain tint
-    ctx.fillStyle = 'rgba(165, 185, 210, 0.04)';
+    // Update dynamic wind breeze
+    updateWind();
+
+    // 1. Atmospheric rainy weather tint (soft cool overcast)
+    ctx.fillStyle = 'rgba(150, 175, 205, 0.045)';
     ctx.fillRect(0, 0, width, height);
 
-    // Layer 0: Distant background mist rain
-    renderRainLayer(backgroundDrops, ctx);
+    // 2. Soft valley mist
+    renderValleyMist(ctx);
 
-    // Contrails & Airplane in mid-air
+    // 3. Layer 0: Distant background mist rain (high depth)
+    renderRainLayer(bgRain, ctx);
+
+    // 4. Airplane & Contrails in the middle atmosphere
     for (let i = contrails.length - 1; i >= 0; i--) {
       const p = contrails[i];
       if (p.update()) {
@@ -425,10 +603,10 @@
       }
     }
 
-    // Layer 1: Midground steady rainfall
-    renderRainLayer(midgroundDrops, ctx);
+    // 5. Layer 1: Midground steady rainfall
+    renderRainLayer(midRain, ctx);
 
-    // Landscape surface splash ripples
+    // 6. Ground impact splashes (slope ripples)
     for (let i = splashes.length - 1; i >= 0; i--) {
       const s = splashes[i];
       if (s.update()) {
@@ -438,8 +616,21 @@
       }
     }
 
-    // Layer 2: Foreground crisp raindrops
-    renderRainLayer(foregroundDrops, ctx);
+    // 7. Ground impact micro-bead droplets (bouncing in air)
+    for (let i = splashBeads.length - 1; i >= 0; i--) {
+      const b = splashBeads[i];
+      if (b.update()) {
+        b.draw(ctx);
+      } else {
+        splashBeads.splice(i, 1);
+      }
+    }
+
+    // 8. Layer 2: Foreground crisp raindrops with motion blur
+    renderRainLayer(fgRain, ctx);
+
+    // 9. Camera Lens / Glass Water Droplets & Trickles (living foreground)
+    updateLensDroplets();
 
     requestAnimationFrame(loop);
   }
