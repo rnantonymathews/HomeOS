@@ -11,8 +11,8 @@
     "standalone"
   ],
   "orientation": "landscape",
-  "background_color": "#0d1017",
-  "theme_color": "#1a1f29",
+  "background_color": "#08090b",
+  "theme_color": "#08090b",
   "icons": [
     {
       "src": "assets/icons/icon-192.png",

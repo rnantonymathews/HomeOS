@@ -56,7 +56,7 @@ html, body {
 }
 
 /* ==========================================================================
-   Desktop Wallpaper Background & Faded Crossfade Transitions
+   Luxury Matte Black Desktop Wallpaper
    ========================================================================== */
 .desktop-background,
 .wallpaper-container {
@@ -66,53 +66,35 @@ html, body {
   height: 100vh;
   z-index: 1;
   overflow: hidden;
-  background-color: #0c0f17;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  background-color: #08090b;
+  background-image: radial-gradient(
+    ellipse at 50% 38%,
+    #13161c 0%,
+    #0c0d10 50%,
+    #060709 100%
+  );
 }
 
-.wallpaper-layer {
+/* Tactile Matte Micro-Texture (Non-glossy, soft acoustic / anodized finish) */
+.matte-texture {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: opacity;
-}
-
-.wallpaper-layer.active {
-  opacity: 1;
-}
-
-.sky-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2;
+  opacity: 0.042;
   pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 2;
 }
 
-/* Subtle cinematic depth vignette */
-.wallpaper-container::after,
-.desktop-background::after {
-  content: "";
+/* Soft Matte Vignette (Deepens edges to pitch black for cinematic contrast) */
+.matte-vignette {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at 50% 50%,
-    rgba(0, 0, 0, 0) 50%,
-    rgba(0, 0, 0, 0.35) 100%
-  ),
-  linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.25) 0%,
-    rgba(0, 0, 0, 0) 25%,
-    rgba(0, 0, 0, 0) 75%,
-    rgba(0, 0, 0, 0.35) 100%
+    ellipse at 50% 50%,
+    transparent 45%,
+    rgba(2, 3, 4, 0.75) 100%
   );
   pointer-events: none;
   z-index: 3;
