@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#08090b">
+  <meta name="theme-color" content="#000000">
   <meta name="description" content="HomeOS - Minimalist entertainment launcher and web desktop">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,70 +13,15 @@
   <link rel="icon" type="image/svg+xml" href="assets/icons/homeos.svg">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <title>HomeOS</title>
-
-  <!-- Google Fonts: Playfair Display -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- Luxury Matte Black Wallpaper Canvas -->
+  <!-- Full Matte Black Wallpaper Canvas -->
   <div class="wallpaper-container desktop-background" id="desktop">
     <div class="matte-texture"></div>
-    <div class="matte-vignette"></div>
   </div>
 
-  <!-- Editorial Main Stage -->
-  <main class="home-stage" id="home-stage">
-    
-    <!-- Left Column: Big Bold Time & Living Seasonal Photo Frame -->
-    <section class="stage-left">
-      <div class="clock-hero">
-        <h1 class="hero-time" id="hero-time">12:00 <span class="time-ampm">PM</span></h1>
-        <div class="hero-date" id="hero-date">Wednesday, November 11</div>
-      </div>
-
-      <!-- Living Seasonal Photo Frame -->
-      <div class="living-photo-frame" id="photo-frame">
-        <div class="frame-bezel">
-          <!-- Crossfading Seasonal Background Layers -->
-          <div class="frame-layer active" id="frame-wallpaper-a"></div>
-          <div class="frame-layer" id="frame-wallpaper-b"></div>
-
-          <!-- Rain / Mist Atmospheric Canvas -->
-          <canvas class="frame-sky-canvas" id="frame-sky-canvas"></canvas>
-
-          <!-- Glass Weather HUD Overlay -->
-          <div class="frame-weather-hud" id="frame-weather">
-            <span class="hud-weather-icon" id="frame-weather-icon">☁️</span>
-            <div class="hud-weather-meta">
-              <div class="hud-temp-row">
-                <span class="hud-temp" id="frame-weather-temp">22°C</span>
-                <span class="hud-dot">•</span>
-                <span class="hud-cond" id="frame-weather-cond">Overcast</span>
-              </div>
-              <span class="hud-location">Bangalore, Ejipura</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right Column: Playfair Display Luxury Greeting -->
-    <section class="stage-right">
-      <div class="greeting-hero">
-        <span class="greeting-subtitle">Welcome back</span>
-        <h2 class="greeting-name">Aaron Antony</h2>
-      </div>
-    </section>
-
-  </main>
-
-  <script src="sky.js"></script>
-  <script src="wallpaper.js"></script>
   <script src="app.js"></script>
 </body>
 

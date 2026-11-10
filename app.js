@@ -5,7 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
   initOrientationLock();
-  initClock();
+  initSpatialNavigation();
   initPwaInstall();
 });
 
@@ -70,34 +70,25 @@ function initPwaInstall() {
    2. Live Clock & Calendar Widget
    ========================================================================== */
 function initClock() {
-  const heroTimeEl = document.getElementById('hero-time');
-  const heroDateEl = document.getElementById('hero-date');
   const dateEl = document.getElementById('date-display');
   const timeEl = document.getElementById('time-display');
+  if (!dateEl || !timeEl) return;
 
   function update() {
     const now = new Date();
 
+    // Format Date: "Tue, Nov 10"
+    const optionsDate = { weekday: 'short', month: 'short', day: 'numeric' };
+    dateEl.textContent = now.toLocaleDateString(undefined, optionsDate);
+
+    // Format Time: "12:51 PM"
     let hours = now.getHours();
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
-    hours = hours ? hours : 12;
+    hours = hours ? hours : 12; // 0 becomes 12
 
-    if (heroTimeEl) {
-      heroTimeEl.innerHTML = `${hours}:${minutes} <span class="time-ampm">${ampm}</span>`;
-    }
-    if (heroDateEl) {
-      const optionsFullDate = { weekday: 'long', month: 'long', day: 'numeric' };
-      heroDateEl.textContent = now.toLocaleDateString(undefined, optionsFullDate);
-    }
-    if (dateEl) {
-      const optionsDate = { weekday: 'short', month: 'short', day: 'numeric' };
-      dateEl.textContent = now.toLocaleDateString(undefined, optionsDate);
-    }
-    if (timeEl) {
-      timeEl.textContent = `${hours}:${minutes} ${ampm}`;
-    }
+    timeEl.textContent = `${hours}:${minutes} ${ampm}`;
   }
 
   update();
