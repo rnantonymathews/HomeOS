@@ -4,6 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
+  initOrientationLock();
   initClock();
   initDockMagnification();
   initAppLaunchers();
@@ -11,6 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initControls();
   initPwaInstall();
 });
+
+function initOrientationLock() {
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('landscape').catch(() => { });
+  }
+  // Try locking on first touch / click gesture
+  window.addEventListener('click', () => {
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock('landscape').catch(() => { });
+    }
+  }, { once: true });
+}
 
 /* ==========================================================================
    1. Service Worker & PWA Support
@@ -331,7 +344,11 @@ function initControls() {
   // Fullscreen
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => { });
+      document.documentElement.requestFullscreen().then(() => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(() => { });
+        }
+      }).catch(() => { });
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen().catch(() => { });
