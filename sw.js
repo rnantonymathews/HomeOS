@@ -1,13 +1,14 @@
 // HomeOS Service Worker
-const CACHE_NAME = 'homeos-v2.3';
+const CACHE_NAME = 'homeos-v2.4';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
   './app.js',
+  './sky.js',
   './manifest.json',
-  './assets/wallpaper.jpg',
+  './assets/wallpaper-hills.jpg',
   './assets/icons/netflix-512.png',
   './assets/icons/prime-512.png',
   './assets/icons/jiohotstar-512.png',

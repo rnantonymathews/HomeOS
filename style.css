@@ -63,12 +63,21 @@ html, body {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url('assets/wallpaper.jpg');
+  background-image: url('assets/wallpaper-hills.jpg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   z-index: 1;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+
+.sky-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* Subtle cinematic depth vignette */
