@@ -11,7 +11,7 @@
 (function () {
   'use strict';
 
-  const canvas = document.getElementById('sky-canvas');
+  const canvas = document.getElementById('frame-sky-canvas') || document.getElementById('sky-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
@@ -26,8 +26,9 @@
 
   function resize() {
     dpr = window.devicePixelRatio || 1;
-    width = window.innerWidth;
-    height = window.innerHeight;
+    const rect = canvas.getBoundingClientRect();
+    width = rect.width || canvas.parentElement?.clientWidth || window.innerWidth;
+    height = rect.height || canvas.parentElement?.clientHeight || window.innerHeight;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
