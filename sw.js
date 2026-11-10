@@ -1,11 +1,13 @@
 // HomeOS Service Worker
-const CACHE_NAME = 'homeos-v4.0';
+const CACHE_NAME = 'homeos-v5.0';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
   './app.js',
+  './moviesData.js',
+  './moviesView.js',
   './sky.js',
   './wallpaper.js',
   './manifest.json',

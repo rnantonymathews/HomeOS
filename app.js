@@ -2,6 +2,8 @@
  * HomeOS - Interactive Vanilla JS Bento Desktop
  */
 
+import { initMoviesView, openMoviesView, closeMoviesView, updateBentoContinueWatchingCard } from './moviesView.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
   initOrientationLock();
@@ -11,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNewsFeed();
   initContinueWatching();
   initVerticalDock();
+  initMoviesView();
 });
 
 /* ==========================================================================
@@ -26,6 +29,8 @@ function showToast(message, duration = 3200) {
     toast.classList.remove('show');
   }, duration);
 }
+
+window.showToast = showToast;
 
 /* ==========================================================================
    1. Live Digital Clock & Calendar Date
@@ -356,14 +361,37 @@ function initNewsFeed() {
 }
 
 /* ==========================================================================
-   5. Continue Watching Action
+   5. Continue Watching Action & LocalStorage Restore
    ========================================================================== */
 function initContinueWatching() {
   const resumeBtn = document.getElementById('btn-resume-watching');
   const cwBox = document.getElementById('continue-watching-box');
 
+  // Check saved continue watching state from Movies/Shows
+  try {
+    const saved = localStorage.getItem('homeos_continue_watching');
+    if (saved) {
+      updateBentoContinueWatchingCard(JSON.parse(saved));
+    }
+  } catch (e) {
+    console.warn('LocalStorage continue watching read failed:', e);
+  }
+
   function handleResume() {
+    try {
+      const saved = localStorage.getItem('homeos_continue_watching');
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.url) {
+          showToast(`Resuming "${data.title}" on ${data.providerName || 'Streaming'}...`);
+          window.open(data.url, '_blank', 'noopener,noreferrer');
+          return;
+        }
+      }
+    } catch (e) { }
+
     showToast('Resuming Severance (S1:E4) on Apple TV+...');
+    window.open('https://tv.apple.com/search?term=Severance', '_blank', 'noopener,noreferrer');
   }
 
   if (resumeBtn) {
@@ -409,6 +437,8 @@ function initVerticalDock() {
     if (bloom) bloom.style.transform = `translateY(${bloomY}px)`;
   }
 
+  window.syncActiveDockIndicator = syncActiveIndicator;
+
   dockItems.forEach(item => {
     item.addEventListener('click', () => {
       dockItems.forEach(i => i.classList.remove('active'));
@@ -416,15 +446,28 @@ function initVerticalDock() {
       syncActiveIndicator(item, true);
 
       const target = item.dataset.nav;
+
+      if (target === 'movie') {
+        openMoviesView();
+        showToast('Movies: Unified Library');
+        return;
+      }
+
+      if (target === 'profile') {
+        closeMoviesView();
+        showToast('Profile: Aaron Antony');
+        return;
+      }
+
+      if (target === 'shows') {
+        // Can open Movies view filtered to shows or show toast
+        openMoviesView();
+        showToast('Shows: Unified Series Library');
+        return;
+      }
+
       const toastMessages = {
-        home: 'HomeOS Dashboard',
-        work: 'Projects & Workspaces',
-        movie: 'Movies & Media Library',
-        calendar: 'Calendar & Upcoming Events',
-        shows: 'TV Shows & Collections',
-        music: 'Music & Audio Experience',
-        profile: 'Profile: Aaron Antony',
-        settings: 'System Settings'
+        music: 'Music & Audio Experience'
       };
 
       if (toastMessages[target]) {
