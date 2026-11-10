@@ -83,80 +83,590 @@ html, body {
 }
 
 /* ==========================================================================
-   Left-Top Electric Light Green Welcome Typography (Playfair Display)
+   Luxury Bento Dashboard Cluster (Matched to Reference Image)
    ========================================================================== */
-.greeting-container {
+.bento-dashboard {
   position: fixed;
-  left: 64px;
-  top: 10%;
-  text-align: left;
-  z-index: 20;
-  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  grid-template-columns: 360px 240px;
+  gap: 16px;
+  z-index: 10;
   user-select: none;
   -webkit-user-select: none;
-  animation: greetingFadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: bentoFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes greetingFadeIn {
+@keyframes bentoFadeUp {
   from {
     opacity: 0;
-    transform: translateY(-16px);
+    transform: translate(-50%, -46%) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
-.greeting-sub {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 400; /* Playfair Thin/Regular */
-  font-style: italic;
-  font-size: 1.55rem;
-  letter-spacing: 0.5px;
-  color: #c8ff9e; /* Soft Electric Light Green */
-  text-transform: lowercase;
+.bento-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Glass Card Shell */
+.bento-card {
+  position: relative;
+  background: rgba(18, 22, 31, 0.78);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1.2px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 26px;
+  box-shadow: 
+    0 24px 60px -10px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 30px 70px -10px rgba(0, 0, 0, 0.8),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.28);
+}
+
+/* Colored Ambient Atmospheric Glows (Matching image highlights) */
+.card-glow {
+  position: absolute;
+  pointer-events: none;
+  filter: blur(28px);
+  z-index: 0;
+}
+
+.glow-amber {
+  top: -20px;
+  left: -20px;
+  width: 160px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.42) 0%, rgba(234, 88, 12, 0) 70%);
+}
+
+.glow-crimson {
+  bottom: -30px;
+  right: -20px;
+  width: 180px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(225, 29, 72, 0.32) 0%, rgba(190, 18, 60, 0) 70%);
+}
+
+.glow-green-subtle {
+  top: 50%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.30) 0%, rgba(22, 163, 74, 0) 70%);
+}
+
+.glow-cyan {
+  top: -30px;
+  right: -30px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.48) 0%, rgba(3, 105, 161, 0.15) 50%, rgba(2, 132, 199, 0) 75%);
+}
+
+.glow-white-specular {
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 90px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+/* --------------------------------------------------------------------------
+   1. Music Player Card
+   -------------------------------------------------------------------------- */
+.card-music {
+  padding: 22px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 1;
+}
+
+.music-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.music-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.music-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.2px;
+}
+
+.music-artist {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Soundwave Equalizer (Dancing Bars) */
+.music-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 3.5px;
+  height: 24px;
+}
+
+.eq-bar {
+  width: 3px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 9999px;
+  transition: height 0.2s ease;
+}
+
+.card-music.playing .eq-1 { animation: eqBounce1 0.7s infinite alternate ease-in-out; }
+.card-music.playing .eq-2 { animation: eqBounce2 0.55s infinite alternate ease-in-out 0.15s; }
+.card-music.playing .eq-3 { animation: eqBounce3 0.85s infinite alternate ease-in-out 0.3s; }
+.card-music.playing .eq-4 { animation: eqBounce4 0.6s infinite alternate ease-in-out 0.05s; }
+
+@keyframes eqBounce1 { from { height: 6px; } to { height: 20px; } }
+@keyframes eqBounce2 { from { height: 18px; } to { height: 8px; } }
+@keyframes eqBounce3 { from { height: 9px; } to { height: 22px; } }
+@keyframes eqBounce4 { from { height: 21px; } to { height: 11px; } }
+
+/* Seekbar */
+.music-progress-wrapper {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  padding: 6px 0;
+  z-index: 1;
+}
+
+.music-progress-bar {
+  position: relative;
+  width: 100%;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  overflow: visible;
+}
+
+.music-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #f97316; /* Vibrant Orange Fill */
+  border-radius: 9999px;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.6);
+}
+
+.music-scrubber {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4), 0 0 10px rgba(249, 115, 22, 0.8);
+  pointer-events: none;
+}
+
+/* Playback Control Buttons */
+.music-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.music-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  transition: transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
   opacity: 0.88;
-  margin-bottom: 2px;
-  text-shadow: 0 0 16px rgba(118, 255, 3, 0.35);
 }
 
-.greeting-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 900; /* Playfair Thick */
-  font-size: 3.8rem;
-  line-height: 1.1;
-  color: #76FF03; /* Vivid Electric Light Green */
+.music-btn:hover {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+.music-btn:active {
+  transform: scale(0.96);
+}
+
+.music-btn.play-btn {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.music-btn.play-btn:hover {
+  transform: scale(1.18);
+  color: #f97316;
+}
+
+.music-btn.airplay-btn {
+  opacity: 0.65;
+}
+
+.music-btn.airplay-btn:hover {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   2. Greeting Card ("Hi, Aaron Antony")
+   -------------------------------------------------------------------------- */
+.card-greeting {
+  padding: 24px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.greeting-content {
+  position: relative;
+  z-index: 1;
+}
+
+.greeting-salutation {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300; /* Thin */
+  font-size: 1.35rem;
+  color: #8aff9e; /* Soft Light Green Accent */
+  line-height: 1.2;
+}
+
+.greeting-user {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.08;
+  margin-top: 2px;
+}
+
+.user-first,
+.user-last {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800; /* Thick / Heavy */
+  font-size: 2.15rem;
   letter-spacing: -0.5px;
-  text-shadow: 
-    0 0 12px rgba(118, 255, 3, 0.75),
-    0 0 32px rgba(118, 255, 3, 0.45),
-    0 0 65px rgba(118, 255, 3, 0.25);
+  color: #FFFFFF;
 }
 
-@media (max-width: 768px) {
-  .greeting-container {
-    left: 32px;
-    top: 8%;
-  }
-  .greeting-sub {
-    font-size: 1.25rem;
-  }
-  .greeting-name {
-    font-size: 2.7rem;
-  }
+.user-last {
+  color: #76FF03; /* Electric Light Green */
+  text-shadow: 0 0 20px rgba(118, 255, 3, 0.4);
 }
 
-@media (max-width: 480px) {
-  .greeting-container {
-    left: 22px;
-    top: 6%;
-  }
-  .greeting-sub {
-    font-size: 1.05rem;
-  }
-  .greeting-name {
-    font-size: 2.1rem;
+.greeting-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.user-avatar-badge {
+  position: relative;
+  margin-right: 4px;
+}
+
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #FFFFFF;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.bento-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.bento-pill:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.bento-pill.pill-accent {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+/* --------------------------------------------------------------------------
+   3. Market / Stats Card (Bottom Left)
+   -------------------------------------------------------------------------- */
+.card-stats {
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stats-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.stats-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.stats-sub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.stats-graph-wrapper {
+  position: relative;
+  width: 75px;
+  height: 28px;
+  z-index: 1;
+}
+
+.sparkline-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.7));
+}
+
+.stats-numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+.stats-val {
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+}
+
+.stats-delta {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #22c55e;
+}
+
+/* --------------------------------------------------------------------------
+   4. Tall Weather Card (Top Right)
+   -------------------------------------------------------------------------- */
+.card-weather {
+  padding: 24px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 285px;
+}
+
+.weather-top {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.weather-city-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.weather-humidity-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.weather-temp-row {
+  margin: 12px 0 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.weather-big-temp {
+  font-family: 'Orbitron', 'Space Grotesk', monospace;
+  font-size: 54px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1;
+  letter-spacing: -2px;
+  text-shadow: 0 0 24px rgba(14, 165, 233, 0.6);
+}
+
+.weather-condition-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #FFFFFF;
+  position: relative;
+  z-index: 1;
+}
+
+.weather-range-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 2px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.weather-forecast-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 1;
+}
+
+.forecast-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.forecast-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.forecast-icon {
+  font-size: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Date Card (Bottom Right)
+   -------------------------------------------------------------------------- */
+.card-date {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.date-content-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.date-big-num {
+  font-family: 'Orbitron', 'Space Grotesk', monospace;
+  font-size: 44px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.35);
+}
+
+.date-text-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.date-weekday {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.date-month {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive Layout */
+@media (max-width: 680px) {
+  .bento-dashboard {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 32px auto;
+    grid-template-columns: 1fr;
+    width: calc(100vw - 36px);
   }
 }
 

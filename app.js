@@ -5,18 +5,257 @@
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
   initOrientationLock();
-  initGreeting();
-  initSpatialNavigation();
+  initBentoMusicPlayer();
+  initBentoWeatherAndDate();
+  initBentoPills();
   initPwaInstall();
 });
 
-function initGreeting() {
-  const nameEl = document.getElementById('username-display');
-  if (!nameEl) return;
-  const stored = localStorage.getItem('homeos_username');
-  if (stored) {
-    nameEl.textContent = stored;
+/* ==========================================================================
+   1. Bento Music Player (In-Page Audio Engine)
+   ========================================================================== */
+function initBentoMusicPlayer() {
+  const cardMusic = document.getElementById('card-music');
+  const btnPlay = document.getElementById('btn-play');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const titleEl = document.getElementById('music-title');
+  const artistEl = document.getElementById('music-artist');
+  const fillEl = document.getElementById('music-progress-fill');
+  const scrubberEl = document.getElementById('music-scrubber');
+  const progressWrapper = document.getElementById('music-progress-wrapper');
+  const playIcon = document.getElementById('play-icon');
+
+  if (!cardMusic || !btnPlay) return;
+
+  const playlist = [
+    { title: 'After Hours', artist: 'The Weeknd', duration: 361 },
+    { title: 'Starboy', artist: 'The Weeknd ft. Daft Punk', duration: 230 },
+    { title: 'Resonance', artist: 'HOME', duration: 212 },
+    { title: 'Midnight City', artist: 'M83', duration: 243 }
+  ];
+
+  let currentTrackIdx = 0;
+  let isPlaying = false;
+  let currentProgressPercent = 32;
+  let progressTimer = null;
+  let audioCtx = null;
+  let synthInterval = null;
+
+  // Web Audio Synth for instant, zero-latency ambient soundscape
+  function startSynthAmbient() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // Play soft warm lofi Rhodes chord progression
+      const chords = [
+        [220, 277.18, 329.63, 415.3], // A major 7
+        [185, 233.08, 277.18, 349.23], // F# min 7
+        [164.81, 207.65, 246.94, 311.13], // E maj 7
+        [146.83, 185.0, 220.0, 277.18]   // D maj 7
+      ];
+      let chordIndex = 0;
+
+      function playChord(notes) {
+        if (!isPlaying || !audioCtx) return;
+        notes.forEach(freq => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+          gain.gain.setValueAtTime(0, audioCtx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.028, audioCtx.currentTime + 0.4);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.8);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start();
+          osc.stop(audioCtx.currentTime + 4.0);
+        });
+      }
+
+      playChord(chords[chordIndex]);
+      synthInterval = setInterval(() => {
+        chordIndex = (chordIndex + 1) % chords.length;
+        playChord(chords[chordIndex]);
+      }, 4000);
+
+    } catch (e) {
+      console.warn('[HomeOS] Web Audio initialization:', e);
+    }
   }
+
+  function stopSynthAmbient() {
+    if (synthInterval) {
+      clearInterval(synthInterval);
+      synthInterval = null;
+    }
+  }
+
+  function setProgress(percent) {
+    currentProgressPercent = Math.max(0, Math.min(100, percent));
+    if (fillEl) fillEl.style.width = `${currentProgressPercent}%`;
+    if (scrubberEl) scrubberEl.style.left = `${currentProgressPercent}%`;
+  }
+
+  function togglePlay() {
+    isPlaying = !isPlaying;
+
+    if (isPlaying) {
+      cardMusic.classList.add('playing');
+      startSynthAmbient();
+
+      // Switch SVG icon to Pause double-bar
+      if (playIcon) {
+        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      }
+
+      // Smooth progress timer
+      progressTimer = setInterval(() => {
+        currentProgressPercent += 0.25;
+        if (currentProgressPercent >= 100) {
+          nextTrack();
+        } else {
+          setProgress(currentProgressPercent);
+        }
+      }, 300);
+
+    } else {
+      cardMusic.classList.remove('playing');
+      stopSynthAmbient();
+
+      // Switch SVG icon to Play triangle
+      if (playIcon) {
+        playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      }
+
+      if (progressTimer) {
+        clearInterval(progressTimer);
+        progressTimer = null;
+      }
+    }
+  }
+
+  function updateTrackDisplay() {
+    const track = playlist[currentTrackIdx];
+    if (titleEl) titleEl.textContent = track.title;
+    if (artistEl) artistEl.textContent = track.artist;
+    setProgress(0);
+    if (isPlaying) {
+      stopSynthAmbient();
+      startSynthAmbient();
+    }
+  }
+
+  function nextTrack() {
+    currentTrackIdx = (currentTrackIdx + 1) % playlist.length;
+    updateTrackDisplay();
+  }
+
+  function prevTrack() {
+    currentTrackIdx = (currentTrackIdx - 1 + playlist.length) % playlist.length;
+    updateTrackDisplay();
+  }
+
+  btnPlay.addEventListener('click', togglePlay);
+  if (btnNext) btnNext.addEventListener('click', nextTrack);
+  if (btnPrev) btnPrev.addEventListener('click', prevTrack);
+
+  // Scrubber click/drag
+  if (progressWrapper) {
+    progressWrapper.addEventListener('click', (e) => {
+      const rect = progressWrapper.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = (clickX / rect.width) * 100;
+      setProgress(pct);
+    });
+  }
+}
+
+/* ==========================================================================
+   2. Bento Weather & Date Synchronization
+   ========================================================================== */
+function initBentoWeatherAndDate() {
+  const dayEl = document.getElementById('date-day');
+  const weekdayEl = document.getElementById('date-weekday');
+  const monthEl = document.getElementById('date-month');
+
+  const cityEl = document.getElementById('weather-city');
+  const tempEl = document.getElementById('weather-temp');
+  const humidityEl = document.getElementById('weather-humidity');
+  const condEl = document.getElementById('weather-condition');
+  const rangeEl = document.getElementById('weather-range');
+
+  // Update Date
+  function updateDate() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const weekday = now.toLocaleDateString(undefined, { weekday: 'long' });
+    const month = now.toLocaleDateString(undefined, { month: 'long' });
+
+    if (dayEl) dayEl.textContent = day;
+    if (weekdayEl) weekdayEl.textContent = weekday;
+    if (monthEl) monthEl.textContent = month;
+  }
+
+  updateDate();
+  setInterval(updateDate, 60000);
+
+  // Fetch Live Weather for Bangalore, Ejipura
+  async function updateWeather() {
+    try {
+      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=12.9382&longitude=77.6299&current=temperature_2m,relative_humidity_2m,weather_code&timezone=Asia%2FKolkata');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data && data.current) {
+        const c = data.current;
+        if (tempEl) tempEl.textContent = `${Math.round(c.temperature_2m)}°`;
+        if (humidityEl) humidityEl.textContent = `Humidity ${c.relative_humidity_2m}%`;
+        if (cityEl) cityEl.textContent = 'Ejipura';
+
+        // Conditions
+        const code = c.weather_code;
+        let condText = 'Partly cloudy';
+        if (code === 0) condText = 'Clear sky';
+        else if (code === 1 || code === 2) condText = 'Partly cloudy';
+        else if (code === 3) condText = 'Overcast';
+        else if ([51, 53, 55, 61, 63, 65].includes(code)) condText = 'Rainy';
+        else if ([80, 81, 82, 95].includes(code)) condText = 'Thunderstorm';
+
+        if (condEl) condEl.textContent = condText;
+        if (rangeEl) {
+          const lo = Math.round(c.temperature_2m - 4);
+          const hi = Math.round(c.temperature_2m + 5);
+          rangeEl.textContent = `L: ${lo}°   H: ${hi}°`;
+        }
+      }
+    } catch (err) {
+      console.warn('[HomeOS] Live weather sync:', err);
+    }
+  }
+
+  updateWeather();
+  setInterval(updateWeather, 10 * 60 * 1000);
+}
+
+/* ==========================================================================
+   3. Quick Bento Category Pills
+   ========================================================================== */
+function initBentoPills() {
+  const pills = document.querySelectorAll('.bento-pill');
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('pill-accent'));
+      pill.classList.add('pill-accent');
+    });
+  });
 }
 
 function initOrientationLock() {
