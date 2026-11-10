@@ -1,20 +1,185 @@
 /**
- * HomeOS - Interactive Vanilla JS Webapp & PWA
+ * HomeOS - Interactive Vanilla JS Bento Desktop
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
   initOrientationLock();
-  initBentoMusicPlayer();
-  initBentoWeatherAndDate();
-  initBentoPills();
-  initPwaInstall();
+  initClockAndDate();
+  initWeatherLive();
+  initMusicPlayer();
+  initNewsShuffler();
+  initContinueWatching();
 });
 
 /* ==========================================================================
-   1. Bento Music Player (In-Page Audio Engine)
+   Toast Notification System
    ========================================================================== */
-function initBentoMusicPlayer() {
+function showToast(message, duration = 3200) {
+  const toast = document.getElementById('homeos-toast');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
+}
+
+/* ==========================================================================
+   1. Live Digital Clock & Calendar Date
+   ========================================================================== */
+function initClockAndDate() {
+  const hoursEl = document.getElementById('time-hours');
+  const minutesEl = document.getElementById('time-minutes');
+  const ampmEl = document.getElementById('time-ampm');
+  const secondsBar = document.getElementById('seconds-bar');
+
+  const dayEl = document.getElementById('date-day');
+  const weekdayEl = document.getElementById('date-weekday');
+  const monthYearEl = document.getElementById('date-month-year');
+
+  function updateClockAndDate() {
+    const now = new Date();
+
+    // Clock calculations
+    let rawHours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = now.getSeconds();
+    const ampm = rawHours >= 12 ? 'PM' : 'AM';
+    rawHours = rawHours % 12;
+    const hours = String(rawHours ? rawHours : 12).padStart(2, '0');
+
+    if (hoursEl) hoursEl.textContent = hours;
+    if (minutesEl) minutesEl.textContent = minutes;
+    if (ampmEl) ampmEl.textContent = ampm;
+    if (secondsBar) {
+      const pct = (seconds / 59) * 100;
+      secondsBar.style.width = `${pct}%`;
+    }
+
+    // Date calculations
+    const day = String(now.getDate()).padStart(2, '0');
+    const weekday = now.toLocaleDateString(undefined, { weekday: 'long' });
+    const month = now.toLocaleDateString(undefined, { month: 'long' });
+    const year = now.getFullYear();
+
+    if (dayEl) dayEl.textContent = day;
+    if (weekdayEl) weekdayEl.textContent = weekday;
+    if (monthYearEl) monthYearEl.textContent = `${month} ${year}`;
+  }
+
+  updateClockAndDate();
+  setInterval(updateClockAndDate, 1000);
+}
+
+/* ==========================================================================
+   2. Live Weather, AQI, Rain & Week Forecast (Ejipura, Bangalore)
+   ========================================================================== */
+async function initWeatherLive() {
+  const cityEl = document.getElementById('weather-city');
+  const tempEl = document.getElementById('weather-temp');
+  const rangeEl = document.getElementById('weather-range');
+  const condEl = document.getElementById('weather-condition');
+  const aqiEl = document.getElementById('weather-aqi');
+  const rainEl = document.getElementById('weather-rain');
+
+  const LAT = 12.9382; // Ejipura, Bangalore
+  const LON = 77.6299;
+
+  async function fetchForecast() {
+    try {
+      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,weather_code,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&timezone=Asia%2FKolkata`;
+      const res = await fetch(weatherUrl);
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (data && data.current) {
+        const c = data.current;
+        const currentTemp = Math.round(c.temperature_2m);
+        if (tempEl) tempEl.textContent = `${currentTemp}°`;
+        if (cityEl) cityEl.textContent = 'Ejipura';
+
+        // Condition text
+        const code = c.weather_code;
+        let condText = 'Partly cloudy';
+        if (code === 0) condText = 'Clear sky';
+        else if (code === 1 || code === 2) condText = 'Partly cloudy';
+        else if (code === 3) condText = 'Overcast';
+        else if ([51, 53, 55, 61, 63, 65].includes(code)) condText = 'Light rain';
+        else if ([80, 81, 82, 95].includes(code)) condText = 'Thunderstorm';
+
+        if (condEl) condEl.textContent = condText;
+
+        // Rain Probability
+        const rainProb = c.precipitation_probability !== undefined 
+          ? c.precipitation_probability 
+          : (data.daily && data.daily.precipitation_probability_max ? data.daily.precipitation_probability_max[0] : 15);
+        if (rainEl) rainEl.textContent = `${rainProb || 15}%`;
+
+        // Range
+        if (data.daily && data.daily.temperature_2m_max) {
+          const hi = Math.round(data.daily.temperature_2m_max[0]);
+          const lo = Math.round(data.daily.temperature_2m_min[0]);
+          if (rangeEl) rangeEl.textContent = `H: ${hi}°   L: ${lo}°`;
+
+          // 5-Day Forecast Row
+          const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+          for (let i = 0; i < 5; i++) {
+            const dateStr = data.daily.time[i];
+            const d = new Date(dateStr);
+            const dName = i === 0 ? 'Today' : dayNames[d.getDay()];
+            const dCode = data.daily.weather_code[i];
+            const dMax = Math.round(data.daily.temperature_2m_max[i]);
+
+            let icon = '☀️';
+            if (dCode === 1 || dCode === 2) icon = '⛅';
+            else if (dCode === 3) icon = '🌤️';
+            else if ([51, 53, 55, 61, 63, 65].includes(dCode)) icon = '🌧️';
+            else if ([80, 81, 82, 95].includes(dCode)) icon = '⛈️';
+
+            const fDayEl = document.getElementById(`f-day-${i}`);
+            const fIconEl = document.getElementById(`f-icon-${i}`);
+            const fTempEl = document.getElementById(`f-temp-${i}`);
+
+            if (fDayEl) fDayEl.textContent = dName;
+            if (fIconEl) fIconEl.textContent = icon;
+            if (fTempEl) fTempEl.textContent = `${dMax}°`;
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('[HomeOS] Live weather sync:', err);
+    }
+  }
+
+  async function fetchAirQuality() {
+    try {
+      const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${LAT}&longitude=${LON}&current=us_aqi,european_aqi`;
+      const res = await fetch(aqiUrl);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data && data.current) {
+        const val = data.current.us_aqi || data.current.european_aqi || 42;
+        if (aqiEl) aqiEl.textContent = `AQI ${val}`;
+      }
+    } catch (err) {
+      console.warn('[HomeOS] Live AQI sync:', err);
+    }
+  }
+
+  fetchForecast();
+  fetchAirQuality();
+  setInterval(() => {
+    fetchForecast();
+    fetchAirQuality();
+  }, 10 * 60 * 1000);
+}
+
+/* ==========================================================================
+   3. In-Page Ambient Music Player Widget (Web Audio Engine)
+   ========================================================================== */
+function initMusicPlayer() {
   const cardMusic = document.getElementById('card-music');
   const btnPlay = document.getElementById('btn-play');
   const btnPrev = document.getElementById('btn-prev');
@@ -29,10 +194,10 @@ function initBentoMusicPlayer() {
   if (!cardMusic || !btnPlay) return;
 
   const playlist = [
-    { title: 'After Hours', artist: 'The Weeknd', duration: 361 },
-    { title: 'Starboy', artist: 'The Weeknd ft. Daft Punk', duration: 230 },
-    { title: 'Resonance', artist: 'HOME', duration: 212 },
-    { title: 'Midnight City', artist: 'M83', duration: 243 }
+    { title: 'After Hours', artist: 'The Weeknd' },
+    { title: 'Starboy', artist: 'The Weeknd ft. Daft Punk' },
+    { title: 'Resonance', artist: 'HOME' },
+    { title: 'Midnight City', artist: 'M83' }
   ];
 
   let currentTrackIdx = 0;
@@ -42,7 +207,6 @@ function initBentoMusicPlayer() {
   let audioCtx = null;
   let synthInterval = null;
 
-  // Web Audio Synth for instant, zero-latency ambient soundscape
   function startSynthAmbient() {
     try {
       if (!audioCtx) {
@@ -52,12 +216,12 @@ function initBentoMusicPlayer() {
         audioCtx.resume();
       }
 
-      // Play soft warm lofi Rhodes chord progression
+      // Warm ambient Rhodes chord progression
       const chords = [
-        [220, 277.18, 329.63, 415.3], // A major 7
-        [185, 233.08, 277.18, 349.23], // F# min 7
-        [164.81, 207.65, 246.94, 311.13], // E maj 7
-        [146.83, 185.0, 220.0, 277.18]   // D maj 7
+        [220, 277.18, 329.63, 415.3],   // A maj 7
+        [185, 233.08, 277.18, 349.23],  // F# min 7
+        [164.81, 207.65, 246.94, 311.13],// E maj 7
+        [146.83, 185.0, 220.0, 277.18]  // D maj 7
       ];
       let chordIndex = 0;
 
@@ -70,7 +234,7 @@ function initBentoMusicPlayer() {
           osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
           gain.gain.setValueAtTime(0, audioCtx.currentTime);
-          gain.gain.linearRampToValueAtTime(0.028, audioCtx.currentTime + 0.4);
+          gain.gain.linearRampToValueAtTime(0.026, audioCtx.currentTime + 0.35);
           gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.8);
 
           osc.connect(gain);
@@ -88,7 +252,7 @@ function initBentoMusicPlayer() {
       }, 4000);
 
     } catch (e) {
-      console.warn('[HomeOS] Web Audio initialization:', e);
+      console.warn('[HomeOS] Web Audio error:', e);
     }
   }
 
@@ -112,14 +276,14 @@ function initBentoMusicPlayer() {
       cardMusic.classList.add('playing');
       startSynthAmbient();
 
-      // Switch SVG icon to Pause double-bar
       if (playIcon) {
         playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       }
 
-      // Smooth progress timer
+      showToast(`Playing "${playlist[currentTrackIdx].title}"`);
+
       progressTimer = setInterval(() => {
-        currentProgressPercent += 0.25;
+        currentProgressPercent += 0.3;
         if (currentProgressPercent >= 100) {
           nextTrack();
         } else {
@@ -131,7 +295,6 @@ function initBentoMusicPlayer() {
       cardMusic.classList.remove('playing');
       stopSynthAmbient();
 
-      // Switch SVG icon to Play triangle
       if (playIcon) {
         playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
       }
@@ -151,6 +314,7 @@ function initBentoMusicPlayer() {
     if (isPlaying) {
       stopSynthAmbient();
       startSynthAmbient();
+      showToast(`Now playing: ${track.title}`);
     }
   }
 
@@ -168,7 +332,6 @@ function initBentoMusicPlayer() {
   if (btnNext) btnNext.addEventListener('click', nextTrack);
   if (btnPrev) btnPrev.addEventListener('click', prevTrack);
 
-  // Scrubber click/drag
   if (progressWrapper) {
     progressWrapper.addEventListener('click', (e) => {
       const rect = progressWrapper.getBoundingClientRect();
@@ -180,89 +343,236 @@ function initBentoMusicPlayer() {
 }
 
 /* ==========================================================================
-   2. Bento Weather & Date Synchronization
+   4. Today's News Shuffler (International, National, Local)
    ========================================================================== */
-function initBentoWeatherAndDate() {
-  const dayEl = document.getElementById('date-day');
-  const weekdayEl = document.getElementById('date-weekday');
-  const monthEl = document.getElementById('date-month');
+function initNewsShuffler() {
+  const tabInternational = document.getElementById('tab-international');
+  const tabNational = document.getElementById('tab-national');
+  const tabLocal = document.getElementById('tab-local');
+  const prevBtn = document.getElementById('news-prev-btn');
+  const nextBtn = document.getElementById('news-next-btn');
 
-  const cityEl = document.getElementById('weather-city');
-  const tempEl = document.getElementById('weather-temp');
-  const humidityEl = document.getElementById('weather-humidity');
-  const condEl = document.getElementById('weather-condition');
-  const rangeEl = document.getElementById('weather-range');
+  const contentBox = document.getElementById('news-story-content');
+  const badgeEl = document.getElementById('story-badge');
+  const sourceEl = document.getElementById('story-source');
+  const headlineEl = document.getElementById('story-headline');
+  const snippetEl = document.getElementById('story-snippet');
+  const progressBar = document.getElementById('shuffle-progress-bar');
+  const countdownEl = document.getElementById('shuffle-countdown');
 
-  // Update Date
-  function updateDate() {
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const weekday = now.toLocaleDateString(undefined, { weekday: 'long' });
-    const month = now.toLocaleDateString(undefined, { month: 'long' });
+  if (!contentBox || !headlineEl) return;
 
-    if (dayEl) dayEl.textContent = day;
-    if (weekdayEl) weekdayEl.textContent = weekday;
-    if (monthEl) monthEl.textContent = month;
-  }
-
-  updateDate();
-  setInterval(updateDate, 60000);
-
-  // Fetch Live Weather for Bangalore, Ejipura
-  async function updateWeather() {
-    try {
-      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=12.9382&longitude=77.6299&current=temperature_2m,relative_humidity_2m,weather_code&timezone=Asia%2FKolkata');
-      if (!res.ok) return;
-      const data = await res.json();
-      if (data && data.current) {
-        const c = data.current;
-        if (tempEl) tempEl.textContent = `${Math.round(c.temperature_2m)}°`;
-        if (humidityEl) humidityEl.textContent = `Humidity ${c.relative_humidity_2m}%`;
-        if (cityEl) cityEl.textContent = 'Ejipura';
-
-        // Conditions
-        const code = c.weather_code;
-        let condText = 'Partly cloudy';
-        if (code === 0) condText = 'Clear sky';
-        else if (code === 1 || code === 2) condText = 'Partly cloudy';
-        else if (code === 3) condText = 'Overcast';
-        else if ([51, 53, 55, 61, 63, 65].includes(code)) condText = 'Rainy';
-        else if ([80, 81, 82, 95].includes(code)) condText = 'Thunderstorm';
-
-        if (condEl) condEl.textContent = condText;
-        if (rangeEl) {
-          const lo = Math.round(c.temperature_2m - 4);
-          const hi = Math.round(c.temperature_2m + 5);
-          rangeEl.textContent = `L: ${lo}°   H: ${hi}°`;
-        }
+  const newsDatabase = {
+    international: [
+      {
+        badge: 'INTERNATIONAL',
+        source: 'Reuters • 12m ago',
+        headline: 'Global fusion energy milestone achieved with breakthrough net power duration',
+        snippet: 'Scientists sustain a high-confinement plasma reaction setting a historic world benchmark for next-generation clean energy grids.'
+      },
+      {
+        badge: 'SPACE & SCIENCE',
+        source: 'ESA / NASA • 45m ago',
+        headline: 'James Webb Telescope detects signs of complex atmosphere on temperate Earth-sized exoplanet',
+        snippet: 'Spectroscopic observations identify atmospheric carbon molecules in a habitable zone star system 48 light-years away.'
+      },
+      {
+        badge: 'GLOBAL TECH',
+        source: 'MIT Technology Review • 1h ago',
+        headline: 'Next-gen fault-tolerant quantum processors surpass 10,000 physical qubit integration',
+        snippet: 'A multi-institutional consortium demonstrates real-time algorithmic error correction running at ambient system scale.'
       }
-    } catch (err) {
-      console.warn('[HomeOS] Live weather sync:', err);
+    ],
+    national: [
+      {
+        badge: 'NATIONAL',
+        source: 'The Hindu • 18m ago',
+        headline: 'ISRO readies autonomous landing mission test for next-gen reusable space shuttle',
+        snippet: 'The specialized test facility in Karnataka prepares for high-altitude aerodynamic deceleration and precision autonomous landing runs.'
+      },
+      {
+        badge: 'ECONOMY & TECH',
+        source: 'Economic Times • 40m ago',
+        headline: 'India semiconductor corridor begins pilot commercial wafer runs ahead of schedule',
+        snippet: 'The advanced chip fabrication facilities commence testing 28nm automotive and industrial silicon microcontrollers.'
+      },
+      {
+        badge: 'CLEAN ENERGY',
+        source: 'Press Trust of India • 2h ago',
+        headline: 'National solar-wind hybrid grid crosses historic 100GW installed capacity mark',
+        snippet: 'Massive offshore wind integrations in coastal corridors accelerate nationwide carbon neutrality objectives.'
+      }
+    ],
+    local: [
+      {
+        badge: 'BENGALURU',
+        source: 'Deccan Herald • 25m ago',
+        headline: 'Namma Metro Pink Line underground tunneling crosses 90% completion milestone',
+        snippet: 'BMRCL confirms high-speed track laying has commenced along the Dairy Circle to Nagawara subterranean transit corridor.'
+      },
+      {
+        badge: 'TECH CORRIDOR',
+        source: 'Bangalore Mirror • 55m ago',
+        headline: 'Karnataka deploys AI sensor network across Silk Board and ORR to streamline peak transit',
+        snippet: 'Adaptive synchronized traffic intelligence signals reduce bottleneck delays by 28% across Bengaluru tech corridors.'
+      },
+      {
+        badge: 'CIVIC UPDATE',
+        source: 'The New Indian Express • 3h ago',
+        headline: 'Ejipura flyover modernization plan approved with fast-track elevated ramp completion',
+        snippet: 'BBMP accelerates the arterial elevated roadway linking Koramangala, Ejipura and Indiranagar for year-end opening.'
+      }
+    ]
+  };
+
+  const categories = ['international', 'national', 'local'];
+  let currentCatIdx = 0;
+  let currentStoryIdx = 0;
+  let shuffleProgress = 0;
+  let shuffleInterval = null;
+  const SHUFFLE_DURATION_SEC = 7;
+
+  function renderStory(animate = true) {
+    const catKey = categories[currentCatIdx];
+    const stories = newsDatabase[catKey];
+    const story = stories[currentStoryIdx % stories.length];
+
+    // Update Tab state
+    [tabInternational, tabNational, tabLocal].forEach((tab) => {
+      if (tab) {
+        const isActive = tab.dataset.category === catKey;
+        tab.classList.toggle('active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      }
+    });
+
+    if (animate) {
+      contentBox.classList.remove('fade-in');
+      contentBox.classList.add('fade-out');
+
+      setTimeout(() => {
+        if (badgeEl) badgeEl.textContent = story.badge;
+        if (sourceEl) sourceEl.textContent = story.source;
+        if (headlineEl) headlineEl.textContent = story.headline;
+        if (snippetEl) snippetEl.textContent = story.snippet;
+
+        contentBox.classList.remove('fade-out');
+        contentBox.classList.add('fade-in');
+      }, 180);
+    } else {
+      if (badgeEl) badgeEl.textContent = story.badge;
+      if (sourceEl) sourceEl.textContent = story.source;
+      if (headlineEl) headlineEl.textContent = story.headline;
+      if (snippetEl) snippetEl.textContent = story.snippet;
     }
   }
 
-  updateWeather();
-  setInterval(updateWeather, 10 * 60 * 1000);
+  function advanceCategory() {
+    currentCatIdx = (currentCatIdx + 1) % categories.length;
+    currentStoryIdx = 0;
+    renderStory(true);
+    resetShuffleTimer();
+  }
+
+  function prevStory() {
+    const catKey = categories[currentCatIdx];
+    const stories = newsDatabase[catKey];
+    currentStoryIdx = (currentStoryIdx - 1 + stories.length) % stories.length;
+    renderStory(true);
+    resetShuffleTimer();
+  }
+
+  function nextStory() {
+    const catKey = categories[currentCatIdx];
+    const stories = newsDatabase[catKey];
+    currentStoryIdx = (currentStoryIdx + 1) % stories.length;
+    renderStory(true);
+    resetShuffleTimer();
+  }
+
+  function setCategory(catKey) {
+    const idx = categories.indexOf(catKey);
+    if (idx !== -1) {
+      currentCatIdx = idx;
+      currentStoryIdx = 0;
+      renderStory(true);
+      resetShuffleTimer();
+    }
+  }
+
+  function resetShuffleTimer() {
+    shuffleProgress = 0;
+    if (progressBar) progressBar.style.width = '0%';
+  }
+
+  // Shuffle loop ticker
+  function startShuffleTicker() {
+    if (shuffleInterval) clearInterval(shuffleInterval);
+    const stepMs = 100;
+    const totalSteps = (SHUFFLE_DURATION_SEC * 1000) / stepMs;
+
+    shuffleInterval = setInterval(() => {
+      shuffleProgress++;
+      const pct = (shuffleProgress / totalSteps) * 100;
+      if (progressBar) progressBar.style.width = `${pct}%`;
+
+      const remainingSec = Math.ceil(((totalSteps - shuffleProgress) * stepMs) / 1000);
+      if (countdownEl) countdownEl.textContent = `Shuffling • ${remainingSec}s`;
+
+      if (shuffleProgress >= totalSteps) {
+        advanceCategory();
+      }
+    }, stepMs);
+  }
+
+  // Event handlers
+  if (tabInternational) {
+    tabInternational.addEventListener('click', () => setCategory('international'));
+  }
+  if (tabNational) {
+    tabNational.addEventListener('click', () => setCategory('national'));
+  }
+  if (tabLocal) {
+    tabLocal.addEventListener('click', () => setCategory('local'));
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', prevStory);
+  if (nextBtn) nextBtn.addEventListener('click', nextStory);
+
+  renderStory(false);
+  startShuffleTicker();
 }
 
 /* ==========================================================================
-   3. Quick Bento Category Pills
+   5. Continue Watching Action
    ========================================================================== */
-function initBentoPills() {
-  const pills = document.querySelectorAll('.bento-pill');
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('pill-accent'));
-      pill.classList.add('pill-accent');
+function initContinueWatching() {
+  const resumeBtn = document.getElementById('btn-resume-watching');
+  const cwBox = document.getElementById('continue-watching-box');
+
+  function handleResume() {
+    showToast('Resuming Severance (S1:E4) on Apple TV+...');
+  }
+
+  if (resumeBtn) {
+    resumeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleResume();
     });
-  });
+  }
+
+  if (cwBox) {
+    cwBox.addEventListener('click', handleResume);
+  }
 }
 
+/* ==========================================================================
+   6. Orientation Lock & Service Worker
+   ========================================================================== */
 function initOrientationLock() {
   if (screen.orientation && screen.orientation.lock) {
     screen.orientation.lock('landscape').catch(() => { });
   }
-  // Try locking on first touch / click gesture
   window.addEventListener('click', () => {
     if (screen.orientation && screen.orientation.lock) {
       screen.orientation.lock('landscape').catch(() => { });
@@ -270,347 +580,16 @@ function initOrientationLock() {
   }, { once: true });
 }
 
-/* ==========================================================================
-   1. Service Worker & PWA Support
-   ========================================================================== */
 function initServiceWorker() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
         .then((reg) => {
-          console.log('[HomeOS] Service Worker registered with scope:', reg.scope);
+          console.log('[HomeOS] Service Worker active:', reg.scope);
         })
         .catch((err) => {
-          console.warn('[HomeOS] Service Worker registration failed:', err);
+          console.warn('[HomeOS] Service Worker registration:', err);
         });
     });
   }
 }
-
-let deferredInstallPrompt = null;
-function initPwaInstall() {
-  const installBtn = document.getElementById('install-btn');
-  if (!installBtn) return;
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the mini-infobar from appearing on mobile
-    e.preventDefault();
-    deferredInstallPrompt = e;
-    installBtn.style.display = 'inline-flex';
-  });
-
-  installBtn.addEventListener('click', async () => {
-    if (!deferredInstallPrompt) return;
-    deferredInstallPrompt.prompt();
-    const { outcome } = await deferredInstallPrompt.userChoice;
-    console.log(`[HomeOS] User response to install prompt: ${outcome}`);
-    deferredInstallPrompt = null;
-    installBtn.style.display = 'none';
-  });
-
-  window.addEventListener('appinstalled', () => {
-    console.log('[HomeOS] PWA was installed successfully');
-    installBtn.style.display = 'none';
-    deferredInstallPrompt = null;
-  });
-}
-
-/* ==========================================================================
-   2. Live Clock & Calendar Widget
-   ========================================================================== */
-function initClock() {
-  const dateEl = document.getElementById('date-display');
-  const timeEl = document.getElementById('time-display');
-  if (!dateEl || !timeEl) return;
-
-  function update() {
-    const now = new Date();
-
-    // Format Date: "Tue, Nov 10"
-    const optionsDate = { weekday: 'short', month: 'short', day: 'numeric' };
-    dateEl.textContent = now.toLocaleDateString(undefined, optionsDate);
-
-    // Format Time: "12:51 PM"
-    let hours = now.getHours();
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // 0 becomes 12
-
-    timeEl.textContent = `${hours}:${minutes} ${ampm}`;
-  }
-
-  update();
-  setInterval(update, 1000);
-}
-
-/* ==========================================================================
-   3. Floating Dock Magnification Physics (macOS-style)
-   ========================================================================== */
-/* ==========================================================================
-   3. Spatial Floating Navigation Hub (VisionOS & B&O Inspired)
-   ========================================================================== */
-function initSpatialNavigation() {
-  const island = document.getElementById('spatial-island');
-  const items = Array.from(document.querySelectorAll('.spatial-nav-item'));
-  const indicator = document.getElementById('nav-indicator');
-
-  if (!island || items.length === 0 || !indicator) return;
-
-  function updateIndicator(targetItem, animate = true) {
-    if (!targetItem) return;
-    const islandRect = island.getBoundingClientRect();
-    const itemRect = targetItem.getBoundingClientRect();
-
-    const left = itemRect.left - islandRect.left;
-    const width = itemRect.width;
-
-    if (!animate) {
-      indicator.style.transition = 'none';
-    } else {
-      indicator.style.transition = 'left 0.36s cubic-bezier(0.16, 1, 0.3, 1), width 0.36s cubic-bezier(0.16, 1, 0.3, 1)';
-    }
-
-    indicator.style.left = `${left}px`;
-    indicator.style.width = `${width}px`;
-    indicator.style.opacity = '1';
-  }
-
-  function setActive(targetItem) {
-    items.forEach((item) => item.classList.remove('active'));
-    targetItem.classList.add('active');
-    targetItem.classList.add('activating');
-    setTimeout(() => targetItem.classList.remove('activating'), 300);
-    updateIndicator(targetItem, true);
-
-    const category = targetItem.dataset.category;
-    console.log(`[HomeOS] Active media category: ${category}`);
-  }
-
-  // Click & Touch handler
-  items.forEach((item) => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      setActive(item);
-    });
-  });
-
-  // TV / Projector Keyboard Navigation: ArrowLeft / ArrowRight / Enter
-  window.addEventListener('keydown', (e) => {
-    const currentIndex = items.findIndex((i) => i.classList.contains('active'));
-    if (e.key === 'ArrowRight' || e.key === 'Right') {
-      e.preventDefault();
-      const nextIndex = (currentIndex + 1) % items.length;
-      setActive(items[nextIndex]);
-    } else if (e.key === 'ArrowLeft' || e.key === 'Left') {
-      e.preventDefault();
-      const prevIndex = (currentIndex - 1 + items.length) % items.length;
-      setActive(items[prevIndex]);
-    } else if (e.key === 'Enter' || e.key === ' ') {
-      if (currentIndex !== -1) {
-        setActive(items[currentIndex]);
-      }
-    }
-  });
-
-  // Window resize to maintain indicator alignment
-  window.addEventListener('resize', () => {
-    const activeItem = document.querySelector('.spatial-nav-item.active') || items[0];
-    updateIndicator(activeItem, false);
-  });
-
-  // Initial positioning after layout calculation
-  setTimeout(() => {
-    const activeItem = document.querySelector('.spatial-nav-item.active') || items[0];
-    updateIndicator(activeItem, false);
-  }, 120);
-}
-
-/* ==========================================================================
-   5. Spotlight Search & Keyboard Navigation
-   ========================================================================== */
-function initSpotlightSearch() {
-  const searchBtn = document.getElementById('search-btn');
-  const overlay = document.getElementById('search-overlay');
-  const input = document.getElementById('app-search-input');
-  const resultsContainer = document.getElementById('search-results');
-  const dockItems = Array.from(document.querySelectorAll('.dock-item'));
-
-  if (!overlay || !input || !resultsContainer) return;
-
-  // Collect app registry from dock
-  const apps = dockItems.map((item) => ({
-    name: item.getAttribute('data-name') || '',
-    category: item.getAttribute('data-category') || 'App',
-    url: item.getAttribute('href') || '#',
-    iconSrc: item.querySelector('img')?.getAttribute('src') || ''
-  }));
-
-  function openSearch() {
-    overlay.classList.add('active');
-    input.value = '';
-    renderResults('');
-    setTimeout(() => input.focus(), 80);
-  }
-
-  function closeSearch() {
-    overlay.classList.remove('active');
-    input.blur();
-  }
-
-  function renderResults(filterText) {
-    resultsContainer.innerHTML = '';
-    const query = filterText.toLowerCase().trim();
-    const filtered = apps.filter((app) =>
-      app.name.toLowerCase().includes(query) ||
-      app.category.toLowerCase().includes(query)
-    );
-
-    if (filtered.length === 0) {
-      const empty = document.createElement('div');
-      empty.style.padding = '24px';
-      empty.style.textAlign = 'center';
-      empty.style.color = 'rgba(255, 255, 255, 0.45)';
-      empty.style.fontSize = '14px';
-      empty.textContent = `No apps matching "${filterText}"`;
-      resultsContainer.appendChild(empty);
-      return;
-    }
-
-    filtered.forEach((app, index) => {
-      const a = document.createElement('a');
-      a.className = `search-result-item ${index === 0 ? 'selected' : ''}`;
-      a.href = app.url;
-      a.target = '_self';
-      a.innerHTML = `
-        <img src="${app.iconSrc}" alt="${app.name}">
-        <div class="search-result-info">
-          <span class="search-result-title">${app.name}</span>
-          <span class="search-result-category">${app.category}</span>
-        </div>
-      `;
-      a.addEventListener('click', () => {
-        closeSearch();
-      });
-      resultsContainer.appendChild(a);
-    });
-  }
-
-  if (searchBtn) {
-    searchBtn.addEventListener('click', openSearch);
-  }
-
-  input.addEventListener('input', (e) => {
-    renderResults(e.target.value);
-  });
-
-  input.addEventListener('keydown', (e) => {
-    const items = resultsContainer.querySelectorAll('.search-result-item');
-    let currentIndex = Array.from(items).findIndex((el) => el.classList.contains('selected'));
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (items.length > 0) {
-        if (currentIndex >= 0) items[currentIndex].classList.remove('selected');
-        currentIndex = (currentIndex + 1) % items.length;
-        items[currentIndex].classList.add('selected');
-        items[currentIndex].scrollIntoView({ block: 'nearest' });
-      }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (items.length > 0) {
-        if (currentIndex >= 0) items[currentIndex].classList.remove('selected');
-        currentIndex = (currentIndex - 1 + items.length) % items.length;
-        items[currentIndex].classList.add('selected');
-        items[currentIndex].scrollIntoView({ block: 'nearest' });
-      }
-    } else if (e.key === 'Enter') {
-      if (currentIndex >= 0 && items[currentIndex]) {
-        e.preventDefault();
-        items[currentIndex].click();
-      }
-    } else if (e.key === 'Escape') {
-      closeSearch();
-    }
-  });
-
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      closeSearch();
-    }
-  });
-
-  // Global keyboard shortcuts
-  window.addEventListener('keydown', (e) => {
-    // Escape closes search or toggles clean mode off
-    if (e.key === 'Escape') {
-      if (overlay.classList.contains('active')) {
-        closeSearch();
-      } else if (document.body.classList.contains('clean-mode')) {
-        document.body.classList.remove('clean-mode');
-      }
-    }
-    // Slash '/' opens search if not currently focusing an input
-    if (e.key === '/' && document.activeElement !== input) {
-      e.preventDefault();
-      openSearch();
-    }
-  });
-}
-
-/* ==========================================================================
-   6. Clean Mode & Fullscreen Controls
-   ========================================================================== */
-function initControls() {
-  const cleanBtn = document.getElementById('clean-view-btn');
-  const fullscreenBtn = document.getElementById('fullscreen-btn');
-  const desktop = document.getElementById('desktop');
-
-  // Toggle Clean Wallpaper Mode
-  function toggleCleanMode() {
-    document.body.classList.toggle('clean-mode');
-  }
-
-  if (cleanBtn) {
-    cleanBtn.addEventListener('click', toggleCleanMode);
-  }
-
-  // Clicking on desktop when in clean mode restores UI
-  if (desktop) {
-    desktop.addEventListener('click', () => {
-      if (document.body.classList.contains('clean-mode')) {
-        document.body.classList.remove('clean-mode');
-      }
-    });
-  }
-
-  // Keyboard shortcut 'H' for hide/clean mode
-  window.addEventListener('keydown', (e) => {
-    if ((e.key === 'h' || e.key === 'H') && document.activeElement.tagName !== 'INPUT') {
-      toggleCleanMode();
-    }
-    if ((e.key === 'f' || e.key === 'F') && document.activeElement.tagName !== 'INPUT') {
-      toggleFullscreen();
-    }
-  });
-
-  // Fullscreen
-  function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().then(() => {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('landscape').catch(() => { });
-        }
-      }).catch(() => { });
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen().catch(() => { });
-      }
-    }
-  }
-
-  if (fullscreenBtn) {
-    fullscreenBtn.addEventListener('click', toggleFullscreen);
-  }
-}
-

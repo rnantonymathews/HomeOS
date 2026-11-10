@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="HomeOS - Minimalist entertainment launcher and web desktop">
+  <meta name="description" content="HomeOS - Minimalist entertainment launcher and luxury bento desktop">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="HomeOS">
@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <title>HomeOS</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -25,147 +25,268 @@
     <div class="matte-texture"></div>
   </div>
 
-  <!-- Luxury Bento Dashboard Cluster (Matched to Reference Design) -->
+  <!-- Bento Grid Dashboard -->
   <main class="bento-dashboard" id="bento-dashboard" role="main" aria-label="HomeOS Dashboard">
     
-    <!-- LEFT COLUMN -->
+    <!-- LEFT COLUMN (360px) -->
     <div class="bento-col bento-col-left">
       
-      <!-- 1. Music Player Card -->
-      <div class="bento-card card-music" id="card-music">
-        <div class="card-glow glow-amber"></div>
-        <div class="music-top-row">
-          <div class="music-info">
-            <span class="music-title" id="music-title">After Hours</span>
-            <span class="music-artist" id="music-artist">The Weeknd</span>
-          </div>
-          <div class="music-equalizer" id="equalizer">
-            <span class="eq-bar eq-1"></span>
-            <span class="eq-bar eq-2"></span>
-            <span class="eq-bar eq-3"></span>
-            <span class="eq-bar eq-4"></span>
-          </div>
-        </div>
-
-        <div class="music-progress-wrapper" id="music-progress-wrapper">
-          <div class="music-progress-bar">
-            <div class="music-progress-fill" id="music-progress-fill" style="width: 32%;"></div>
-            <div class="music-scrubber" id="music-scrubber" style="left: 32%;"></div>
-          </div>
-        </div>
-
-        <div class="music-controls">
-          <button class="music-btn" id="btn-prev" title="Previous Track" aria-label="Previous Track">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-              <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
-            </svg>
-          </button>
-          
-          <button class="music-btn play-btn" id="btn-play" title="Play/Pause" aria-label="Play Track">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" id="play-icon">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          </button>
-          
-          <button class="music-btn" id="btn-next" title="Next Track" aria-label="Next Track">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-              <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-            </svg>
-          </button>
-          
-          <button class="music-btn airplay-btn" id="btn-airplay" title="Audio Output" aria-label="Audio Output">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 17a9 9 0 0 1 14 0"/>
-              <path d="M8.5 13.5a5 5 0 0 1 7 0"/>
-              <circle cx="12" cy="18" r="1.5" fill="currentColor"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- 2. User Profile Greeting Card ("Hi, Aaron Antony") -->
-      <div class="bento-card card-greeting" id="card-greeting">
-        <div class="card-glow glow-crimson"></div>
-        <div class="greeting-content">
-          <div class="greeting-salutation">Hi,</div>
-          <div class="greeting-user">
-            <span class="user-first">Aaron</span>
-            <span class="user-last">Antony</span>
-          </div>
-        </div>
-
-        <div class="greeting-pills-row">
+      <!-- 1. Horizontal Small Card: User Name & Continue Watching -->
+      <div class="bento-card card-user-continue" id="card-user-continue">
+        <div class="card-glow glow-emerald"></div>
+        <div class="user-greeting-header">
           <div class="user-avatar-badge" title="Aaron Antony">
             <div class="avatar-circle">AA</div>
           </div>
-          <button class="bento-pill" id="pill-movies">Movies</button>
-          <button class="bento-pill" id="pill-shows">Shows</button>
-          <button class="bento-pill pill-accent" id="pill-music">Music</button>
+          <div class="user-name-stack">
+            <span class="user-salutation">Hi,</span>
+            <span class="user-fullname">Aaron Antony</span>
+          </div>
+        </div>
+
+        <div class="continue-watching-box" id="continue-watching-box">
+          <div class="cw-content">
+            <div class="cw-top-row">
+              <span class="cw-badge">CONTINUE WATCHING</span>
+              <span class="cw-time-left">42m left</span>
+            </div>
+            <span class="cw-title">Severance <span class="cw-episode">• S1:E4</span></span>
+            <div class="cw-progress-bar">
+              <div class="cw-progress-fill" style="width: 64%;"></div>
+            </div>
+          </div>
+          <button class="cw-resume-btn" id="btn-resume-watching" title="Resume Severance" aria-label="Resume Severance">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
         </div>
       </div>
 
-      <!-- 3. Market / Stats Card (Bottom Left) -->
-      <div class="bento-card card-stats" id="card-stats">
-        <div class="card-glow glow-green-subtle"></div>
-        <div class="stats-left">
-          <span class="stats-label">HomeOS Activity</span>
-          <span class="stats-sub">System Performance</span>
+      <!-- 2. Horizontal Medium Card: Weather Card (Week, AQI, Rain %) -->
+      <div class="bento-card card-weather" id="card-weather">
+        <div class="card-glow glow-cyan"></div>
+        <div class="weather-header-row">
+          <div class="weather-location-group">
+            <span class="weather-city-name" id="weather-city">Ejipura</span>
+            <span class="weather-region-tag">Bangalore</span>
+          </div>
+          <div class="weather-condition-pill" id="weather-condition-pill">
+            <span class="condition-dot"></span>
+            <span class="condition-text" id="weather-condition">Partly cloudy</span>
+          </div>
         </div>
-        <div class="stats-graph-wrapper">
-          <svg viewBox="0 0 80 28" class="sparkline-svg">
-            <path d="M2,18 Q12,8 24,16 T48,12 T64,4 T78,10" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round"/>
-          </svg>
+
+        <div class="weather-main-row">
+          <div class="weather-temp-display">
+            <span class="weather-big-temp" id="weather-temp">24°</span>
+            <span class="weather-range-tag" id="weather-range">H: 29° &nbsp; L: 19°</span>
+          </div>
+          <div class="weather-metrics-pills">
+            <div class="weather-metric aqi-pill" title="Air Quality Index">
+              <span class="metric-icon">🍃</span>
+              <div class="metric-text-group">
+                <span class="metric-val" id="weather-aqi">AQI 42</span>
+                <span class="metric-status status-good">Good</span>
+              </div>
+            </div>
+            <div class="weather-metric rain-pill" title="Chances of Rain">
+              <span class="metric-icon">💧</span>
+              <div class="metric-text-group">
+                <span class="metric-val" id="weather-rain">15%</span>
+                <span class="metric-status">Rain</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="stats-numbers">
-          <span class="stats-val">34,418</span>
-          <span class="stats-delta">▲ 10.87</span>
+
+        <div class="weather-week-forecast" id="weather-week-forecast">
+          <div class="forecast-day-col">
+            <span class="f-day" id="f-day-0">Wed</span>
+            <span class="f-icon" id="f-icon-0">⛅</span>
+            <span class="f-temp" id="f-temp-0">24°</span>
+          </div>
+          <div class="forecast-day-col">
+            <span class="f-day" id="f-day-1">Thu</span>
+            <span class="f-icon" id="f-icon-1">🌤️</span>
+            <span class="f-temp" id="f-temp-1">26°</span>
+          </div>
+          <div class="forecast-day-col">
+            <span class="f-day" id="f-day-2">Fri</span>
+            <span class="f-icon" id="f-icon-2">🌧️</span>
+            <span class="f-temp" id="f-temp-2">22°</span>
+          </div>
+          <div class="forecast-day-col">
+            <span class="f-day" id="f-day-3">Sat</span>
+            <span class="f-icon" id="f-icon-3">🌦️</span>
+            <span class="f-temp" id="f-temp-3">23°</span>
+          </div>
+          <div class="forecast-day-col">
+            <span class="f-day" id="f-day-4">Sun</span>
+            <span class="f-icon" id="f-icon-4">☀️</span>
+            <span class="f-temp" id="f-temp-4">27°</span>
+          </div>
         </div>
       </div>
 
     </div>
 
-    <!-- RIGHT COLUMN -->
-    <div class="bento-col bento-col-right">
-
-      <!-- 4. Tall Weather Card -->
-      <div class="bento-card card-weather" id="card-weather">
-        <div class="card-glow glow-cyan"></div>
-        <div class="weather-top">
-          <span class="weather-city-name" id="weather-city">Ejipura</span>
-          <span class="weather-humidity-text" id="weather-humidity">Humidity 72%</span>
-        </div>
-
-        <div class="weather-temp-row">
-          <span class="weather-big-temp" id="weather-temp">18°</span>
-        </div>
-
-        <div class="weather-condition-label" id="weather-condition">Partly cloudy</div>
-        <div class="weather-range-label" id="weather-range">L: 16° &nbsp; H: 28°</div>
-
-        <div class="weather-forecast-row">
-          <div class="forecast-day">
-            <span class="forecast-name">Fri</span>
-            <div class="forecast-icon">⛅</div>
+    <!-- CENTER COLUMN (336px) -->
+    <div class="bento-col bento-col-center">
+      
+      <!-- 3. Horizontal Small Card: Today's Date -->
+      <div class="bento-card card-date" id="card-date">
+        <div class="card-glow glow-white-specular"></div>
+        <div class="date-card-inner">
+          <div class="date-num-box">
+            <span class="date-big-num" id="date-day">11</span>
           </div>
-          <div class="forecast-day">
-            <span class="forecast-name">Sat</span>
-            <div class="forecast-icon">🌧️</div>
-          </div>
-          <div class="forecast-day">
-            <span class="forecast-name">Sun</span>
-            <div class="forecast-icon">⛈️</div>
+          <div class="date-details-stack">
+            <span class="date-weekday" id="date-weekday">Wednesday</span>
+            <span class="date-month-year" id="date-month-year">November 2026</span>
+            <div class="date-status-tag">
+              <span class="cal-status-dot"></span>
+              <span class="cal-status-text">Schedule Clear</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 5. Date / Calendar Card -->
-      <div class="bento-card card-date" id="card-date">
-        <div class="card-glow glow-white-specular"></div>
-        <div class="date-content-row">
-          <span class="date-big-num" id="date-day">06</span>
-          <div class="date-text-stack">
-            <span class="date-weekday" id="date-weekday">Monday</span>
-            <span class="date-month" id="date-month">July</span>
+      <!-- Split Row: 2 Vertical Small Cards (Time + Music) -->
+      <div class="bento-split-row">
+        
+        <!-- 4. Vertical Small Card: Current Time -->
+        <div class="bento-card card-time" id="card-time">
+          <div class="card-glow glow-violet"></div>
+          <div class="time-card-inner">
+            <div class="time-header-tag">
+              <span class="time-pulse-dot"></span>
+              <span class="time-zone-label">IST • BLR</span>
+            </div>
+            <div class="time-clock-display">
+              <span class="time-hours" id="time-hours">03</span>
+              <span class="time-colon" id="time-colon">:</span>
+              <span class="time-minutes" id="time-minutes">28</span>
+            </div>
+            <div class="time-footer-row">
+              <span class="time-ampm-pill" id="time-ampm">AM</span>
+              <div class="time-seconds-meter" title="Seconds Ticker">
+                <div class="seconds-bar" id="seconds-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Vertical Small Card: Music Player -->
+        <div class="bento-card card-music" id="card-music">
+          <div class="card-glow glow-amber"></div>
+          <div class="music-card-inner">
+            <div class="music-mini-header">
+              <div class="music-album-art">
+                <div class="disc-glow"></div>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                  <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="music-equalizer" id="equalizer">
+                <span class="eq-bar eq-1"></span>
+                <span class="eq-bar eq-2"></span>
+                <span class="eq-bar eq-3"></span>
+                <span class="eq-bar eq-4"></span>
+              </div>
+            </div>
+
+            <div class="music-meta-stack">
+              <span class="music-title" id="music-title">After Hours</span>
+              <span class="music-artist" id="music-artist">The Weeknd</span>
+            </div>
+
+            <div class="music-progress-wrapper" id="music-progress-wrapper" title="Seek Audio">
+              <div class="music-progress-bar">
+                <div class="music-progress-fill" id="music-progress-fill" style="width: 32%;"></div>
+                <div class="music-scrubber" id="music-scrubber" style="left: 32%;"></div>
+              </div>
+            </div>
+
+            <div class="music-controls">
+              <button class="music-btn" id="btn-prev" title="Previous Track" aria-label="Previous Track">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+                  <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+                </svg>
+              </button>
+              <button class="music-btn play-btn" id="btn-play" title="Play Ambient Synth" aria-label="Play Ambient Synth">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" id="play-icon">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+              <button class="music-btn" id="btn-next" title="Next Track" aria-label="Next Track">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+                  <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN (320px) -->
+    <div class="bento-col bento-col-right">
+      
+      <!-- 6. Vertical Large Card: Today's News -->
+      <div class="bento-card card-news" id="card-news">
+        <div class="card-glow glow-news-multi"></div>
+        <div class="news-card-inner">
+          <div class="news-top-bar">
+            <div class="news-brand">
+              <span class="news-live-dot"></span>
+              <span class="news-title-text">Today's News</span>
+            </div>
+            <div class="news-nav-buttons">
+              <button class="news-nav-arrow" id="news-prev-btn" title="Previous Story" aria-label="Previous Story">‹</button>
+              <button class="news-nav-arrow" id="news-next-btn" title="Next Story" aria-label="Next Story">›</button>
+            </div>
+          </div>
+
+          <!-- Category Tabs / Shuffler -->
+          <div class="news-category-tabs" id="news-tabs" role="tablist">
+            <button class="news-tab active" data-category="international" id="tab-international" role="tab" aria-selected="true">
+              <span>World</span>
+            </button>
+            <button class="news-tab" data-category="national" id="tab-national" role="tab" aria-selected="false">
+              <span>National</span>
+            </button>
+            <button class="news-tab" data-category="local" id="tab-local" role="tab" aria-selected="false">
+              <span>Bengaluru</span>
+            </button>
+          </div>
+
+          <!-- Active Story Container -->
+          <div class="news-story-container" id="news-story-container">
+            <div class="news-story-content fade-in" id="news-story-content">
+              <div class="story-tag-row">
+                <span class="story-badge" id="story-badge">INTERNATIONAL</span>
+                <span class="story-source" id="story-source">Reuters • 12m ago</span>
+              </div>
+              <h3 class="story-headline" id="story-headline">Global fusion energy milestone achieved with breakthrough net power duration</h3>
+              <p class="story-snippet" id="story-snippet">Scientists sustain a high-confinement plasma reaction setting a historic world benchmark for next-generation clean energy grids.</p>
+            </div>
+          </div>
+
+          <!-- Bottom Shuffle Progress & Link -->
+          <div class="news-bottom-row">
+            <div class="news-shuffle-indicator" title="Auto-shuffling feed">
+              <div class="shuffle-track">
+                <div class="shuffle-bar" id="shuffle-progress-bar"></div>
+              </div>
+              <span class="shuffle-label" id="shuffle-countdown">Shuffling • 7s</span>
+            </div>
+            <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-open-link" title="Open Google News">
+              Read Story ↗
+            </a>
           </div>
         </div>
       </div>
@@ -173,6 +294,9 @@
     </div>
 
   </main>
+
+  <!-- Clean Floating Toast Notification for Interactions -->
+  <div class="homeos-toast" id="homeos-toast" role="status" aria-live="polite"></div>
 
   <script src="app.js"></script>
 </body>
