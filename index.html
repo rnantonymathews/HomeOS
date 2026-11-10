@@ -35,13 +35,7 @@
       <div class="bento-card card-user-continue" id="card-user-continue">
         <div class="card-glow glow-emerald"></div>
         <div class="user-greeting-header">
-          <div class="user-avatar-badge" title="Aaron Antony">
-            <div class="avatar-circle">AA</div>
-          </div>
-          <div class="user-name-stack">
-            <span class="user-salutation">Hi,</span>
-            <span class="user-fullname">Aaron Antony</span>
-          </div>
+          <span class="user-fullname">Aaron Antony</span>
         </div>
 
         <div class="continue-watching-box" id="continue-watching-box">
@@ -69,11 +63,6 @@
         <div class="weather-header-row">
           <div class="weather-location-group">
             <span class="weather-city-name" id="weather-city">Ejipura</span>
-            <span class="weather-region-tag">Bangalore</span>
-          </div>
-          <div class="weather-condition-pill" id="weather-condition-pill">
-            <span class="condition-dot"></span>
-            <span class="condition-text" id="weather-condition">Partly cloudy</span>
           </div>
         </div>
 
@@ -144,10 +133,6 @@
           <div class="date-details-stack">
             <span class="date-weekday" id="date-weekday">Wednesday</span>
             <span class="date-month-year" id="date-month-year">November 2026</span>
-            <div class="date-status-tag">
-              <span class="cal-status-dot"></span>
-              <span class="cal-status-text">Schedule Clear</span>
-            </div>
           </div>
         </div>
       </div>
@@ -165,7 +150,10 @@
             </div>
             <div class="time-clock-display">
               <span class="time-hours" id="time-hours">03</span>
-              <span class="time-colon" id="time-colon">:</span>
+              <div class="time-dots" id="time-dots" aria-hidden="true">
+                <span class="h-dot"></span>
+                <span class="h-dot"></span>
+              </div>
               <span class="time-minutes" id="time-minutes">28</span>
             </div>
             <div class="time-footer-row">
@@ -245,48 +233,59 @@
               <span class="news-live-dot"></span>
               <span class="news-title-text">Today's News</span>
             </div>
-            <div class="news-nav-buttons">
-              <button class="news-nav-arrow" id="news-prev-btn" title="Previous Story" aria-label="Previous Story">‹</button>
-              <button class="news-nav-arrow" id="news-next-btn" title="Next Story" aria-label="Next Story">›</button>
-            </div>
-          </div>
-
-          <!-- Category Tabs / Shuffler -->
-          <div class="news-category-tabs" id="news-tabs" role="tablist">
-            <button class="news-tab active" data-category="international" id="tab-international" role="tab" aria-selected="true">
-              <span>World</span>
-            </button>
-            <button class="news-tab" data-category="national" id="tab-national" role="tab" aria-selected="false">
-              <span>National</span>
-            </button>
-            <button class="news-tab" data-category="local" id="tab-local" role="tab" aria-selected="false">
-              <span>Bengaluru</span>
-            </button>
-          </div>
-
-          <!-- Active Story Container -->
-          <div class="news-story-container" id="news-story-container">
-            <div class="news-story-content fade-in" id="news-story-content">
-              <div class="story-tag-row">
-                <span class="story-badge" id="story-badge">INTERNATIONAL</span>
-                <span class="story-source" id="story-source">Reuters • 12m ago</span>
-              </div>
-              <h3 class="story-headline" id="story-headline">Global fusion energy milestone achieved with breakthrough net power duration</h3>
-              <p class="story-snippet" id="story-snippet">Scientists sustain a high-confinement plasma reaction setting a historic world benchmark for next-generation clean energy grids.</p>
-            </div>
-          </div>
-
-          <!-- Bottom Shuffle Progress & Link -->
-          <div class="news-bottom-row">
-            <div class="news-shuffle-indicator" title="Auto-shuffling feed">
-              <div class="shuffle-track">
-                <div class="shuffle-bar" id="shuffle-progress-bar"></div>
-              </div>
-              <span class="shuffle-label" id="shuffle-countdown">Shuffling • 7s</span>
-            </div>
             <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-open-link" title="Open Google News">
-              Read Story ↗
+              Google News ↗
             </a>
+          </div>
+
+          <!-- 2 News from Intl, National, Bengaluru -->
+          <div class="news-feed-container" id="news-feed-container">
+            
+            <!-- International (2 News) -->
+            <div class="news-feed-section">
+              <div class="section-badge-row">
+                <span class="feed-section-badge badge-intl">INTERNATIONAL</span>
+              </div>
+              <div class="news-item">
+                <span class="news-item-source">Reuters • 12m ago</span>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">Global fusion energy milestone achieved with historic net power benchmark</a>
+              </div>
+              <div class="news-item">
+                <span class="news-item-source">ESA / NASA • 45m ago</span>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">James Webb Telescope detects atmospheric markers on temperate exoplanet</a>
+              </div>
+            </div>
+
+            <!-- National (2 News) -->
+            <div class="news-feed-section">
+              <div class="section-badge-row">
+                <span class="feed-section-badge badge-nat">NATIONAL</span>
+              </div>
+              <div class="news-item">
+                <span class="news-item-source">The Hindu • 18m ago</span>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">ISRO readies autonomous landing mission for reusable space shuttle</a>
+              </div>
+              <div class="news-item">
+                <span class="news-item-source">Economic Times • 40m ago</span>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">India semiconductor corridor begins trial commercial silicon runs</a>
+              </div>
+            </div>
+
+            <!-- Bengaluru (2 News) -->
+            <div class="news-feed-section">
+              <div class="section-badge-row">
+                <span class="feed-section-badge badge-blr">BENGALURU</span>
+              </div>
+              <div class="news-item">
+                <span class="news-item-source">Deccan Herald • 25m ago</span>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">Namma Metro Pink Line underground tunneling crosses 90% milestone</a>
+              </div>
+              <div class="news-item">
+                <span class="news-item-source">Bangalore Mirror • 55m ago</span>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">Karnataka deploys AI traffic sensor grid across Silk Board and ORR</a>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

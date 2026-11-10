@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initClockAndDate();
   initWeatherLive();
   initMusicPlayer();
-  initNewsShuffler();
+  initNewsFeed();
   initContinueWatching();
 });
 
@@ -343,204 +343,15 @@ function initMusicPlayer() {
 }
 
 /* ==========================================================================
-   4. Today's News Shuffler (International, National, Local)
+   4. Today's News Feed (2 News from Intl, National, Bengaluru)
    ========================================================================== */
-function initNewsShuffler() {
-  const tabInternational = document.getElementById('tab-international');
-  const tabNational = document.getElementById('tab-national');
-  const tabLocal = document.getElementById('tab-local');
-  const prevBtn = document.getElementById('news-prev-btn');
-  const nextBtn = document.getElementById('news-next-btn');
-
-  const contentBox = document.getElementById('news-story-content');
-  const badgeEl = document.getElementById('story-badge');
-  const sourceEl = document.getElementById('story-source');
-  const headlineEl = document.getElementById('story-headline');
-  const snippetEl = document.getElementById('story-snippet');
-  const progressBar = document.getElementById('shuffle-progress-bar');
-  const countdownEl = document.getElementById('shuffle-countdown');
-
-  if (!contentBox || !headlineEl) return;
-
-  const newsDatabase = {
-    international: [
-      {
-        badge: 'INTERNATIONAL',
-        source: 'Reuters • 12m ago',
-        headline: 'Global fusion energy milestone achieved with breakthrough net power duration',
-        snippet: 'Scientists sustain a high-confinement plasma reaction setting a historic world benchmark for next-generation clean energy grids.'
-      },
-      {
-        badge: 'SPACE & SCIENCE',
-        source: 'ESA / NASA • 45m ago',
-        headline: 'James Webb Telescope detects signs of complex atmosphere on temperate Earth-sized exoplanet',
-        snippet: 'Spectroscopic observations identify atmospheric carbon molecules in a habitable zone star system 48 light-years away.'
-      },
-      {
-        badge: 'GLOBAL TECH',
-        source: 'MIT Technology Review • 1h ago',
-        headline: 'Next-gen fault-tolerant quantum processors surpass 10,000 physical qubit integration',
-        snippet: 'A multi-institutional consortium demonstrates real-time algorithmic error correction running at ambient system scale.'
-      }
-    ],
-    national: [
-      {
-        badge: 'NATIONAL',
-        source: 'The Hindu • 18m ago',
-        headline: 'ISRO readies autonomous landing mission test for next-gen reusable space shuttle',
-        snippet: 'The specialized test facility in Karnataka prepares for high-altitude aerodynamic deceleration and precision autonomous landing runs.'
-      },
-      {
-        badge: 'ECONOMY & TECH',
-        source: 'Economic Times • 40m ago',
-        headline: 'India semiconductor corridor begins pilot commercial wafer runs ahead of schedule',
-        snippet: 'The advanced chip fabrication facilities commence testing 28nm automotive and industrial silicon microcontrollers.'
-      },
-      {
-        badge: 'CLEAN ENERGY',
-        source: 'Press Trust of India • 2h ago',
-        headline: 'National solar-wind hybrid grid crosses historic 100GW installed capacity mark',
-        snippet: 'Massive offshore wind integrations in coastal corridors accelerate nationwide carbon neutrality objectives.'
-      }
-    ],
-    local: [
-      {
-        badge: 'BENGALURU',
-        source: 'Deccan Herald • 25m ago',
-        headline: 'Namma Metro Pink Line underground tunneling crosses 90% completion milestone',
-        snippet: 'BMRCL confirms high-speed track laying has commenced along the Dairy Circle to Nagawara subterranean transit corridor.'
-      },
-      {
-        badge: 'TECH CORRIDOR',
-        source: 'Bangalore Mirror • 55m ago',
-        headline: 'Karnataka deploys AI sensor network across Silk Board and ORR to streamline peak transit',
-        snippet: 'Adaptive synchronized traffic intelligence signals reduce bottleneck delays by 28% across Bengaluru tech corridors.'
-      },
-      {
-        badge: 'CIVIC UPDATE',
-        source: 'The New Indian Express • 3h ago',
-        headline: 'Ejipura flyover modernization plan approved with fast-track elevated ramp completion',
-        snippet: 'BBMP accelerates the arterial elevated roadway linking Koramangala, Ejipura and Indiranagar for year-end opening.'
-      }
-    ]
-  };
-
-  const categories = ['international', 'national', 'local'];
-  let currentCatIdx = 0;
-  let currentStoryIdx = 0;
-  let shuffleProgress = 0;
-  let shuffleInterval = null;
-  const SHUFFLE_DURATION_SEC = 7;
-
-  function renderStory(animate = true) {
-    const catKey = categories[currentCatIdx];
-    const stories = newsDatabase[catKey];
-    const story = stories[currentStoryIdx % stories.length];
-
-    // Update Tab state
-    [tabInternational, tabNational, tabLocal].forEach((tab) => {
-      if (tab) {
-        const isActive = tab.dataset.category === catKey;
-        tab.classList.toggle('active', isActive);
-        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      }
+function initNewsFeed() {
+  const newsItems = document.querySelectorAll('.news-item-headline');
+  newsItems.forEach(item => {
+    item.addEventListener('click', () => {
+      showToast('Opening news in Google News...');
     });
-
-    if (animate) {
-      contentBox.classList.remove('fade-in');
-      contentBox.classList.add('fade-out');
-
-      setTimeout(() => {
-        if (badgeEl) badgeEl.textContent = story.badge;
-        if (sourceEl) sourceEl.textContent = story.source;
-        if (headlineEl) headlineEl.textContent = story.headline;
-        if (snippetEl) snippetEl.textContent = story.snippet;
-
-        contentBox.classList.remove('fade-out');
-        contentBox.classList.add('fade-in');
-      }, 180);
-    } else {
-      if (badgeEl) badgeEl.textContent = story.badge;
-      if (sourceEl) sourceEl.textContent = story.source;
-      if (headlineEl) headlineEl.textContent = story.headline;
-      if (snippetEl) snippetEl.textContent = story.snippet;
-    }
-  }
-
-  function advanceCategory() {
-    currentCatIdx = (currentCatIdx + 1) % categories.length;
-    currentStoryIdx = 0;
-    renderStory(true);
-    resetShuffleTimer();
-  }
-
-  function prevStory() {
-    const catKey = categories[currentCatIdx];
-    const stories = newsDatabase[catKey];
-    currentStoryIdx = (currentStoryIdx - 1 + stories.length) % stories.length;
-    renderStory(true);
-    resetShuffleTimer();
-  }
-
-  function nextStory() {
-    const catKey = categories[currentCatIdx];
-    const stories = newsDatabase[catKey];
-    currentStoryIdx = (currentStoryIdx + 1) % stories.length;
-    renderStory(true);
-    resetShuffleTimer();
-  }
-
-  function setCategory(catKey) {
-    const idx = categories.indexOf(catKey);
-    if (idx !== -1) {
-      currentCatIdx = idx;
-      currentStoryIdx = 0;
-      renderStory(true);
-      resetShuffleTimer();
-    }
-  }
-
-  function resetShuffleTimer() {
-    shuffleProgress = 0;
-    if (progressBar) progressBar.style.width = '0%';
-  }
-
-  // Shuffle loop ticker
-  function startShuffleTicker() {
-    if (shuffleInterval) clearInterval(shuffleInterval);
-    const stepMs = 100;
-    const totalSteps = (SHUFFLE_DURATION_SEC * 1000) / stepMs;
-
-    shuffleInterval = setInterval(() => {
-      shuffleProgress++;
-      const pct = (shuffleProgress / totalSteps) * 100;
-      if (progressBar) progressBar.style.width = `${pct}%`;
-
-      const remainingSec = Math.ceil(((totalSteps - shuffleProgress) * stepMs) / 1000);
-      if (countdownEl) countdownEl.textContent = `Shuffling • ${remainingSec}s`;
-
-      if (shuffleProgress >= totalSteps) {
-        advanceCategory();
-      }
-    }, stepMs);
-  }
-
-  // Event handlers
-  if (tabInternational) {
-    tabInternational.addEventListener('click', () => setCategory('international'));
-  }
-  if (tabNational) {
-    tabNational.addEventListener('click', () => setCategory('national'));
-  }
-  if (tabLocal) {
-    tabLocal.addEventListener('click', () => setCategory('local'));
-  }
-
-  if (prevBtn) prevBtn.addEventListener('click', prevStory);
-  if (nextBtn) nextBtn.addEventListener('click', nextStory);
-
-  renderStory(false);
-  startShuffleTicker();
+  });
 }
 
 /* ==========================================================================
