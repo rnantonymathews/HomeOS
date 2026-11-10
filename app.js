@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMusicPlayer();
   initNewsFeed();
   initContinueWatching();
+  initVerticalDock();
 });
 
 /* ==========================================================================
@@ -112,8 +113,8 @@ async function initWeatherLive() {
         if (condEl) condEl.textContent = condText;
 
         // Rain Probability
-        const rainProb = c.precipitation_probability !== undefined 
-          ? c.precipitation_probability 
+        const rainProb = c.precipitation_probability !== undefined
+          ? c.precipitation_probability
           : (data.daily && data.daily.precipitation_probability_max ? data.daily.precipitation_probability_max[0] : 15);
         if (rainEl) rainEl.textContent = `${rainProb || 15}%`;
 
@@ -378,7 +379,31 @@ function initContinueWatching() {
 }
 
 /* ==========================================================================
-   6. Orientation Lock & Service Worker
+   6. Vertical Left Navigation Dock
+   ========================================================================== */
+function initVerticalDock() {
+  const dockItems = document.querySelectorAll('.dock-item');
+  dockItems.forEach(item => {
+    item.addEventListener('click', () => {
+      dockItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+
+      const target = item.dataset.nav;
+      if (target === 'profile') {
+        showToast('Profile: Aaron Antony');
+      } else if (target === 'movie') {
+        showToast('Movies Library');
+      } else if (target === 'shows') {
+        showToast('TV Shows Library');
+      } else if (target === 'music') {
+        showToast('Music Library');
+      }
+    });
+  });
+}
+
+/* ==========================================================================
+   7. Orientation Lock & Service Worker
    ========================================================================== */
 function initOrientationLock() {
   if (screen.orientation && screen.orientation.lock) {
