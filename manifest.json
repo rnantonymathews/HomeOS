@@ -5,7 +5,11 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",
-  "display_override": ["fullscreen", "window-controls-overlay", "standalone"],
+  "display_override": [
+    "fullscreen",
+    "window-controls-overlay",
+    "standalone"
+  ],
   "orientation": "landscape",
   "background_color": "#0d1017",
   "theme_color": "#1a1f29",

@@ -17,8 +17,11 @@
 </head>
 
 <body>
-  <!-- Wallpaper Canvas / Viewport Layer -->
-  <div class="desktop-background" id="desktop"></div>
+  <!-- Dynamic Crossfading Wallpaper Layers -->
+  <div class="wallpaper-container desktop-background" id="desktop">
+    <div class="wallpaper-layer active" id="wallpaper-layer-a"></div>
+    <div class="wallpaper-layer" id="wallpaper-layer-b"></div>
+  </div>
   <canvas id="sky-canvas" class="sky-canvas"></canvas>
 
   <!-- Top Glass Status Bar -->
@@ -28,6 +31,14 @@
         <span class="date-text" id="date-display">Tue, Nov 10</span>
         <span class="separator">•</span>
         <span class="time-text" id="time-display">12:00 PM</span>
+      </div>
+
+      <div class="glass-pill weather-widget" id="weather-widget" title="Bangalore, Ejipura Weather & Dynamic Wallpaper">
+        <span class="weather-icon" id="weather-icon">☁️</span>
+        <span class="weather-temp" id="weather-temp">--°C</span>
+        <span class="separator">•</span>
+        <span class="weather-city" id="weather-city">Ejipura</span>
+        <span class="weather-slot-tag" id="weather-slot-tag">Auto</span>
       </div>
     </div>
 
@@ -70,6 +81,45 @@
       </button>
     </div>
   </header>
+
+  <!-- Dynamic Weather & Wallpaper Switcher Flyout -->
+  <div class="weather-flyout" id="weather-flyout" style="display: none;">
+    <div class="flyout-header">
+      <div class="flyout-title-row">
+        <span class="flyout-title">Bangalore, Ejipura</span>
+        <span class="flyout-status-badge" id="flyout-status-badge">Live Feed</span>
+      </div>
+      <div class="flyout-desc" id="flyout-desc">Syncing with Open-Meteo satellite feed...</div>
+    </div>
+
+    <div class="flyout-body">
+      <div class="flyout-section">
+        <span class="flyout-section-label">Season / Condition</span>
+        <div class="pill-toggle-group" id="condition-toggles">
+          <button class="pill-toggle-btn active" data-condition="auto">Auto (Live)</button>
+          <button class="pill-toggle-btn" data-condition="s">Sunny ☀️</button>
+          <button class="pill-toggle-btn" data-condition="w">Winter ❄️</button>
+          <button class="pill-toggle-btn" data-condition="r">Rainy 🌧️</button>
+        </div>
+      </div>
+
+      <div class="flyout-section">
+        <span class="flyout-section-label">Time Slot</span>
+        <div class="pill-toggle-group" id="slot-toggles">
+          <button class="pill-toggle-btn active" data-slot="auto">Auto (Clock)</button>
+          <button class="pill-toggle-btn" data-slot="3am">3 AM</button>
+          <button class="pill-toggle-btn" data-slot="9am">9 AM</button>
+          <button class="pill-toggle-btn" data-slot="3pm">3 PM</button>
+          <button class="pill-toggle-btn" data-slot="9pm">9 PM</button>
+        </div>
+      </div>
+
+      <div class="flyout-footer">
+        <span>Active Wallpaper: </span>
+        <code id="current-wallpaper-name">assets/Wallpapers/w-9pm.png</code>
+      </div>
+    </div>
+  </div>
 
   <!-- Spotlight Search Modal -->
   <div class="search-overlay" id="search-overlay">
@@ -180,6 +230,7 @@
   </main>
 
   <script src="sky.js"></script>
+  <script src="wallpaper.js"></script>
   <script src="app.js"></script>
 </body>
 

@@ -1,5 +1,5 @@
 // HomeOS Service Worker
-const CACHE_NAME = 'homeos-v2.6';
+const CACHE_NAME = 'homeos-v2.7';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -7,6 +7,7 @@ const ASSETS_TO_CACHE = [
   './style.css',
   './app.js',
   './sky.js',
+  './wallpaper.js',
   './manifest.json',
   './assets/wallpaper-hills.jpg',
   './assets/icons/netflix-512.png',
@@ -21,7 +22,19 @@ const ASSETS_TO_CACHE = [
   './assets/icons/brave-512.png',
   './assets/icons/homeos.svg',
   './assets/icons/icon-192.png',
-  './assets/icons/icon-512.png'
+  './assets/icons/icon-512.png',
+  './assets/Wallpapers/s-3am.png',
+  './assets/Wallpapers/s-9am.png',
+  './assets/Wallpapers/s-3pm.png',
+  './assets/Wallpapers/s-9pm.png',
+  './assets/Wallpapers/w-3am.png',
+  './assets/Wallpapers/w-9am.png',
+  './assets/Wallpapers/w-3pm.png',
+  './assets/Wallpapers/w-9pm.png',
+  './assets/Wallpapers/r-3am.png',
+  './assets/Wallpapers/r-9am.png',
+  './assets/Wallpapers/r-3pm.png',
+  './assets/Wallpapers/r-9pm.png'
 ];
 
 // Install: Cache all static shell assets
@@ -48,15 +61,19 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Stale-while-revalidate or Cache-first strategy
+// Fetch: Cache-first or Stale-while-revalidate for assets
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
+
+  // Let Open-Meteo API requests bypass cache
+  if (event.request.url.includes('api.open-meteo.com')) {
+    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // Fetch in background to update cache
         fetch(event.request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             caches.open(CACHE_NAME).then((cache) => {

@@ -56,19 +56,35 @@ html, body {
 }
 
 /* ==========================================================================
-   Desktop Wallpaper Background
+   Desktop Wallpaper Background & Faded Crossfade Transitions
    ========================================================================== */
-.desktop-background {
+.desktop-background,
+.wallpaper-container {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url('assets/wallpaper-hills.jpg');
+  z-index: 1;
+  overflow: hidden;
+  background-color: #0c0f17;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+
+.wallpaper-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  z-index: 1;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  opacity: 0;
+  transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+}
+
+.wallpaper-layer.active {
+  opacity: 1;
 }
 
 .sky-canvas {
@@ -81,6 +97,7 @@ html, body {
 }
 
 /* Subtle cinematic depth vignette */
+.wallpaper-container::after,
 .desktop-background::after {
   content: "";
   position: absolute;
@@ -98,6 +115,7 @@ html, body {
     rgba(0, 0, 0, 0.35) 100%
   );
   pointer-events: none;
+  z-index: 3;
 }
 
 /* Clean mode hides UI for viewing wallpaper */
@@ -192,6 +210,165 @@ body.clean-mode .top-bar {
 .time-text {
   font-weight: 600;
   color: #FFFFFF;
+}
+
+/* Weather Widget Pill */
+.weather-widget {
+  gap: 7px;
+  padding: 8px 14px;
+}
+
+.weather-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.weather-temp {
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.weather-city {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12.5px;
+}
+
+.weather-slot-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #E2E8F0;
+  letter-spacing: 0.2px;
+}
+
+/* Weather Flyout Popover */
+.weather-flyout {
+  position: fixed;
+  top: 66px;
+  left: 28px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  background: rgba(18, 24, 38, 0.88);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 18px;
+  padding: 16px 18px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  z-index: 100;
+  animation: flyoutSlideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes flyoutSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.flyout-header {
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 10px;
+}
+
+.flyout-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flyout-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.flyout-status-badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.25);
+  color: #38BDF8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.flyout-desc {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.72);
+  margin-top: 4px;
+}
+
+.flyout-section {
+  margin-bottom: 12px;
+}
+
+.flyout-section-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+}
+
+.pill-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill-toggle-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 5px 9px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.pill-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+}
+
+.pill-toggle-btn.active {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border-color: #38bdf8;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.45);
+}
+
+.flyout-footer {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flyout-footer code {
+  color: #38bdf8;
+  font-family: monospace;
+  font-size: 11px;
 }
 
 .icon-btn {
