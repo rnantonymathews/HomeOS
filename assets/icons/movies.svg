@@ -1,57 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
   <defs>
-    <!-- Background Squircle Gradient -->
-    <linearGradient id="bg-movies" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF3366"/>
-      <stop offset="50%" stop-color="#E50914"/>
-      <stop offset="100%" stop-color="#990018"/>
-    </linearGradient>
-
-    <!-- Specular Highlight Top Glass -->
-    <linearGradient id="glass-shine" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.45"/>
-      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0.10"/>
-      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.0"/>
-    </linearGradient>
-
-    <!-- Clapperboard Metallic Rim -->
-    <linearGradient id="clapper-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+    <!-- Crisp Metallic White-to-Silver Gradient -->
+    <linearGradient id="glyph-white" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#D1D5DB"/>
+      <stop offset="100%" stop-color="#D8E2EC"/>
     </linearGradient>
 
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    <!-- Translucent Frosted Glass Tint for Clapper Body -->
+    <linearGradient id="clapper-glass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255, 255, 255, 0.22)"/>
+      <stop offset="100%" stop-color="rgba(255, 255, 255, 0.06)"/>
+    </linearGradient>
+
+    <!-- Ambient Shadow for Legibility on Light/Dark Wallpapers -->
+    <filter id="glyph-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.6"/>
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000000" flood-opacity="0.4"/>
     </filter>
   </defs>
 
-  <!-- Squircle Base -->
-  <rect x="4" y="4" width="120" height="120" rx="30" fill="url(#bg-movies)" filter="url(#shadow)"/>
-  
-  <!-- Subtle Glass Highlight -->
-  <rect x="5" y="5" width="118" height="58" rx="28" fill="url(#glass-shine)"/>
-  <rect x="4" y="4" width="120" height="120" rx="30" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
-
-  <!-- Movie Clapperboard Artwork -->
-  <g transform="translate(24, 26)" filter="url(#shadow)">
-    <!-- Clapper top stick angled -->
-    <g transform="rotate(-9, 40, 20)">
-      <rect x="2" y="2" width="76" height="16" rx="4" fill="#1A1F2C"/>
-      <polygon points="12,2 22,2 14,18 4,18" fill="url(#clapper-metal)"/>
-      <polygon points="32,2 42,2 34,18 24,18" fill="url(#clapper-metal)"/>
-      <polygon points="52,2 62,2 54,18 44,18" fill="url(#clapper-metal)"/>
-      <polygon points="72,2 78,2 74,18 64,18" fill="url(#clapper-metal)"/>
+  <g filter="url(#glyph-shadow)">
+    <!-- Clapper Top Arm (Angled) -->
+    <g transform="rotate(-12, 10, 18)">
+      <rect x="7" y="10" width="48" height="10" rx="3" fill="url(#glyph-white)"/>
+      <!-- Diagonal Slanted Stripes -->
+      <polygon points="14,10 20,10 16,20 10,20" fill="#181D26"/>
+      <polygon points="26,10 32,10 28,20 22,20" fill="#181D26"/>
+      <polygon points="38,10 44,10 40,20 34,20" fill="#181D26"/>
+      <polygon points="50,10 54,10 52,20 46,20" fill="#181D26"/>
     </g>
 
-    <!-- Main Clapper Board Body -->
-    <rect x="4" y="22" width="72" height="52" rx="6" fill="#111622" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-    
-    <!-- Stripes on main board -->
-    <polygon points="14,22 24,22 16,34 6,34" fill="url(#clapper-metal)"/>
-    <polygon points="34,22 44,22 36,34 26,34" fill="url(#clapper-metal)"/>
-    <polygon points="54,22 64,22 56,34 46,34" fill="url(#clapper-metal)"/>
+    <!-- Clapper Main Body -->
+    <rect x="9" y="21" width="46" height="34" rx="5" fill="url(#clapper-glass)" stroke="url(#glyph-white)" stroke-width="2.2"/>
 
-    <!-- Glowing Play Triangle Centerpiece -->
-    <polygon points="34,44 54,54 34,64" fill="#FFFFFF" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+    <!-- Slanted Stripes on Lower Rim -->
+    <polygon points="15,22 21,22 17,29 11,29" fill="url(#glyph-white)"/>
+    <polygon points="27,22 33,22 29,29 23,29" fill="url(#glyph-white)"/>
+    <polygon points="39,22 45,22 41,29 35,29" fill="url(#glyph-white)"/>
+    <polygon points="51,22 54,22 53,29 47,29" fill="url(#glyph-white)"/>
+
+    <!-- Cinematic Play Glyph in Center -->
+    <polygon points="28,34 40,41 28,48" fill="url(#glyph-white)"/>
   </g>
 </svg>

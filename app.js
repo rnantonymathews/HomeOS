@@ -5,11 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
   initOrientationLock();
-  initClock();
-  initDockMagnification();
-  initAppLaunchers();
-  initSpotlightSearch();
-  initControls();
+  initSpatialNavigation();
   initPwaInstall();
 });
 
@@ -102,79 +98,83 @@ function initClock() {
 /* ==========================================================================
    3. Floating Dock Magnification Physics (macOS-style)
    ========================================================================== */
-function initDockMagnification() {
-  const dock = document.getElementById('dock');
-  const items = Array.from(dock.querySelectorAll('.dock-item'));
-  if (!dock || items.length === 0) return;
-
-  // Only apply dynamic continuous magnification for fine pointers (mouse/trackpad)
-  const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-  if (!isFinePointer) return;
-
-  const maxScale = 1.28;
-  const maxLift = -6; // px
-  const influenceRadius = 115; // px
-
-  let isHovering = false;
-
-  dock.addEventListener('mouseenter', () => {
-    isHovering = true;
-  });
-
-  dock.addEventListener('mousemove', (e) => {
-    if (!isHovering) return;
-    const mouseX = e.clientX;
-
-    items.forEach((item) => {
-      const rect = item.getBoundingClientRect();
-      const itemCenterX = rect.left + rect.width / 2;
-      const distance = Math.abs(mouseX - itemCenterX);
-
-      if (distance < influenceRadius) {
-        // Cosine smooth bell curve from 0 to 1
-        const norm = distance / influenceRadius;
-        const factor = 0.5 * (1 + Math.cos(norm * Math.PI)); // 1 at center, 0 at boundary
-        const scale = 1 + (maxScale - 1) * factor;
-        const lift = maxLift * factor;
-        item.style.transform = `scale(${scale}) translateY(${lift}px)`;
-      } else {
-        item.style.transform = 'scale(1) translateY(0)';
-      }
-    });
-  });
-
-  dock.addEventListener('mouseleave', () => {
-    isHovering = false;
-    items.forEach((item) => {
-      item.style.transform = 'scale(1) translateY(0)';
-    });
-  });
-}
-
 /* ==========================================================================
-   4. App Launcher & Click Bounce
+   3. Spatial Floating Navigation Hub (VisionOS & B&O Inspired)
    ========================================================================== */
-function initAppLaunchers() {
-  const items = document.querySelectorAll('.dock-item');
+function initSpatialNavigation() {
+  const island = document.getElementById('spatial-island');
+  const items = Array.from(document.querySelectorAll('.spatial-nav-item'));
+  const indicator = document.getElementById('nav-indicator');
+
+  if (!island || items.length === 0 || !indicator) return;
+
+  function updateIndicator(targetItem, animate = true) {
+    if (!targetItem) return;
+    const islandRect = island.getBoundingClientRect();
+    const itemRect = targetItem.getBoundingClientRect();
+
+    const left = itemRect.left - islandRect.left;
+    const width = itemRect.width;
+
+    if (!animate) {
+      indicator.style.transition = 'none';
+    } else {
+      indicator.style.transition = 'left 0.36s cubic-bezier(0.16, 1, 0.3, 1), width 0.36s cubic-bezier(0.16, 1, 0.3, 1)';
+    }
+
+    indicator.style.left = `${left}px`;
+    indicator.style.width = `${width}px`;
+    indicator.style.opacity = '1';
+  }
+
+  function setActive(targetItem) {
+    items.forEach((item) => item.classList.remove('active'));
+    targetItem.classList.add('active');
+    targetItem.classList.add('activating');
+    setTimeout(() => targetItem.classList.remove('activating'), 300);
+    updateIndicator(targetItem, true);
+
+    const category = targetItem.dataset.category;
+    console.log(`[HomeOS] Active media category: ${category}`);
+  }
+
+  // Click & Touch handler
   items.forEach((item) => {
     item.addEventListener('click', (e) => {
       e.preventDefault();
-      items.forEach((i) => i.classList.remove('active'));
-      item.classList.add('active');
-      item.classList.add('launching');
-
-      setTimeout(() => {
-        item.classList.remove('launching');
-      }, 700);
-
-      const url = item.getAttribute('href');
-      if (url && url !== '#' && !url.startsWith('#')) {
-        setTimeout(() => {
-          window.location.href = url;
-        }, 320);
-      }
+      setActive(item);
     });
   });
+
+  // TV / Projector Keyboard Navigation: ArrowLeft / ArrowRight / Enter
+  window.addEventListener('keydown', (e) => {
+    const currentIndex = items.findIndex((i) => i.classList.contains('active'));
+    if (e.key === 'ArrowRight' || e.key === 'Right') {
+      e.preventDefault();
+      const nextIndex = (currentIndex + 1) % items.length;
+      setActive(items[nextIndex]);
+    } else if (e.key === 'ArrowLeft' || e.key === 'Left') {
+      e.preventDefault();
+      const prevIndex = (currentIndex - 1 + items.length) % items.length;
+      setActive(items[prevIndex]);
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      if (currentIndex !== -1) {
+        setActive(items[currentIndex]);
+      }
+    }
+  });
+
+  // Window resize to maintain indicator alignment
+  window.addEventListener('resize', () => {
+    const activeItem = document.querySelector('.spatial-nav-item.active') || items[0];
+    updateIndicator(activeItem, false);
+  });
+
+  // Initial positioning after layout calculation
+  setTimeout(() => {
+    const activeItem = document.querySelector('.spatial-nav-item.active') || items[0];
+    updateIndicator(activeItem, false);
+  }, 120);
 }
 
 /* ==========================================================================

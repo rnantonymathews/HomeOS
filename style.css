@@ -398,166 +398,234 @@ body.clean-mode .top-bar {
 }
 
 /* ==========================================================================
-   Bottom Floating Frosted Glass Metallic Dock
+   Spatial Floating Navigation Capsule (VisionOS & B&O Inspired)
    ========================================================================== */
-.dock-container {
+.spatial-nav-container {
   position: fixed;
-  bottom: 18px;
+  bottom: 34px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 30;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  justify-content: center;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  animation: spatialSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Ambient ground shadow beneath the floating dock */
-.dock-reflection {
-  position: absolute;
-  bottom: -10px;
-  width: 85%;
-  height: 16px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0.35) 0%,
-    rgba(0, 0, 0, 0) 70%
+@keyframes spatialSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(28px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.spatial-nav-island {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 10px;
+  
+  /* Ultra-refined Frosted Liquid Glass */
+  background: rgba(14, 18, 28, 0.42);
+  backdrop-filter: blur(36px) saturate(180%) brightness(0.92);
+  -webkit-backdrop-filter: blur(36px) saturate(180%) brightness(0.92);
+  
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 1.2px solid rgba(255, 255, 255, 0.40);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  
+  box-shadow: 
+    0 24px 60px -10px rgba(0, 0, 0, 0.65),
+    0 8px 24px -4px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.35);
+  
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Slim gradient divider between items */
+.spatial-nav-divider {
+  width: 1px;
+  height: 24px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0) 100%
   );
-  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* Individual Category Item */
+.spatial-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 9999px;
+  color: rgba(255, 255, 255, 0.72);
+  transition: color 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+}
+
+/* Dynamic Ambient Glow behind the transparent glyph */
+.spatial-glow {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  filter: blur(14px);
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
   pointer-events: none;
   z-index: -1;
 }
 
-.dock {
+.glow-movies { background: radial-gradient(circle, rgba(239, 68, 68, 0.85) 0%, rgba(220, 38, 38, 0) 70%); }
+.glow-shows  { background: radial-gradient(circle, rgba(129, 140, 248, 0.85) 0%, rgba(99, 102, 241, 0) 70%); }
+.glow-music  { background: radial-gradient(circle, rgba(251, 146, 60, 0.85) 0%, rgba(245, 158, 11, 0) 70%); }
+
+.spatial-icon-wrapper {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  gap: 16px;
-  padding: var(--dock-padding);
-  
-  /* See-Through But Blurry Frosted Glass */
-  background: var(--dock-bg);
-  backdrop-filter: blur(28px) saturate(140%);
-  -webkit-backdrop-filter: blur(28px) saturate(140%);
-  
-  /* Metallic Edges & Specular Rims */
-  border: 1px solid var(--dock-border-sides);
-  border-top: 1.2px solid var(--dock-border-top);
-  border-bottom: 1px solid var(--dock-border-bottom);
-  border-radius: var(--dock-radius);
-  
-  /* Multi-layered Drop & Inner Ambient Shadow */
-  box-shadow: var(--dock-shadow);
-
-  will-change: width, height;
-}
-
-/* Top hairline metallic highlight */
-.dock::before {
-  content: "";
-  position: absolute;
-  top: 1px;
-  left: 10px;
-  right: 10px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.5) 20%,
-    rgba(255, 255, 255, 0.75) 50%,
-    rgba(255, 255, 255, 0.5) 80%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  border-radius: 9999px;
-  pointer-events: none;
-}
-
-/* ==========================================================================
-   Dock Items & App Icons
-   ========================================================================== */
-.dock-item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  text-decoration: none;
-  outline: none;
-  cursor: pointer;
-  transform-origin: bottom center;
-  transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.4, 1);
-  will-change: transform;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.dock-icon-wrapper {
-  position: relative;
-  width: var(--icon-base-size);
-  height: var(--icon-base-size);
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 11px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
-  transition: filter 0.2s ease, transform 0.2s ease;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dock-icon {
+.spatial-icon {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 11px;
   display: block;
   pointer-events: none;
-  filter: none;
-  opacity: 1;
-  transition: filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: filter, transform;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+  transition: filter 0.28s ease, transform 0.28s ease;
 }
 
-/* Hover, Focus, or Selected subtle enhancement */
-.dock-item:hover .dock-icon,
-.dock-item:focus .dock-icon,
-.dock-item:focus-within .dock-icon,
-.dock-item.selected .dock-icon,
-.dock-item.active .dock-icon,
-.dock-item.launching .dock-icon {
-  filter: brightness(1.08) contrast(1.02);
-  opacity: 1;
+.spatial-label {
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.74);
+  transition: color 0.28s ease, font-weight 0.28s ease, text-shadow 0.28s ease;
 }
 
-/* Hover drop-shadow glow */
-.dock-item:hover .dock-icon-wrapper,
-.dock-item:focus .dock-icon-wrapper,
-.dock-item.selected .dock-icon-wrapper {
-  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.28));
+/* Hover State */
+.spatial-nav-item:hover {
+  color: #FFFFFF;
 }
 
-/* Launch bounce animation */
-@keyframes dock-bounce {
-  0% { transform: translateY(0) scale(1.15); }
-  25% { transform: translateY(-20px) scale(1.2); }
-  45% { transform: translateY(0) scale(1.12); }
-  70% { transform: translateY(-8px) scale(1.16); }
-  90% { transform: translateY(0) scale(1.14); }
-  100% { transform: translateY(0) scale(1.14); }
+.spatial-nav-item:hover .spatial-label {
+  color: #FFFFFF;
 }
 
-.dock-item.launching {
-  animation: dock-bounce 0.8s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+.spatial-nav-item:hover .spatial-glow {
+  opacity: 0.55;
+  transform: translate(-50%, -50%) scale(1.15);
 }
 
-/* Active Category Illumination Dot */
-.dock-item.active::after {
-  content: "";
+.spatial-nav-item:hover .spatial-icon-wrapper {
+  transform: translateY(-2px) scale(1.08);
+}
+
+/* Active State */
+.spatial-nav-item.active {
+  color: #FFFFFF;
+}
+
+.spatial-nav-item.active .spatial-label {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.45);
+}
+
+.spatial-nav-item.active .spatial-glow {
+  opacity: 0.92;
+  transform: translate(-50%, -50%) scale(1.25);
+}
+
+.spatial-nav-item.active .spatial-icon-wrapper {
+  transform: translateY(-2px) scale(1.12);
+}
+
+/* Sliding Liquid Glass Glide Indicator */
+.spatial-glide-indicator {
   position: absolute;
-  bottom: -6px;
-  width: 5px;
-  height: 5px;
-  background: #FFFFFF;
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.95), 0 0 14px var(--accent-glow);
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.20) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-top: 1.2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 9999px;
+  box-shadow: 
+    0 4px 14px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  transition: left 0.36s cubic-bezier(0.16, 1, 0.3, 1), 
+              width 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.25s ease;
+  z-index: 1;
+}
+
+/* Subtle Click Pulse Animation */
+@keyframes spatialPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
+.spatial-nav-item.activating {
+  animation: spatialPulse 0.3s cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .spatial-nav-container {
+    bottom: 20px;
+    width: calc(100vw - 32px);
+  }
+  .spatial-nav-island {
+    width: 100%;
+    justify-content: space-around;
+    padding: 6px 6px;
+  }
+  .spatial-nav-item {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .spatial-icon-wrapper {
+    width: 30px;
+    height: 30px;
+  }
+  .spatial-label {
+    font-size: 13px;
+  }
 }
 
 /* ==========================================================================
