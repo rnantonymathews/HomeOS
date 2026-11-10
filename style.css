@@ -71,7 +71,7 @@ html, body {
 }
 
 /* ==========================================================================
-   Vertical Left Dock (Exact Reference Image Replication)
+   Vertical Left Dock (Exact Reference Image Navigation Aesthetics)
    ========================================================================== */
 .vertical-dock {
   position: fixed;
@@ -81,9 +81,9 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   width: 56px;
-  padding: 18px 0;
+  padding: 14px 0;
   background: rgba(16, 17, 20, 0.85);
   backdrop-filter: blur(36px) saturate(180%);
   -webkit-backdrop-filter: blur(36px) saturate(180%);
@@ -141,23 +141,11 @@ html, body {
   transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dock-brand-logo {
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFFFFF;
-  margin-bottom: 2px;
-  position: relative;
-  z-index: 1;
-}
-
 .dock-divider {
-  width: 28px;
+  width: 26px;
   height: 1px;
   background: rgba(255, 255, 255, 0.08);
-  margin: 4px 0;
+  margin: 2px 0;
 }
 
 .dock-item {
