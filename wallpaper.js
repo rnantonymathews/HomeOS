@@ -22,7 +22,7 @@
   let currentCondition = 'w';
   let currentSlot = '9pm';
   let currentWallpaperUrl = '';
-  let activeLayerId = 'wallpaper-layer-a';
+  let activeLayerId = 'frame-wallpaper-a';
 
   const RAIN_CODES = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99]);
 
@@ -124,18 +124,25 @@
     img.src = fullUrl;
 
     img.onload = () => {
-      const nextLayerId = activeLayerId === 'wallpaper-layer-a' ? 'wallpaper-layer-b' : 'wallpaper-layer-a';
-      const currentLayer = document.getElementById(activeLayerId);
-      const nextLayer = document.getElementById(nextLayerId);
+      const isInitial = !currentWallpaperUrl;
+      const isFrameA = activeLayerId === 'frame-wallpaper-a';
+      const nextLayerId = isFrameA ? 'frame-wallpaper-b' : 'frame-wallpaper-a';
+      const currentLayer = document.getElementById(activeLayerId) || document.getElementById('wallpaper-layer-a');
+      const nextLayer = document.getElementById(nextLayerId) || document.getElementById('wallpaper-layer-b');
 
       if (!nextLayer || !currentLayer) return;
 
-      nextLayer.style.backgroundImage = `url('${fullUrl}')`;
-      nextLayer.classList.add('active');
-      currentLayer.classList.remove('active');
-
-      activeLayerId = nextLayerId;
-      currentWallpaperUrl = fullUrl;
+      if (isInitial) {
+        currentLayer.style.backgroundImage = `url('${fullUrl}')`;
+        currentLayer.classList.add('active');
+        currentWallpaperUrl = fullUrl;
+      } else {
+        nextLayer.style.backgroundImage = `url('${fullUrl}')`;
+        nextLayer.classList.add('active');
+        currentLayer.classList.remove('active');
+        activeLayerId = nextLayerId;
+        currentWallpaperUrl = fullUrl;
+      }
 
       // Update flyout name if visible
       const nameEl = document.getElementById('current-wallpaper-name');
@@ -179,17 +186,34 @@
     const slotLabel = slot.toUpperCase();
     const condName = condition === 'r' ? 'Rainy' : (condition === 'w' ? 'Winter' : 'Sunny');
 
+    // Photo Frame Weather Elements
+    const frameIcon = document.getElementById('frame-weather-icon');
+    const frameTemp = document.getElementById('frame-weather-temp');
+    const frameCond = document.getElementById('frame-weather-cond');
+
     if (weatherData) {
       const wmoInfo = interpretWmoCode(weatherData.weather_code, weatherData.is_day === 1);
-      if (iconEl) iconEl.textContent = condition === 'r' ? '🌧️' : wmoInfo.icon;
-      if (tempEl) tempEl.textContent = `${Math.round(weatherData.temperature_2m)}°C`;
+      const iconStr = condition === 'r' ? '🌧️' : wmoInfo.icon;
+      const tempStr = `${Math.round(weatherData.temperature_2m)}°C`;
+      const condStr = condition === 'r' ? 'Raining' : wmoInfo.text;
+
+      if (iconEl) iconEl.textContent = iconStr;
+      if (tempEl) tempEl.textContent = tempStr;
+      if (frameIcon) frameIcon.textContent = iconStr;
+      if (frameTemp) frameTemp.textContent = tempStr;
+      if (frameCond) frameCond.textContent = condStr;
+
       if (flyoutDesc) {
         flyoutDesc.textContent = `${wmoInfo.text} • ${weatherData.temperature_2m}°C • Humidity ${weatherData.relative_humidity_2m}%`;
       }
       if (flyoutBadge) flyoutBadge.textContent = 'Live Feed';
     } else {
-      if (iconEl) iconEl.textContent = condition === 'r' ? '🌧️' : (condition === 'w' ? '❄️' : '☀️');
+      const iconStr = condition === 'r' ? '🌧️' : (condition === 'w' ? '❄️' : '☀️');
+      if (iconEl) iconEl.textContent = iconStr;
       if (tempEl) tempEl.textContent = '22°C';
+      if (frameIcon) frameIcon.textContent = iconStr;
+      if (frameTemp) frameTemp.textContent = '22°C';
+      if (frameCond) frameCond.textContent = condition === 'r' ? 'Rainy' : (condition === 'w' ? 'Winter Overcast' : 'Sunny');
       if (flyoutDesc) flyoutDesc.textContent = 'Ejipura, Bangalore (Default)';
     }
 

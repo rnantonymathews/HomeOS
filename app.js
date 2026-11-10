@@ -5,9 +5,19 @@
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
   initOrientationLock();
+  initGreeting();
   initSpatialNavigation();
   initPwaInstall();
 });
+
+function initGreeting() {
+  const nameEl = document.getElementById('username-display');
+  if (!nameEl) return;
+  const stored = localStorage.getItem('homeos_username');
+  if (stored) {
+    nameEl.textContent = stored;
+  }
+}
 
 function initOrientationLock() {
   if (screen.orientation && screen.orientation.lock) {

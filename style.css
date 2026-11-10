@@ -82,6 +82,83 @@ html, body {
   z-index: 2;
 }
 
+/* ==========================================================================
+   Right-Aligned Neon Welcome Typography (Poppins)
+   ========================================================================== */
+.greeting-container {
+  position: fixed;
+  right: 64px;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: right;
+  z-index: 20;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  animation: greetingFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes greetingFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-46%) translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+.greeting-sub {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 200; /* Poppins Thin */
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: #4efca0;
+  text-transform: lowercase;
+  opacity: 0.88;
+  margin-bottom: 2px;
+  text-shadow: 0 0 16px rgba(0, 255, 133, 0.3);
+}
+
+.greeting-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800; /* Poppins Thick */
+  font-size: 3.4rem;
+  line-height: 1.1;
+  color: #00FF85; /* Vivid Electric Neon Green */
+  letter-spacing: 0.5px;
+  text-shadow: 
+    0 0 10px rgba(0, 255, 133, 0.75),
+    0 0 30px rgba(0, 255, 133, 0.45),
+    0 0 60px rgba(0, 255, 133, 0.25);
+}
+
+@media (max-width: 768px) {
+  .greeting-container {
+    right: 32px;
+  }
+  .greeting-sub {
+    font-size: 1.15rem;
+    letter-spacing: 1.5px;
+  }
+  .greeting-name {
+    font-size: 2.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .greeting-container {
+    right: 22px;
+  }
+  .greeting-sub {
+    font-size: 0.95rem;
+  }
+  .greeting-name {
+    font-size: 1.85rem;
+  }
+}
+
 /* Clean mode hides UI for viewing wallpaper */
 body.clean-mode .top-bar,
 body.clean-mode .dock-container {
