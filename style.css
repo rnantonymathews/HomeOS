@@ -71,7 +71,7 @@ html, body {
 }
 
 /* ==========================================================================
-   Vertical Left Dock (Frosted Glass Aesthetics)
+   Vertical Left Dock (Exact Reference Image Replication)
    ========================================================================== */
 .vertical-dock {
   position: fixed;
@@ -81,18 +81,19 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 12px 10px;
-  background: var(--card-bg);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid var(--card-border);
-  border-top: 1.2px solid var(--card-border-top);
-  border-bottom: 1px solid var(--card-border-bottom);
-  border-radius: 28px;
+  gap: 6px;
+  width: 56px;
+  padding: 18px 0;
+  background: rgba(16, 17, 20, 0.85);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1.2px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 9999px;
   box-shadow: 
-    0 24px 60px -10px rgba(0, 0, 0, 0.75),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.18);
+    0 24px 60px -10px rgba(0, 0, 0, 0.85),
+    inset 0 1px 1px rgba(255, 255, 255, 0.14);
   z-index: 50;
   user-select: none;
   -webkit-user-select: none;
@@ -110,54 +111,89 @@ html, body {
   }
 }
 
+/* Atmospheric Soft Magenta/Purple Bloom behind active icon */
+.dock-active-bloom {
+  position: absolute;
+  left: -14px;
+  top: 0px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.42) 0%, rgba(168, 85, 247, 0.12) 50%, rgba(0, 0, 0, 0) 75%);
+  filter: blur(12px);
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Neon Magenta Vertical Pill Indicator flush against left rim */
+.dock-active-pill {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 3.5px;
+  height: 16px;
+  border-radius: 0 4px 4px 0;
+  background: #e879f9;
+  box-shadow: 0 0 10px #d946ef, 0 0 20px rgba(217, 70, 239, 0.8);
+  pointer-events: none;
+  z-index: 10;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dock-brand-logo {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.dock-divider {
+  width: 28px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 4px 0;
+}
+
 .dock-item {
   position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 18px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
   background: transparent;
   border: 1px solid transparent;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.58);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   outline: none;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
 }
 
 .dock-item:hover {
   color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.14);
   transform: scale(1.08);
 }
 
 .dock-item:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
-/* Selected State - Profile Active by default */
+/* Active State with Glowing Circular Ring */
 .dock-item.active {
-  color: var(--accent-green);
-  background: rgba(118, 255, 3, 0.14);
-  border: 1px solid rgba(118, 255, 3, 0.35);
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.2px solid rgba(217, 70, 239, 0.5);
   box-shadow: 
-    0 0 18px rgba(118, 255, 3, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.2);
-}
-
-.dock-item.active::before {
-  content: '';
-  position: absolute;
-  left: -5px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 16px;
-  border-radius: 9999px;
-  background: var(--accent-green);
-  box-shadow: 0 0 8px var(--accent-green);
+    0 0 16px rgba(217, 70, 239, 0.38),
+    inset 0 0 10px rgba(217, 70, 239, 0.2);
 }
 
 /* ==========================================================================

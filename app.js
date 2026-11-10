@@ -379,27 +379,74 @@ function initContinueWatching() {
 }
 
 /* ==========================================================================
-   6. Vertical Left Navigation Dock
+   6. Vertical Left Navigation Dock (Reference Replication)
    ========================================================================== */
 function initVerticalDock() {
+  const dock = document.getElementById('vertical-dock');
+  const pill = document.getElementById('dock-active-pill');
+  const bloom = document.getElementById('dock-active-bloom');
   const dockItems = document.querySelectorAll('.dock-item');
+
+  if (!dock || dockItems.length === 0) return;
+
+  function syncActiveIndicator(item, animate = true) {
+    if (!item || !pill) return;
+    const itemTop = item.offsetTop;
+    const itemHeight = item.offsetHeight;
+
+    const pillY = itemTop + (itemHeight - 16) / 2;
+    const bloomY = itemTop + (itemHeight - 50) / 2;
+
+    if (!animate) {
+      pill.style.transition = 'none';
+      if (bloom) bloom.style.transition = 'none';
+    } else {
+      pill.style.transition = 'transform 0.34s cubic-bezier(0.16, 1, 0.3, 1)';
+      if (bloom) bloom.style.transition = 'transform 0.34s cubic-bezier(0.16, 1, 0.3, 1)';
+    }
+
+    pill.style.transform = `translateY(${pillY}px)`;
+    if (bloom) bloom.style.transform = `translateY(${bloomY}px)`;
+  }
+
   dockItems.forEach(item => {
     item.addEventListener('click', () => {
       dockItems.forEach(i => i.classList.remove('active'));
       item.classList.add('active');
+      syncActiveIndicator(item, true);
 
       const target = item.dataset.nav;
-      if (target === 'profile') {
-        showToast('Profile: Aaron Antony');
-      } else if (target === 'movie') {
-        showToast('Movies Library');
-      } else if (target === 'shows') {
-        showToast('TV Shows Library');
-      } else if (target === 'music') {
-        showToast('Music Library');
+      const toastMessages = {
+        home: 'HomeOS Dashboard',
+        work: 'Projects & Workspaces',
+        movie: 'Movies & Media Library',
+        calendar: 'Calendar & Upcoming Events',
+        shows: 'TV Shows & Collections',
+        music: 'Music & Audio Experience',
+        profile: 'Profile: Aaron Antony',
+        settings: 'System Settings'
+      };
+
+      if (toastMessages[target]) {
+        showToast(toastMessages[target]);
       }
     });
   });
+
+  // Initial indicator position
+  window.addEventListener('load', () => {
+    const activeItem = document.querySelector('.dock-item.active') || dockItems[0];
+    syncActiveIndicator(activeItem, false);
+  });
+  window.addEventListener('resize', () => {
+    const activeItem = document.querySelector('.dock-item.active') || dockItems[0];
+    syncActiveIndicator(activeItem, false);
+  });
+
+  setTimeout(() => {
+    const activeItem = document.querySelector('.dock-item.active') || dockItems[0];
+    syncActiveIndicator(activeItem, false);
+  }, 100);
 }
 
 /* ==========================================================================

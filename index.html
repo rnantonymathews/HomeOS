@@ -25,37 +25,89 @@
     <div class="matte-texture"></div>
   </div>
 
-  <!-- Vertical Left Dock (Profile, Movie, Shows, Music) -->
+  <!-- Replicated Luxury Vertical Dock (Matched to Reference Image) -->
   <nav class="vertical-dock" id="vertical-dock" role="navigation" aria-label="Main Navigation">
-    <button class="dock-item active" data-nav="profile" id="nav-profile" title="Profile" aria-label="Profile">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
+    <!-- Purple Ambient Atmospheric Glow Bloom behind active item -->
+    <div class="dock-active-bloom" id="dock-active-bloom"></div>
+
+    <!-- Active Neon Magenta Pill Indicator on Left Rim -->
+    <div class="dock-active-pill" id="dock-active-pill"></div>
+
+    <!-- Top Geometric Brand Emblem -->
+    <div class="dock-brand-logo" title="HomeOS Emblem">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M12 2.5L8.5 7.5h7L12 2.5zm-6 7l6 11 6-11h-3.8l-2.2 4.2-2.2-4.2H6z"/>
+      </svg>
+    </div>
+
+    <div class="dock-divider"></div>
+
+    <!-- Group 1: Core Navigation -->
+    <button class="dock-item active" data-nav="home" id="nav-home" title="Home / Overview" aria-label="Home">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <path d="M12 3.5L4.5 8.5v7l7.5 5 7.5-5v-7L12 3.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M8.5 13.5a4 4 0 0 0 7 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
     </button>
-    <button class="dock-item" data-nav="movie" id="nav-movie" title="Movies" aria-label="Movies">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
-        <line x1="7" y1="2" x2="7" y2="22"/>
-        <line x1="17" y1="2" x2="17" y2="22"/>
-        <line x1="2" y1="12" x2="22" y2="12"/>
-        <line x1="2" y1="7" x2="7" y2="7"/>
-        <line x1="2" y1="17" x2="7" y2="17"/>
-        <line x1="17" y1="17" x2="22" y2="17"/>
-        <line x1="17" y1="7" x2="22" y2="7"/>
+
+    <button class="dock-item" data-nav="work" id="nav-work" title="Projects / Workspace" aria-label="Work">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <rect x="4" y="8" width="16" height="12" rx="3" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M10 13h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
     </button>
-    <button class="dock-item" data-nav="shows" id="nav-shows" title="Shows" aria-label="Shows">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
-        <polyline points="17 2 12 7 7 2"/>
+
+    <div class="dock-divider"></div>
+
+    <!-- Group 2: Media, Calendar, Library, Audio -->
+    <button class="dock-item" data-nav="movie" id="nav-movie" title="Movies & Media" aria-label="Movies">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <rect x="4" y="5" width="16" height="14" rx="3.5" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
+        <path d="M4 14.5c2.5-2.5 5.5-2.5 8 0s5.5 2.5 8 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       </svg>
     </button>
-    <button class="dock-item" data-nav="music" id="nav-music" title="Music" aria-label="Music">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 18V5l12-2v13"/>
-        <circle cx="6" cy="18" r="3"/>
-        <circle cx="18" cy="16" r="3"/>
+
+    <button class="dock-item" data-nav="calendar" id="nav-calendar" title="Calendar & Schedule" aria-label="Calendar">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <rect x="4" y="6" width="16" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="8.5" cy="11.5" r="0.9" fill="currentColor"/>
+        <circle cx="12" cy="11.5" r="0.9" fill="currentColor"/>
+        <circle cx="8.5" cy="15" r="0.9" fill="currentColor"/>
+        <circle cx="12" cy="15" r="0.9" fill="currentColor"/>
+      </svg>
+    </button>
+
+    <button class="dock-item" data-nav="shows" id="nav-shows" title="Shows & Folders" aria-label="Shows">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <path d="M4 6.5a2 2 0 0 1 2-2h3.5l2 2.5H18a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-10.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <button class="dock-item" data-nav="music" id="nav-music" title="Music & Sound Analytics" aria-label="Music">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M9 13v-2M12 15V9M15 13v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="dock-divider"></div>
+
+    <!-- Group 3: User Profile & Preferences -->
+    <button class="dock-item" data-nav="profile" id="nav-profile" title="Profile: Aaron Antony" aria-label="Profile">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="12" cy="10" r="2.8" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M7 17.5a5.5 5.5 0 0 1 10 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <button class="dock-item" data-nav="settings" id="nav-settings" title="Settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="1.8"/>
       </svg>
     </button>
   </nav>
