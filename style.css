@@ -1524,49 +1524,48 @@ html, body {
 }
 
 /* ==========================================================================
-   Hero Spotlight Section (Profile Bento Aesthetic)
+   Hero Spotlight Section (Borderless Seamless Background Integration)
    ========================================================================== */
 .movies-hero-spotlight {
-  padding: 24px 48px 16px;
-  max-width: 1400px;
-  margin: 0 auto;
+  position: relative;
   width: 100%;
+  min-height: 450px;
+  padding: 36px 48px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
 }
 
 .movies-spotlight-card {
   position: relative;
-  background: var(--card-bg);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid var(--card-border);
-  border-top: 1.2px solid var(--card-border-top);
-  border-bottom: 1px solid var(--card-border-bottom);
-  border-radius: var(--card-radius);
-  box-shadow: var(--card-shadow);
-  overflow: hidden;
-  min-height: 380px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  overflow: visible;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 36px 44px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  transition: none;
 }
 
 .movies-spotlight-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 30px 70px -10px rgba(0, 0, 0, 0.85),
-    inset 0 1px 1.5px rgba(255, 255, 255, 0.28);
+  transform: none;
+  box-shadow: none;
 }
 
 .glow-movies-hero {
   position: absolute;
-  top: -40px;
-  right: 15%;
-  width: 450px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(14, 165, 233, 0.16) 0%, rgba(99, 102, 241, 0.05) 50%, rgba(0, 0, 0, 0) 75%);
-  filter: blur(45px);
+  top: -60px;
+  right: 12%;
+  width: 500px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.14) 0%, rgba(99, 102, 241, 0.04) 50%, rgba(0, 0, 0, 0) 75%);
+  filter: blur(55px);
   pointer-events: none;
   z-index: 0;
 }
@@ -1580,9 +1579,14 @@ html, body {
 
 .spotlight-hero-backdrop-wrap {
   position: absolute;
-  inset: -36px -44px;
+  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 0;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .spotlight-hero-backdrop-img {
@@ -1590,26 +1594,22 @@ html, body {
   height: 100%;
   object-fit: cover;
   object-position: center 25%;
-  filter: brightness(0.65) saturate(1.1);
+  filter: brightness(0.62) saturate(1.1);
   transform: scale(1.01);
   transition: transform 0.8s ease;
-}
-
-.movies-spotlight-card:hover .spotlight-hero-backdrop-img {
-  transform: scale(1.03);
 }
 
 .spotlight-hero-fade-bottom {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(13, 17, 23, 0.15) 0%, rgba(13, 17, 23, 0.72) 55%, rgba(13, 17, 23, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 35%, rgba(0, 0, 0, 0.8) 70%, #000000 100%);
   pointer-events: none;
 }
 
 .spotlight-hero-fade-left {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(13, 17, 23, 0.96) 0%, rgba(13, 17, 23, 0.75) 45%, transparent 100%);
+  background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0.94) 28%, rgba(0, 0, 0, 0.55) 55%, transparent 100%);
   pointer-events: none;
 }
 
