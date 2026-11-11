@@ -3,36 +3,56 @@
  * Clean, Frameless Architecture floating directly on Matte Desktop Wallpaper
  */
 
-import { CONTINUE_WATCHING_MOVIES } from './moviesData.js';
+import { CONTINUE_WATCHING_MOVIES, MOVIES_CATALOG } from './moviesData.js';
 
 export function initMoviesView() {
   const overlay = document.getElementById('movies-overlay');
   if (!overlay) return;
 
-  // Build the Movie Block Section directly on the clean matte canvas
+  // Build the Movie Block Section & Netflix Section directly on the clean matte canvas
   overlay.innerHTML = `
+    <!-- 1. Continue Watching Block -->
     <div class="movies-cw-section" id="movies-cw-section">
-      <!-- 1. Top Supertitle Tag: MOVIE BLOCK -->
+      <!-- Top Supertitle Tag: MOVIE BLOCK -->
       <div class="movie-block-top">
         <span class="movie-block-tag">MOVIE BLOCK</span>
       </div>
 
-      <!-- 2. Hairline divider with gentle downward purple glow -->
+      <!-- Hairline divider with gentle downward purple glow -->
       <div class="movie-block-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line"></div>
         <div class="movie-block-divider-glow"></div>
       </div>
 
-      <!-- 3. Continue Watching Header -->
+      <!-- Continue Watching Header -->
       <div class="movies-cw-header">
         <div class="movies-cw-header-left">
           <h2 class="movies-cw-title">Continue Watching</h2>
         </div>
       </div>
 
-      <!-- 4. Horizontal Expanding Accordion Rail (Hidden Scrollbar + Anchored First/Last) -->
+      <!-- Horizontal Expanding Accordion Rail (Hidden Scrollbar + Anchored First/Last) -->
       <div class="movies-cw-rail" id="movies-cw-rail" role="region" aria-label="Continue Watching Movies">
         ${renderContinueWatchingCards(CONTINUE_WATCHING_MOVIES)}
+      </div>
+    </div>
+
+    <!-- 2. Netflix Section with Hairline Divider, Downward RED Glow, and "Netflix" Title (No Logo) -->
+    <div class="movies-netflix-section" id="movies-netflix-section">
+      <!-- Hairline divider with gentle downward RED glow -->
+      <div class="movie-block-divider-wrap netflix-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line netflix-divider-line"></div>
+        <div class="movie-block-divider-glow netflix-divider-glow"></div>
+      </div>
+
+      <!-- Section Title: Netflix (no logo) -->
+      <div class="movies-section-header">
+        <h2 class="movies-section-title">Netflix</h2>
+      </div>
+
+      <!-- Netflix Movies Catalog Rail -->
+      <div class="movies-catalog-rail" id="movies-netflix-rail" role="region" aria-label="Netflix Catalog">
+        ${renderNetflixCards()}
       </div>
     </div>
   `;
@@ -116,6 +136,30 @@ function renderContinueWatchingCards(movies) {
           <span class="cw-collapsed-time-left">${movie.timeLeft}</span>
         </div>
       </div>
+    `;
+  }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
+}
+
+function renderNetflixCards() {
+  const netflixMovies = MOVIES_CATALOG.filter(m => m.providers && m.providers.includes('netflix'));
+  const cardsHtml = netflixMovies.map(movie => {
+    const streamUrl = movie.streamUrl || `https://www.netflix.com/search?q=${encodeURIComponent(movie.title)}`;
+    return `
+      <a href="${streamUrl}" target="_blank" rel="noopener noreferrer" class="netflix-movie-card" title="Watch ${movie.title} on Netflix">
+        <img class="netflix-card-poster" src="${movie.poster}" alt="${movie.title} Poster" loading="lazy" />
+        <div class="netflix-card-overlay">
+          <span class="netflix-card-title">${movie.title}</span>
+          <div class="netflix-card-meta">
+            <span>${movie.year}</span>
+            <span class="meta-dot">•</span>
+            <span class="netflix-rating">★ ${movie.rating}</span>
+            <span class="meta-dot">•</span>
+            <span>${movie.duration}</span>
+          </div>
+        </div>
+      </a>
     `;
   }).join('');
 
