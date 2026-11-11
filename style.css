@@ -1381,7 +1381,7 @@ html, body {
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 30;
-  background: #000000;
+  background: transparent;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
