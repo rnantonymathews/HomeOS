@@ -8,7 +8,8 @@ import {
   MOVIES_CATALOG, 
   NETFLIX_TOP_10_INDIA,
   PRIME_TOP_10,
-  HOTSTAR_TOP_10
+  HOTSTAR_TOP_10,
+  WATCHLIST_MOVIES
 } from './moviesData.js';
 
 export function initMoviesView() {
@@ -105,6 +106,27 @@ export function initMoviesView() {
         ${renderPlatformTop10Rail(HOTSTAR_TOP_10, 'hotstar', 'Hotstar')}
       </div>
     </div>
+
+    <!-- 5. Watchlist Section with Hairline Divider, Downward EMERALD Glow, and "Watchlist" Title (No Logo) -->
+    <div class="movies-platform-section movies-watchlist-section" id="movies-watchlist-section">
+      <!-- Hairline divider with downward EMERALD glow -->
+      <div class="movie-block-divider-wrap watchlist-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line watchlist-divider-line"></div>
+        <div class="movie-block-divider-glow watchlist-divider-glow"></div>
+      </div>
+
+      <!-- Section Title: Watchlist (no logo) -->
+      <div class="movies-section-header">
+        <div class="watchlist-header-left">
+          <h2 class="movies-section-title">Watchlist</h2>
+        </div>
+      </div>
+
+      <!-- Watchlist Movies Rail (Iconic Oversized Rank Numerals) -->
+      <div class="platform-top10-rail watchlist-top10-rail" id="movies-watchlist-rail" role="region" aria-label="My Watchlist Movies">
+        ${renderPlatformTop10Rail(WATCHLIST_MOVIES, 'watchlist', 'Watchlist')}
+      </div>
+    </div>
   `;
 
   attachContinueWatchingEvents();
@@ -195,8 +217,15 @@ function renderContinueWatchingCards(movies) {
 function renderPlatformTop10Rail(movies, platformKey, platformName) {
   const cardsHtml = movies.map((movie) => {
     const isTen = movie.rank === 10;
+    const rankSub = platformKey === 'watchlist'
+      ? `#${movie.rank} in Watchlist`
+      : `#${movie.rank} in Movies Today`;
+    const watchTitle = platformKey === 'watchlist'
+      ? `Watch #${movie.rank} ${movie.title} (${movie.providerName || 'Streaming'})`
+      : `Watch #${movie.rank} ${movie.title} on ${platformName}`;
+
     return `
-      <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="platform-top10-item platform-item-${platformKey}" title="Watch #${movie.rank} ${movie.title} on ${platformName}">
+      <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="platform-top10-item platform-item-${platformKey}" title="${watchTitle}">
         <!-- Iconic Stylized Rank Numeral -->
         <div class="platform-rank-wrap ${isTen ? 'is-ten' : ''}">
           <span class="platform-rank-num ${isTen ? 'platform-rank-ten' : ''}">${movie.rank}</span>
@@ -209,17 +238,17 @@ function renderPlatformTop10Rail(movies, platformKey, platformName) {
             src="${movie.poster}" 
             alt="${movie.title} Poster" 
             loading="lazy"
-            onerror="this.onerror=null; this.src='https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg';" 
+            onerror="this.onerror=null; this.src='assets/posters/dune-2.jpg';" 
           />
           <div class="platform-card-scrim"></div>
 
           <div class="platform-card-info">
-            <span class="platform-card-rank-sub rank-sub-${platformKey}">#${movie.rank} in Movies Today</span>
+            <span class="platform-card-rank-sub rank-sub-${platformKey}">${rankSub}</span>
             <span class="platform-card-title">${movie.title}</span>
             <div class="platform-card-meta">
               <span>${movie.year}</span>
               <span class="meta-dot">•</span>
-              <span>${movie.language}</span>
+              <span>${movie.providerName || movie.language}</span>
               <span class="meta-dot">•</span>
               <span class="platform-rating">★ ${movie.rating}</span>
             </div>

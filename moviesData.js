@@ -61,8 +61,8 @@ export const CONTINUE_WATCHING_MOVIES = [
     providerName: 'JioHotstar',
     providerBadgeClass: 'badge-hotstar',
     streamUrl: 'https://www.hotstar.com/in/movies/dune-part-two/1271318044',
-    poster: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/8rpDcsfLJypbO6vREc0547VKqEv.jpg',
+    poster: 'assets/posters/dune-2.jpg',
+    backdrop: 'assets/posters/dune-2-backdrop.jpg',
     synopsis: 'Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family, endeavoring to prevent a terrible future only he can foresee.',
     trailerId: 'Way9Dexny3w'
   },
@@ -78,8 +78,8 @@ export const CONTINUE_WATCHING_MOVIES = [
     providerName: 'Prime Video',
     providerBadgeClass: 'badge-prime',
     streamUrl: 'https://www.primevideo.com/detail/0S3496L76F9721S9693',
-    poster: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
+    poster: 'assets/posters/oppenheimer.jpg',
+    backdrop: 'assets/posters/oppenheimer-backdrop.jpg',
     synopsis: 'The story of J. Robert Oppenheimer’s role in the development of the atomic bomb during World War II, examining the moral weight and devastating geopolitical consequences of unlocking the ultimate weapon.',
     trailerId: 'uYPbbksJxIg'
   },
@@ -95,8 +95,8 @@ export const CONTINUE_WATCHING_MOVIES = [
     providerName: 'Prime Video',
     providerBadgeClass: 'badge-prime',
     streamUrl: 'https://www.primevideo.com/detail/0U5Q75Z376N178S9693',
-    poster: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/xJHokMbljvjADYdit5fK5VQsXEG.jpg',
+    poster: 'assets/posters/interstellar.jpg',
+    backdrop: 'assets/posters/interstellar-backdrop.jpg',
     synopsis: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity’s survival as Earth faces catastrophic blight and environmental collapse.',
     trailerId: 'zSWdZVtXT7E'
   },
@@ -112,8 +112,8 @@ export const CONTINUE_WATCHING_MOVIES = [
     providerName: 'JioHotstar',
     providerBadgeClass: 'badge-hotstar',
     streamUrl: 'https://www.hotstar.com',
-    poster: 'https://image.tmdb.org/t/p/w500/sh7Rg8Er3tFcN9BpKIPOMvALgZd.jpg',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/z121DcRAdaXY8DhOXhY2FnzuRp0.jpg',
+    poster: 'assets/posters/civil-war.jpg',
+    backdrop: 'assets/posters/civil-war-backdrop.jpg',
     synopsis: 'In a dystopian future America, a team of military-embedded journalists race against time to reach Washington, D.C., before rebel factions assault the White House.',
     trailerId: 'aDyQxtg0V2w'
   },
@@ -129,8 +129,8 @@ export const CONTINUE_WATCHING_MOVIES = [
     providerName: 'Netflix',
     providerBadgeClass: 'badge-netflix',
     streamUrl: 'https://www.netflix.com',
-    poster: 'https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/ilRyASDvt7vDU90V2Jvi4V2n9Ka.jpg',
+    poster: 'assets/posters/blade-runner-2049.jpg',
+    backdrop: 'assets/posters/blade-runner-2049-backdrop.jpg',
     synopsis: 'Thirty years after the events of the first film, a new blade runner, LAPD Officer K, unearths a long-buried secret that has the potential to plunge what is left of society into chaos.',
     trailerId: 'gCcx85zbxz4'
   }
@@ -150,7 +150,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Vijay Sethupathi', 'Lijomol Jose'],
     weeksInTop10: 2,
     streamUrl: 'https://www.netflix.com/search?q=Baththa',
-    poster: 'https://image.tmdb.org/t/p/w500/5sBnZMT1aJ6cBvehKOzOOLdI6bz.jpg',
+    poster: 'assets/posters/baththa.jpg',
     synopsis: 'In 1986 Madras, a resilient worker gets caught between rival local powerhouses, embarking on a gritty journey of survival, pride, and redemption.'
   },
   {
@@ -230,7 +230,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Rohit Saraf', 'Pashmina Roshan'],
     weeksInTop10: 1,
     streamUrl: 'https://www.netflix.com/search?q=Meethe%20Mein%20Kya%20Hai',
-    poster: 'https://image.tmdb.org/t/p/w500/AaV1YIdWKnjAIAOe8UUKBFm327v.jpg',
+    poster: 'assets/posters/meethe-mein-kya-hai.jpg',
     synopsis: 'An ambitious pastry chef and a traditional sweetshop heir strike a fierce culinary rivalry that gradually turns into an unexpected romance.'
   },
   {
@@ -262,7 +262,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Florence Pugh', 'Cillian Murphy'],
     weeksInTop10: 3,
     streamUrl: 'https://www.netflix.com/search?q=Dorothy',
-    poster: 'https://image.tmdb.org/t/p/w500/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
+    poster: 'assets/posters/dorothy.jpg',
     synopsis: 'A high-profile archivist investigating an unsolved 1970s coastal disappearance finds herself descending into a labyrinth of distorted memories and psychological paranoia.'
   },
   {
@@ -278,7 +278,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Scarlett Johansson', 'Mahershala Ali', 'Jonathan Bailey'],
     weeksInTop10: 1,
     streamUrl: 'https://www.netflix.com/search?q=Jurassic%20World%20Rebirth',
-    poster: 'https://m.media-amazon.com/images/S/pv-target-images/8e4fc124bbe74d33e07b19984c02ace4c7c6e54e521d540ec19aa43e5a8e8a4d._SX1080_FMjpg_.jpg',
+    poster: 'assets/posters/jurassic-world-rebirth.jpg',
     synopsis: 'Five years after Jurassic World Dominion, a covert operation sets out to an equatorial biome to extract biomaterial from the world’s most colossal surviving prehistoric predators.'
   },
   {
@@ -294,7 +294,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Aadi Saikumar', 'Megha Lekha'],
     weeksInTop10: 2,
     streamUrl: 'https://www.netflix.com/search?q=Sub-Inspector%20Yugandhar',
-    poster: 'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg',
+    poster: 'assets/posters/sub-inspector-yugandhar.jpg',
     synopsis: 'When a high-value suspect disappears from a fortified police holding cell overnight, an uncompromising sub-inspector has 48 hours to unravel a web of departmental corruption.'
   }
 ];
@@ -310,7 +310,7 @@ export const PRIME_TOP_10 = [
     genres: ['Sci-Fi', 'Adventure'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Dune%20Part%20Two',
-    poster: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg'
+    poster: 'assets/posters/dune-2.jpg'
   },
   {
     rank: 2,
@@ -322,7 +322,7 @@ export const PRIME_TOP_10 = [
     genres: ['Action', 'Thriller'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Civil%20War',
-    poster: 'https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg'
+    poster: 'assets/posters/civil-war.jpg'
   },
   {
     rank: 3,
@@ -334,7 +334,7 @@ export const PRIME_TOP_10 = [
     genres: ['Crime', 'Mystery'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=The%20Batman',
-    poster: 'https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg'
+    poster: 'assets/posters/the-batman.jpg'
   },
   {
     rank: 4,
@@ -346,7 +346,7 @@ export const PRIME_TOP_10 = [
     genres: ['Action', 'Drama'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Top%20Gun%20Maverick',
-    poster: 'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg'
+    poster: 'assets/posters/top-gun-maverick.jpg'
   },
   {
     rank: 5,
@@ -358,7 +358,7 @@ export const PRIME_TOP_10 = [
     genres: ['Drama', 'Thriller'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Fight%20Club',
-    poster: 'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg'
+    poster: 'assets/posters/fight-club.jpg'
   },
   {
     rank: 6,
@@ -370,7 +370,7 @@ export const PRIME_TOP_10 = [
     genres: ['Drama', 'Music'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Whiplash',
-    poster: 'https://image.tmdb.org/t/p/w500/7fn624j5lj3xTme2SgiLCeuedmO.jpg'
+    poster: 'assets/posters/whiplash.jpg'
   },
   {
     rank: 7,
@@ -382,7 +382,7 @@ export const PRIME_TOP_10 = [
     genres: ['Crime', 'Drama'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=The%20Godfather',
-    poster: 'https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg'
+    poster: 'assets/posters/the-godfather.jpg'
   },
   {
     rank: 8,
@@ -394,7 +394,7 @@ export const PRIME_TOP_10 = [
     genres: ['Action', 'Sci-Fi'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Mad%20Max%20Fury%20Road',
-    poster: 'https://image.tmdb.org/t/p/w500/hA2ple9q4qnwxp3hKVNhroipsir.jpg'
+    poster: 'assets/posters/mad-max-fury-road.jpg'
   },
   {
     rank: 9,
@@ -406,7 +406,7 @@ export const PRIME_TOP_10 = [
     genres: ['Sci-Fi', 'Drama'],
     language: 'English',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Interstellar',
-    poster: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg'
+    poster: 'assets/posters/interstellar.jpg'
   },
   {
     rank: 10,
@@ -418,7 +418,7 @@ export const PRIME_TOP_10 = [
     genres: ['Comedy', 'Thriller'],
     language: 'Korean',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Parasite',
-    poster: 'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg'
+    poster: 'assets/posters/parasite.jpg'
   }
 ];
 
@@ -433,7 +433,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Biography', 'Drama'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=Oppenheimer',
-    poster: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg'
+    poster: 'assets/posters/oppenheimer.jpg'
   },
   {
     rank: 2,
@@ -445,7 +445,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Action', 'Sci-Fi'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=Avengers%20Endgame',
-    poster: 'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg'
+    poster: 'assets/posters/avengers-endgame.jpg'
   },
   {
     rank: 3,
@@ -457,7 +457,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Action', 'Crime'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=The%20Dark%20Knight',
-    poster: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg'
+    poster: 'assets/posters/the-dark-knight.jpg'
   },
   {
     rank: 4,
@@ -469,7 +469,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Action', 'Sci-Fi'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=Inception',
-    poster: 'https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg'
+    poster: 'assets/posters/inception.jpg'
   },
   {
     rank: 5,
@@ -481,7 +481,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Action', 'Sci-Fi'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=The%20Matrix',
-    poster: 'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg'
+    poster: 'assets/posters/the-matrix.jpg'
   },
   {
     rank: 6,
@@ -493,7 +493,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Crime', 'Drama'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=Joker',
-    poster: 'https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg'
+    poster: 'assets/posters/joker.jpg'
   },
   {
     rank: 7,
@@ -505,7 +505,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Animation', 'Action'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=Spider-Man%20Across%20the%20Spider-Verse',
-    poster: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg'
+    poster: 'assets/posters/spider-man-spider-verse.jpg'
   },
   {
     rank: 8,
@@ -517,7 +517,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Action', 'Drama'],
     language: 'Telugu',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=RRR',
-    poster: 'https://image.tmdb.org/t/p/w500/velWPhVMQeQKcxggNEU8YmIo52R.jpg'
+    poster: 'assets/posters/rrr.jpg'
   },
   {
     rank: 9,
@@ -529,7 +529,7 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Sci-Fi', 'Mystery'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=Blade%20Runner%202049',
-    poster: 'https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg'
+    poster: 'assets/posters/blade-runner-2049.jpg'
   },
   {
     rank: 10,
@@ -541,7 +541,140 @@ export const HOTSTAR_TOP_10 = [
     genres: ['Comedy', 'Crime'],
     language: 'English',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=Knives%20Out',
-    poster: 'https://image.tmdb.org/t/p/w500/pThyQovXQrw2m0s9x82twj48Jq4.jpg'
+    poster: 'assets/posters/knives-out.jpg'
+  }
+];
+
+export const WATCHLIST_MOVIES = [
+  {
+    rank: 1,
+    id: 'watchlist-inception',
+    title: 'Inception',
+    year: 2010,
+    duration: '2h 28m',
+    rating: 8.8,
+    genres: ['Action', 'Sci-Fi'],
+    language: 'English',
+    providerName: 'JioHotstar',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=Inception',
+    poster: 'assets/posters/inception.jpg'
+  },
+  {
+    rank: 2,
+    id: 'watchlist-interstellar',
+    title: 'Interstellar',
+    year: 2014,
+    duration: '2h 49m',
+    rating: 8.7,
+    genres: ['Sci-Fi', 'Drama'],
+    language: 'English',
+    providerName: 'Prime Video',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Interstellar',
+    poster: 'assets/posters/interstellar.jpg'
+  },
+  {
+    rank: 3,
+    id: 'watchlist-dark-knight',
+    title: 'The Dark Knight',
+    year: 2008,
+    duration: '2h 32m',
+    rating: 9.0,
+    genres: ['Action', 'Crime'],
+    language: 'English',
+    providerName: 'JioHotstar',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=The%20Dark%20Knight',
+    poster: 'assets/posters/the-dark-knight.jpg'
+  },
+  {
+    rank: 4,
+    id: 'watchlist-dune-2',
+    title: 'Dune: Part Two',
+    year: 2024,
+    duration: '2h 46m',
+    rating: 8.6,
+    genres: ['Sci-Fi', 'Adventure'],
+    language: 'English',
+    providerName: 'JioHotstar',
+    streamUrl: 'https://www.hotstar.com/in/movies/dune-part-two/1271318044',
+    poster: 'assets/posters/dune-2.jpg'
+  },
+  {
+    rank: 5,
+    id: 'watchlist-spider-verse',
+    title: 'Spider-Man: Across the Spider-Verse',
+    year: 2023,
+    duration: '2h 20m',
+    rating: 8.7,
+    genres: ['Animation', 'Action'],
+    language: 'English',
+    providerName: 'Netflix',
+    streamUrl: 'https://www.netflix.com/search?q=Spider-Man%20Across%20the%20Spider-Verse',
+    poster: 'assets/posters/spider-man-spider-verse.jpg'
+  },
+  {
+    rank: 6,
+    id: 'watchlist-parasite',
+    title: 'Parasite',
+    year: 2019,
+    duration: '2h 12m',
+    rating: 8.5,
+    genres: ['Comedy', 'Thriller'],
+    language: 'Korean',
+    providerName: 'Prime Video',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Parasite',
+    poster: 'assets/posters/parasite.jpg'
+  },
+  {
+    rank: 7,
+    id: 'watchlist-whiplash',
+    title: 'Whiplash',
+    year: 2014,
+    duration: '1h 47m',
+    rating: 8.5,
+    genres: ['Drama', 'Music'],
+    language: 'English',
+    providerName: 'Prime Video',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Whiplash',
+    poster: 'assets/posters/whiplash.jpg'
+  },
+  {
+    rank: 8,
+    id: 'watchlist-fight-club',
+    title: 'Fight Club',
+    year: 1999,
+    duration: '2h 19m',
+    rating: 8.8,
+    genres: ['Drama', 'Thriller'],
+    language: 'English',
+    providerName: 'Prime Video',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Fight%20Club',
+    poster: 'assets/posters/fight-club.jpg'
+  },
+  {
+    rank: 9,
+    id: 'watchlist-matrix',
+    title: 'The Matrix',
+    year: 1999,
+    duration: '2h 16m',
+    rating: 8.7,
+    genres: ['Action', 'Sci-Fi'],
+    language: 'English',
+    providerName: 'JioHotstar',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=The%20Matrix',
+    poster: 'assets/posters/the-matrix.jpg'
+  },
+  {
+    rank: 10,
+    id: 'watchlist-rrr',
+    title: 'RRR',
+    year: 2022,
+    duration: '3h 07m',
+    rating: 8.2,
+    genres: ['Action', 'Drama'],
+    language: 'Telugu',
+    providerName: 'Netflix',
+    streamUrl: 'https://www.netflix.com/search?q=RRR',
+    poster: 'assets/posters/rrr.jpg'
   }
 ];
 

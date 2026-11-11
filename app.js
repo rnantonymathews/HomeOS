@@ -379,7 +379,7 @@ function initSpotlightCard() {
       id: 'dune-2',
       title: 'Dune: Part Two',
       meta: 'Denis Villeneuve • 2024 • Sci-Fi / Adventure',
-      poster: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg',
+      poster: 'assets/posters/dune-2.jpg',
       synopsis: 'Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family, endeavoring to prevent a terrible future only he can foresee.',
       btnText: 'Stream on JioHotstar',
       url: 'https://www.hotstar.com/in/movies/dune-part-two/1271318044',
