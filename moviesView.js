@@ -49,7 +49,7 @@ export function initMoviesView() {
 }
 
 function renderContinueWatchingCards(movies) {
-  return movies.map((movie, index) => {
+  const cardsHtml = movies.map((movie, index) => {
     const isActive = index === 0 ? 'is-active' : '';
     return `
       <div class="movies-cw-card ${isActive}" data-id="${movie.id}" data-index="${index}" tabindex="0" role="button" aria-expanded="${index === 0}">
@@ -118,6 +118,8 @@ function renderContinueWatchingCards(movies) {
       </div>
     `;
   }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
 export function setActiveCard(card, smooth = true) {
