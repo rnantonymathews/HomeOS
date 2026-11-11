@@ -3,7 +3,7 @@
  * Clean, Frameless Architecture floating directly on Matte Desktop Wallpaper
  */
 
-import { CONTINUE_WATCHING_MOVIES, MOVIES_CATALOG } from './moviesData.js';
+import { CONTINUE_WATCHING_MOVIES, MOVIES_CATALOG, NETFLIX_TOP_10_INDIA } from './moviesData.js';
 
 export function initMoviesView() {
   const overlay = document.getElementById('movies-overlay');
@@ -47,12 +47,14 @@ export function initMoviesView() {
 
       <!-- Section Title: Netflix (no logo) -->
       <div class="movies-section-header">
-        <h2 class="movies-section-title">Netflix</h2>
+        <div class="netflix-header-left">
+          <h2 class="movies-section-title">Netflix</h2>
+        </div>
       </div>
 
-      <!-- Netflix Movies Catalog Rail -->
-      <div class="movies-catalog-rail" id="movies-netflix-rail" role="region" aria-label="Netflix Catalog">
-        ${renderNetflixCards()}
+      <!-- Netflix Top 10 Movies Rail (Iconic Oversized Rank Numerals) -->
+      <div class="netflix-top10-rail" id="movies-netflix-rail" role="region" aria-label="Top 10 Movies on Netflix India">
+        ${renderNetflixTop10Rail(NETFLIX_TOP_10_INDIA)}
       </div>
     </div>
   `;
@@ -142,21 +144,41 @@ function renderContinueWatchingCards(movies) {
   return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
-function renderNetflixCards() {
-  const netflixMovies = MOVIES_CATALOG.filter(m => m.providers && m.providers.includes('netflix'));
-  const cardsHtml = netflixMovies.map(movie => {
-    const streamUrl = movie.streamUrl || `https://www.netflix.com/search?q=${encodeURIComponent(movie.title)}`;
+function renderNetflixTop10Rail(movies) {
+  const cardsHtml = movies.map((movie) => {
+    const isTen = movie.rank === 10;
     return `
-      <a href="${streamUrl}" target="_blank" rel="noopener noreferrer" class="netflix-movie-card" title="Watch ${movie.title} on Netflix">
-        <img class="netflix-card-poster" src="${movie.poster}" alt="${movie.title} Poster" loading="lazy" />
-        <div class="netflix-card-overlay">
-          <span class="netflix-card-title">${movie.title}</span>
-          <div class="netflix-card-meta">
-            <span>${movie.year}</span>
-            <span class="meta-dot">•</span>
-            <span class="netflix-rating">★ ${movie.rating}</span>
-            <span class="meta-dot">•</span>
-            <span>${movie.duration}</span>
+      <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="netflix-top10-item" title="Watch #${movie.rank} ${movie.title} on Netflix">
+        <!-- Iconic Netflix Stylized Rank Numeral -->
+        <div class="netflix-rank-wrap ${isTen ? 'is-ten' : ''}">
+          <span class="netflix-rank-num ${isTen ? 'netflix-rank-ten' : ''}">${movie.rank}</span>
+        </div>
+
+        <!-- Vertical Poster Card -->
+        <div class="netflix-poster-card">
+          <img 
+            class="netflix-poster-img" 
+            src="${movie.poster}" 
+            alt="${movie.title} Poster" 
+            loading="lazy"
+            onerror="this.onerror=null; this.src='https://image.tmdb.org/t/p/w500/5sBnZMT1aJ6cBvehKOzOOLdI6bz.jpg';" 
+          />
+          <div class="netflix-card-scrim"></div>
+          
+          <div class="netflix-card-badge-top">
+            <span class="netflix-badge-pill">TOP 10</span>
+          </div>
+
+          <div class="netflix-card-info">
+            <span class="netflix-card-rank-sub">#${movie.rank} in Movies Today</span>
+            <span class="netflix-card-title">${movie.title}</span>
+            <div class="netflix-card-meta">
+              <span>${movie.year}</span>
+              <span class="meta-dot">•</span>
+              <span>${movie.language}</span>
+              <span class="meta-dot">•</span>
+              <span class="netflix-rating">★ ${movie.rating}</span>
+            </div>
           </div>
         </div>
       </a>

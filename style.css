@@ -1914,72 +1914,175 @@ html, body {
   margin: 0;
 }
 
-/* Netflix Catalog Rail */
-.movies-catalog-rail {
+/* Netflix Top 10 Rail */
+.netflix-top10-rail {
   display: flex;
   gap: 16px;
   align-items: stretch;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 8px 60px 32px 4px;
+  padding: 10px 60px 42px 4px;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  min-height: 330px;
 }
 
-.movies-catalog-rail::-webkit-scrollbar {
+.netflix-top10-rail::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
   height: 0 !important;
 }
 
-/* Netflix Movie Card */
-.netflix-movie-card {
+/* Netflix Top 10 Item: [Large Rank Number] + [Poster Card] */
+.netflix-top10-item {
   position: relative;
-  flex: 0 0 170px;
-  width: 170px;
-  height: 255px;
-  border-radius: 16px;
+  display: flex;
+  align-items: flex-end;
+  flex: 0 0 auto;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.netflix-top10-item:hover {
+  transform: translateY(-4px);
+}
+
+/* Rank Number Wrapper */
+.netflix-rank-wrap {
+  position: relative;
+  width: 78px;
+  height: 260px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-right: -24px; /* Partially slides behind the poster's left edge */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.netflix-rank-wrap.is-ten {
+  width: 118px;
+  margin-right: -28px;
+}
+
+/* The Iconic Netflix Stylized Rank Numeral */
+.netflix-rank-num {
+  font-family: 'Impact', 'Bebas Neue', 'Arial Black', sans-serif;
+  font-size: 140px;
+  font-weight: 900;
+  line-height: 0.8;
+  color: #000000;
+  -webkit-text-stroke: 4px #545454;
+  letter-spacing: -6px;
+  user-select: none;
+  transform: translateY(6px);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.95);
+}
+
+.netflix-rank-ten {
+  letter-spacing: -10px;
+  font-size: 132px;
+}
+
+.netflix-top10-item:hover .netflix-rank-num {
+  -webkit-text-stroke: 4px #e50914;
+  color: #050505;
+  filter: drop-shadow(0 0 16px rgba(229, 9, 20, 0.65));
+  transform: translateY(2px) scale(1.02);
+}
+
+/* Poster Card */
+.netflix-poster-card {
+  position: relative;
+  width: 174px;
+  height: 260px;
+  border-radius: 14px;
   overflow: hidden;
-  background: rgba(16, 17, 20, 0.7);
+  background: #111215;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 1.2px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 14px 30px -6px rgba(0, 0, 0, 0.7);
-  cursor: pointer;
-  text-decoration: none;
-  display: block;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.25s ease,
-              box-shadow 0.25s ease;
-  user-select: none;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.85);
+  z-index: 2;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s ease,
+              box-shadow 0.28s ease;
 }
 
-.netflix-movie-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(229, 9, 20, 0.5);
-  box-shadow: 0 20px 40px -6px rgba(0, 0, 0, 0.85),
-              0 0 20px rgba(229, 9, 20, 0.15);
+.netflix-top10-item:hover .netflix-poster-card {
+  border-color: rgba(229, 9, 20, 0.65);
+  box-shadow: 0 24px 48px -10px rgba(0, 0, 0, 0.95),
+              0 0 28px rgba(229, 9, 20, 0.35);
 }
 
-.netflix-card-poster {
+.netflix-poster-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.35s ease;
 }
 
-.netflix-movie-card:hover .netflix-card-poster {
+.netflix-top10-item:hover .netflix-poster-img {
   transform: scale(1.05);
 }
 
-.netflix-card-overlay {
+/* Scrim Gradient */
+.netflix-card-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.45) 45%, transparent 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.5) 38%,
+    rgba(0, 0, 0, 0.08) 65%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Top Right Badge */
+.netflix-card-badge-top {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+}
+
+.netflix-badge-pill {
+  font-family: 'Poppins', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #FFFFFF;
+  background: rgba(229, 9, 20, 0.94);
+  padding: 3px 7px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(229, 9, 20, 0.5);
+}
+
+/* Card Bottom Info */
+.netflix-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 12px 12px 14px 12px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 14px 12px;
+  gap: 2px;
   pointer-events: none;
+}
+
+.netflix-card-rank-sub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #e50914;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .netflix-card-title {
@@ -1990,16 +2093,16 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 2px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .netflix-card-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-family: 'Poppins', sans-serif;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.6);
   font-weight: 500;
 }
 
