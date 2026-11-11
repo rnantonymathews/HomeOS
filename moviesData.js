@@ -48,6 +48,94 @@ export const STREAMING_PLATFORMS = {
   }
 };
 
+export const CONTINUE_WATCHING_MOVIES = [
+  {
+    id: 'dune-2',
+    title: 'Dune: Part Two',
+    year: 2024,
+    duration: '2h 46m',
+    genres: ['Sci-Fi', 'Adventure'],
+    director: 'Denis Villeneuve',
+    progress: 58,
+    timeLeft: '1h 14m left',
+    providerName: 'JioHotstar',
+    providerBadgeClass: 'badge-hotstar',
+    streamUrl: 'https://www.hotstar.com/in/movies/dune-part-two/1271318044',
+    poster: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/8rpDcsfLJypbO6vREc0547VKqEv.jpg',
+    synopsis: 'Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family, endeavoring to prevent a terrible future only he can foresee.',
+    trailerId: 'Way9Dexny3w'
+  },
+  {
+    id: 'oppenheimer',
+    title: 'Oppenheimer',
+    year: 2023,
+    duration: '3h 00m',
+    genres: ['Biography', 'Drama'],
+    director: 'Christopher Nolan',
+    progress: 42,
+    timeLeft: '1h 44m left',
+    providerName: 'Prime Video',
+    providerBadgeClass: 'badge-prime',
+    streamUrl: 'https://www.primevideo.com/detail/0S3496L76F9721S9693',
+    poster: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
+    synopsis: 'The story of J. Robert Oppenheimer’s role in the development of the atomic bomb during World War II, examining the moral weight and devastating geopolitical consequences of unlocking the ultimate weapon.',
+    trailerId: 'uYPbbksJxIg'
+  },
+  {
+    id: 'interstellar',
+    title: 'Interstellar',
+    year: 2014,
+    duration: '2h 49m',
+    genres: ['Sci-Fi', 'Drama'],
+    director: 'Christopher Nolan',
+    progress: 75,
+    timeLeft: '41m left',
+    providerName: 'Prime Video',
+    providerBadgeClass: 'badge-prime',
+    streamUrl: 'https://www.primevideo.com/detail/0U5Q75Z376N178S9693',
+    poster: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/xJHokMbljvjADYdit5fK5VQsXEG.jpg',
+    synopsis: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity’s survival as Earth faces catastrophic blight and environmental collapse.',
+    trailerId: 'zSWdZVtXT7E'
+  },
+  {
+    id: 'civil-war',
+    title: 'Civil War',
+    year: 2024,
+    duration: '1h 49m',
+    genres: ['Action', 'Thriller'],
+    director: 'Alex Garland',
+    progress: 30,
+    timeLeft: '1h 16m left',
+    providerName: 'JioHotstar',
+    providerBadgeClass: 'badge-hotstar',
+    streamUrl: 'https://www.hotstar.com',
+    poster: 'https://image.tmdb.org/t/p/w500/sh7Rg8Er3tFcN9BpKIPOMvALgZd.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/z121DcRAdaXY8DhOXhY2FnzuRp0.jpg',
+    synopsis: 'In a dystopian future America, a team of military-embedded journalists race against time to reach Washington, D.C., before rebel factions assault the White House.',
+    trailerId: 'aDyQxtg0V2w'
+  },
+  {
+    id: 'blade-runner-2049',
+    title: 'Blade Runner 2049',
+    year: 2017,
+    duration: '2h 44m',
+    genres: ['Sci-Fi', 'Mystery'],
+    director: 'Denis Villeneuve',
+    progress: 65,
+    timeLeft: '55m left',
+    providerName: 'Netflix',
+    providerBadgeClass: 'badge-netflix',
+    streamUrl: 'https://www.netflix.com',
+    poster: 'https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/ilRyASDvt7vDU90V2Jvi4V2n9Ka.jpg',
+    synopsis: 'Thirty years after the events of the first film, a new blade runner, LAPD Officer K, unearths a long-buried secret that has the potential to plunge what is left of society into chaos.',
+    trailerId: 'gCcx85zbxz4'
+  }
+];
+
 export const MOVIE_RAILS = [
   { id: 'trending', title: 'Trending This Week', subtitle: 'What the world is streaming right now' },
   { id: 'masterpieces', title: 'All-Time Masterpieces', subtitle: 'Critically acclaimed 8.0+ masterpieces' },
