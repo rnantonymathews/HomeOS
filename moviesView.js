@@ -12,7 +12,7 @@ export function initMoviesView() {
   // Build the Continue Watching Section directly on the clean matte canvas
   overlay.innerHTML = `
     <div class="movies-cw-section" id="movies-cw-section">
-      <!-- Minimalist Frameless Header -->
+      <!-- Minimalist Frameless Header with Left/Right Nav Arrows -->
       <div class="movies-cw-header">
         <div class="movies-cw-header-left">
           <span class="movies-cw-tag">RESUME PLAYBACK</span>
@@ -20,10 +20,22 @@ export function initMoviesView() {
         </div>
         <div class="movies-cw-header-right">
           <span class="movies-cw-counter">${CONTINUE_WATCHING_MOVIES.length} in progress</span>
+          <div class="movies-cw-nav-arrows">
+            <button class="cw-nav-btn btn-cw-prev" id="btn-cw-prev" title="Previous Movie (Left Arrow)" aria-label="Previous Movie">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button class="cw-nav-btn btn-cw-next" id="btn-cw-next" title="Next Movie (Right Arrow)" aria-label="Next Movie">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Horizontal Expanding Accordion Rail -->
+      <!-- Horizontal Expanding Accordion Rail (Hidden Scrollbar + Centering) -->
       <div class="movies-cw-rail" id="movies-cw-rail" role="region" aria-label="Continue Watching Movies">
         ${renderContinueWatchingCards(CONTINUE_WATCHING_MOVIES)}
       </div>
@@ -51,6 +63,15 @@ export function initMoviesView() {
 
   attachContinueWatchingEvents();
   attachTrailerModalEvents();
+
+  // Initial centering of active card
+  setTimeout(() => {
+    const activeCard = document.querySelector('.movies-cw-card.is-active');
+    if (activeCard) {
+      centerCard(activeCard, false);
+      updateNavArrows();
+    }
+  }, 100);
 }
 
 function renderContinueWatchingCards(movies) {
@@ -131,9 +152,79 @@ function renderContinueWatchingCards(movies) {
   }).join('');
 }
 
+export function setActiveCard(card, smooth = true) {
+  if (!card) return;
+  const currentActive = document.querySelector('.movies-cw-card.is-active');
+  if (currentActive === card) return;
+
+  if (currentActive) {
+    currentActive.classList.remove('is-active');
+    currentActive.setAttribute('aria-expanded', 'false');
+  }
+
+  card.classList.add('is-active');
+  card.setAttribute('aria-expanded', 'true');
+
+  // Sync with Bento Continue Watching card
+  const movieId = card.dataset.id;
+  const movieData = CONTINUE_WATCHING_MOVIES.find(m => m.id === movieId);
+  if (movieData) {
+    updateBentoContinueWatchingCard({
+      title: movieData.title,
+      timeLeft: movieData.timeLeft,
+      progress: movieData.progress,
+      poster: movieData.poster,
+      url: movieData.streamUrl,
+      providerName: movieData.providerName
+    });
+  }
+
+  // Update Nav Buttons State
+  updateNavArrows();
+
+  // Center the expanded card smoothly in the viewport
+  centerCard(card, smooth);
+}
+
+function centerCard(card, smooth = true) {
+  if (!card) return;
+  const rail = document.getElementById('movies-cw-rail');
+  if (!rail) return;
+
+  const performScroll = () => {
+    const cardRect = card.getBoundingClientRect();
+    const railRect = rail.getBoundingClientRect();
+    const currentScroll = rail.scrollLeft;
+    const cardCenter = (cardRect.left - railRect.left) + currentScroll + (cardRect.width / 2);
+    const targetScroll = cardCenter - (railRect.width / 2);
+
+    rail.scrollTo({
+      left: Math.max(0, targetScroll),
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+  };
+
+  performScroll();
+  setTimeout(performScroll, 120);
+  setTimeout(performScroll, 280);
+}
+
+function updateNavArrows() {
+  const cards = Array.from(document.querySelectorAll('.movies-cw-card'));
+  const activeIndex = cards.findIndex(c => c.classList.contains('is-active'));
+  const prevBtn = document.getElementById('btn-cw-prev');
+  const nextBtn = document.getElementById('btn-cw-next');
+
+  if (prevBtn) {
+    prevBtn.disabled = activeIndex <= 0;
+  }
+  if (nextBtn) {
+    nextBtn.disabled = activeIndex >= cards.length - 1;
+  }
+}
+
 function attachContinueWatchingEvents() {
   const cards = document.querySelectorAll('.movies-cw-card');
-  const rail = document.getElementById('movies-cw-rail');
   if (!cards.length) return;
 
   cards.forEach(card => {
@@ -143,49 +234,61 @@ function attachContinueWatchingEvents() {
         return;
       }
 
-      // If already active, do nothing
-      if (card.classList.contains('is-active')) return;
-
-      // Collapse previously active card
-      const activeCard = document.querySelector('.movies-cw-card.is-active');
-      if (activeCard) {
-        activeCard.classList.remove('is-active');
-        activeCard.setAttribute('aria-expanded', 'false');
-      }
-
-      // Expand clicked card
-      card.classList.add('is-active');
-      card.setAttribute('aria-expanded', 'true');
-
-      // Sync Profile continue watching card if user clicked
-      const movieId = card.dataset.id;
-      const movieData = CONTINUE_WATCHING_MOVIES.find(m => m.id === movieId);
-      if (movieData) {
-        updateBentoContinueWatchingCard({
-          title: movieData.title,
-          timeLeft: movieData.timeLeft,
-          progress: movieData.progress,
-          poster: movieData.poster,
-          url: movieData.streamUrl,
-          providerName: movieData.providerName
-        });
-      }
-
-      // Smoothly ensure expanded card is fully visible inside the rail
-      if (rail) {
-        setTimeout(() => {
-          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-        }, 120);
-      }
+      setActiveCard(card, true);
     });
 
     // Keyboard navigation (Enter / Space to select)
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        card.click();
+        setActiveCard(card, true);
       }
     });
+  });
+
+  // Nav Arrow buttons
+  const prevBtn = document.getElementById('btn-cw-prev');
+  const nextBtn = document.getElementById('btn-cw-next');
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const allCards = Array.from(document.querySelectorAll('.movies-cw-card'));
+      const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
+      if (activeIdx > 0) {
+        setActiveCard(allCards[activeIdx - 1], true);
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const allCards = Array.from(document.querySelectorAll('.movies-cw-card'));
+      const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
+      if (activeIdx < allCards.length - 1) {
+        setActiveCard(allCards[activeIdx + 1], true);
+      }
+    });
+  }
+
+  // Global Left/Right Arrow Key Navigation
+  document.addEventListener('keydown', (e) => {
+    const overlay = document.getElementById('movies-overlay');
+    if (!overlay || !overlay.classList.contains('active')) return;
+    const modal = document.getElementById('movie-trailer-modal');
+    if (modal && modal.classList.contains('active')) return;
+
+    const allCards = Array.from(document.querySelectorAll('.movies-cw-card'));
+    const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
+
+    if (e.key === 'ArrowRight' && activeIdx < allCards.length - 1) {
+      e.preventDefault();
+      setActiveCard(allCards[activeIdx + 1], true);
+    } else if (e.key === 'ArrowLeft' && activeIdx > 0) {
+      e.preventDefault();
+      setActiveCard(allCards[activeIdx - 1], true);
+    }
   });
 }
 
@@ -239,6 +342,15 @@ export function openMoviesView() {
 
   overlay.classList.add('active');
   overlay.scrollTop = 0;
+
+  // Center active card when view opens
+  setTimeout(() => {
+    const activeCard = document.querySelector('.movies-cw-card.is-active');
+    if (activeCard) {
+      centerCard(activeCard, false);
+      updateNavArrows();
+    }
+  }, 80);
 }
 
 export function closeMoviesView() {

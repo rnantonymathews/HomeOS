@@ -1434,6 +1434,12 @@ html, body {
   margin: 0;
 }
 
+.movies-cw-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .movies-cw-counter {
   font-family: 'Poppins', sans-serif;
   font-size: 12.5px;
@@ -1441,25 +1447,61 @@ html, body {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* Horizontal Expanding Accordion Rail */
+.movies-cw-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cw-nav-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.cw-nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.cw-nav-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+}
+
+.cw-nav-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Horizontal Expanding Accordion Rail (Centered + Zero Scrollbar) */
 .movies-cw-rail {
   display: flex;
-  gap: 16px;
+  gap: 18px;
   align-items: stretch;
   height: 380px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 6px 4px 24px 4px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  padding: 6px max(32px, calc(50% - 340px)) 24px max(32px, calc(50% - 340px));
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / Edge */
 }
 
 .movies-cw-rail::-webkit-scrollbar {
-  height: 5px;
-}
-.movies-cw-rail::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 999px;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Base Card (Default Inactive: Vertical Rectangle) */
@@ -1917,6 +1959,9 @@ html, body {
   .movies-cw-section {
     padding: 32px 28px 24px 28px;
   }
+  .movies-cw-rail {
+    padding: 6px max(20px, calc(50% - 270px)) 20px max(20px, calc(50% - 270px));
+  }
   .movies-cw-card.is-active {
     flex: 0 0 540px;
   }
@@ -1928,6 +1973,7 @@ html, body {
   }
   .movies-cw-rail {
     height: 350px;
+    padding: 6px 16px 20px 16px;
   }
   .movies-cw-card {
     height: 350px;
