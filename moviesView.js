@@ -120,44 +120,39 @@ function renderHeroSpotlight() {
   const primaryProvider = STREAMING_PLATFORMS[primaryProviderKey] || { name: 'JioHotstar' };
 
   heroContainer.innerHTML = `
-    <div class="movies-spotlight-card">
-      <div class="card-glow glow-movies-hero"></div>
-      
-      <div class="spotlight-card-content">
-        <!-- Unboxed Backdrop with Smooth Dissolve Masks -->
-        <div class="spotlight-hero-backdrop-wrap">
-          <img src="${featured.backdrop}" alt="${featured.title}" class="spotlight-hero-backdrop-img" />
-          <div class="spotlight-hero-fade-bottom"></div>
-          <div class="spotlight-hero-fade-left"></div>
-        </div>
+    <!-- Full-Bleed Hero Backdrop directly integrated into page background -->
+    <div class="spotlight-hero-backdrop-wrap">
+      <img src="${featured.backdrop}" alt="${featured.title}" class="spotlight-hero-backdrop-img" />
+      <div class="spotlight-hero-fade-bottom"></div>
+      <div class="spotlight-hero-fade-left"></div>
+      <div class="spotlight-hero-fade-top"></div>
+    </div>
 
-        <!-- Spotlight Content -->
-        <div class="spotlight-hero-details">
-          <div class="spotlight-hero-tag">FEATURED SPOTLIGHT</div>
-          <h2 class="spotlight-hero-title">${featured.title}</h2>
-          <div class="spotlight-hero-meta">
-            <span>${featured.director}</span>
-            <span>•</span>
-            <span>${featured.year}</span>
-            <span>•</span>
-            <span>${featured.duration}</span>
-            <span>•</span>
-            <span>${featured.genres.join(', ')}</span>
-          </div>
-          <p class="spotlight-hero-synopsis">${featured.synopsis}</p>
+    <!-- Spotlight Content floating seamlessly on background -->
+    <div class="spotlight-hero-details">
+      <div class="spotlight-hero-tag">FEATURED SPOTLIGHT</div>
+      <h2 class="spotlight-hero-title">${featured.title}</h2>
+      <div class="spotlight-hero-meta">
+        <span>${featured.director}</span>
+        <span>•</span>
+        <span>${featured.year}</span>
+        <span>•</span>
+        <span>${featured.duration}</span>
+        <span>•</span>
+        <span>${featured.genres.join(', ')}</span>
+      </div>
+      <p class="spotlight-hero-synopsis">${featured.synopsis}</p>
 
-          <div class="spotlight-hero-actions">
-            <button class="spotlight-btn-stream" id="hero-btn-play" data-movie-id="${featured.id}">
-              Stream on ${primaryProvider.name}
-            </button>
-            <button class="spotlight-btn-trailer" id="hero-btn-trailer" data-trailer-id="${featured.trailerId}" data-title="${featured.title}">
-              Watch Trailer
-            </button>
-            <button class="spotlight-btn-details" id="hero-btn-details">
-              Details
-            </button>
-          </div>
-        </div>
+      <div class="spotlight-hero-actions">
+        <button class="spotlight-btn-stream" id="hero-btn-play" data-movie-id="${featured.id}">
+          Stream on ${primaryProvider.name}
+        </button>
+        <button class="spotlight-btn-trailer" id="hero-btn-trailer" data-trailer-id="${featured.trailerId}" data-title="${featured.title}">
+          Watch Trailer
+        </button>
+        <button class="spotlight-btn-details" id="hero-btn-details">
+          Details
+        </button>
       </div>
     </div>
   `;

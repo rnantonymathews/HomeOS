@@ -1,5 +1,5 @@
 // HomeOS Service Worker
-const CACHE_NAME = 'homeos-v5.7';
+const CACHE_NAME = 'homeos-v5.8';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -55,7 +55,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Cache-first or Stale-while-revalidate for assets
+// Fetch: Network-First for core code (html, css, js) so updates apply immediately on refresh!
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
@@ -65,19 +65,38 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  const url = new URL(event.request.url);
+  const isCodeAsset = url.pathname.endsWith('.html') ||
+                      url.pathname.endsWith('.css') ||
+                      url.pathname.endsWith('.js') ||
+                      url.pathname === '/' ||
+                      url.pathname.endsWith('/HomeOS/') ||
+                      url.pathname.endsWith('index.html');
+
+  if (isCodeAsset) {
+    event.respondWith(
+      fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const resClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resClone));
+        }
+        return networkResponse;
+      }).catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Cache-First for static media assets (images, icons, wallpapers)
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse);
-            });
-          }
-        }).catch(() => {/* Offline fallback */ });
         return cachedResponse;
       }
       return fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const resClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resClone));
+        }
         return networkResponse;
       });
     })
