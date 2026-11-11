@@ -345,65 +345,78 @@
             <div class="news-brand">
               <span class="news-live-dot"></span>
               <span class="news-title-text">Today's News</span>
+              <span class="news-refresh-badge" id="news-refresh-badge" title="Auto-refreshes every 30s">30s</span>
             </div>
-            <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-open-link"
-              title="Open Google News">
-              Google News ↗
-            </a>
+            <div class="news-actions-group">
+              <button class="news-refresh-btn" id="news-refresh-btn" title="Refresh news now" aria-label="Refresh news">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/>
+                </svg>
+              </button>
+              <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-open-link"
+                title="Open Google News">
+                Google News ↗
+              </a>
+            </div>
           </div>
 
-          <!-- 2 News from Intl, National, Bengaluru -->
+          <!-- 2 News each from Intl, National, Bengaluru (Auto-cycles every 30s) -->
           <div class="news-feed-container" id="news-feed-container">
 
             <!-- International (2 News) -->
-            <div class="news-feed-section">
+            <div class="news-feed-section" id="news-sec-intl">
               <div class="section-badge-row">
                 <span class="feed-section-badge badge-intl">INTERNATIONAL</span>
               </div>
-              <div class="news-item">
-                <span class="news-item-source">Reuters • 12m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
-                  class="news-item-headline">Global fusion energy milestone achieved with historic net power
-                  benchmark</a>
-              </div>
-              <div class="news-item">
-                <span class="news-item-source">ESA / NASA • 45m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
-                  class="news-item-headline">James Webb Telescope detects atmospheric markers on temperate exoplanet</a>
+              <div class="news-items-wrap" id="news-items-intl">
+                <div class="news-item">
+                  <span class="news-item-source">Reuters • 12m ago</span>
+                  <a href="https://news.google.com/search?q=fusion%20energy%20milestone" target="_blank" rel="noopener noreferrer"
+                    class="news-item-headline">Global fusion energy milestone achieved with historic net power benchmark</a>
+                </div>
+                <div class="news-item">
+                  <span class="news-item-source">ESA / NASA • 45m ago</span>
+                  <a href="https://news.google.com/search?q=James%20Webb%20telescope%20exoplanet" target="_blank" rel="noopener noreferrer"
+                    class="news-item-headline">James Webb Telescope detects atmospheric markers on temperate exoplanet</a>
+                </div>
               </div>
             </div>
 
             <!-- National (2 News) -->
-            <div class="news-feed-section">
+            <div class="news-feed-section" id="news-sec-nat">
               <div class="section-badge-row">
                 <span class="feed-section-badge badge-nat">NATIONAL</span>
               </div>
-              <div class="news-item">
-                <span class="news-item-source">The Hindu • 18m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
-                  class="news-item-headline">ISRO readies autonomous landing mission for reusable space shuttle</a>
-              </div>
-              <div class="news-item">
-                <span class="news-item-source">Economic Times • 40m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
-                  class="news-item-headline">India semiconductor corridor begins trial commercial silicon runs</a>
+              <div class="news-items-wrap" id="news-items-nat">
+                <div class="news-item">
+                  <span class="news-item-source">The Hindu • 18m ago</span>
+                  <a href="https://news.google.com/search?q=ISRO%20autonomous%20landing%20mission" target="_blank" rel="noopener noreferrer"
+                    class="news-item-headline">ISRO readies autonomous landing mission for reusable space shuttle</a>
+                </div>
+                <div class="news-item">
+                  <span class="news-item-source">Economic Times • 40m ago</span>
+                  <a href="https://news.google.com/search?q=India%20semiconductor%20corridor" target="_blank" rel="noopener noreferrer"
+                    class="news-item-headline">India semiconductor corridor begins trial commercial silicon runs</a>
+                </div>
               </div>
             </div>
 
             <!-- Bengaluru (2 News) -->
-            <div class="news-feed-section">
+            <div class="news-feed-section" id="news-sec-blr">
               <div class="section-badge-row">
                 <span class="feed-section-badge badge-blr">BENGALURU</span>
               </div>
-              <div class="news-item">
-                <span class="news-item-source">Deccan Herald • 25m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
-                  class="news-item-headline">Namma Metro Pink Line underground tunneling crosses 90% milestone</a>
-              </div>
-              <div class="news-item">
-                <span class="news-item-source">Bangalore Mirror • 55m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
-                  class="news-item-headline">Karnataka deploys AI traffic sensor grid across Silk Board and ORR</a>
+              <div class="news-items-wrap" id="news-items-blr">
+                <div class="news-item">
+                  <span class="news-item-source">Deccan Herald • 25m ago</span>
+                  <a href="https://news.google.com/search?q=Namma%20Metro%20Pink%20Line" target="_blank" rel="noopener noreferrer"
+                    class="news-item-headline">Namma Metro Pink Line underground tunneling crosses 90% milestone</a>
+                </div>
+                <div class="news-item">
+                  <span class="news-item-source">Bangalore Mirror • 55m ago</span>
+                  <a href="https://news.google.com/search?q=Karnataka%20AI%20traffic%20sensor" target="_blank" rel="noopener noreferrer"
+                    class="news-item-headline">Karnataka deploys AI traffic sensor grid across Silk Board and ORR</a>
+                </div>
               </div>
             </div>
 

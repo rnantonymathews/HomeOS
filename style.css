@@ -323,12 +323,12 @@ html, body {
    1. Card: User Name & Continue Hub (Movies, Shows, Music)
    ========================================================================== */
 .card-user-continue {
-  height: 336px;
-  padding: 16px 16px 14px;
+  height: 320px;
+  padding: 14px 16px 12px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 .user-greeting-header {
@@ -544,8 +544,8 @@ html, body {
    2. Card: Weather (Day Forecast: 3 AM, 9 AM, 3 PM, 9 PM)
    ========================================================================== */
 .card-weather {
-  height: 168px;
-  padding: 12px 18px 10px;
+  height: 184px;
+  padding: 12px 16px 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -584,7 +584,7 @@ html, body {
   justify-content: space-between;
   position: relative;
   z-index: 1;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .weather-temp-display {
@@ -606,13 +606,13 @@ html, body {
   font-size: 10px;
   color: rgba(255, 255, 255, 0.55);
   font-weight: 500;
-  margin-top: 3px;
+  margin-top: 2px;
 }
 
 .weather-metrics-pills {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .weather-metric {
@@ -621,13 +621,13 @@ html, body {
   gap: 6px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.09);
-  padding: 3px 8px;
-  border-radius: 9px;
-  min-width: 88px;
+  padding: 2.5px 7px;
+  border-radius: 8px;
+  min-width: 82px;
 }
 
 .metric-icon {
-  font-size: 13px;
+  font-size: 12.5px;
 }
 
 .metric-text-group {
@@ -637,13 +637,13 @@ html, body {
 }
 
 .metric-val {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   color: #FFFFFF;
 }
 
 .metric-status {
-  font-size: 8.5px;
+  font-size: 8px;
   color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.3px;
@@ -657,7 +657,7 @@ html, body {
 .weather-day-forecast {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: 7px;
   padding-top: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
@@ -669,8 +669,8 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: 4px 4px;
-  border-radius: 8px;
+  padding: 6px 4px 7px;
+  border-radius: 9px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   transition: all 0.2s ease;
@@ -689,23 +689,25 @@ html, body {
 
 .slot-time {
   font-family: 'Poppins', sans-serif;
-  font-size: 9.5px;
+  font-size: 9px;
   color: rgba(255, 255, 255, 0.65);
   font-weight: 600;
   letter-spacing: 0.3px;
+  line-height: 1;
 }
 
 .slot-icon {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1;
   margin: 1px 0;
 }
 
 .slot-temp {
   font-family: 'Poppins', sans-serif;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 700;
   color: #FFFFFF;
+  line-height: 1;
 }
 
 /* ==========================================================================
@@ -1116,6 +1118,57 @@ html, body {
   color: #FFFFFF;
 }
 
+.news-refresh-badge {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  padding: 1px 6px;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+  margin-left: 2px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.news-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.news-refresh-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.news-refresh-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+}
+
+.news-refresh-btn.spinning svg {
+  animation: newsSpin 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes newsSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .news-open-link {
   font-size: 11px;
   font-weight: 600;
@@ -1129,7 +1182,7 @@ html, body {
   text-decoration: underline;
 }
 
-/* 2 News from Intl, National, Bengaluru Feed */
+/* 2 News from Intl, National, Bengaluru Feed (Auto-Cycles every 30s) */
 .news-feed-container {
   display: flex;
   flex-direction: column;
@@ -1140,6 +1193,12 @@ html, body {
   flex: 1;
   margin-top: 10px;
   padding-right: 2px;
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+
+.news-feed-container.news-fading {
+  opacity: 0.12;
+  transform: translateY(-4px);
 }
 
 .news-feed-container::-webkit-scrollbar {
@@ -1152,6 +1211,12 @@ html, body {
   gap: 5px;
   padding-bottom: 7px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.news-items-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .news-feed-section:last-child {

@@ -368,15 +368,148 @@ function initMusicPlayer() {
 }
 
 /* ==========================================================================
-   4. Today's News Feed (2 News from Intl, National, Bengaluru)
+   4. Today's News Feed (Auto-Refreshes Every 30 Seconds with 2 Intl, 2 Nat, 2 BLR)
    ========================================================================== */
 function initNewsFeed() {
-  const newsItems = document.querySelectorAll('.news-item-headline');
-  newsItems.forEach(item => {
-    item.addEventListener('click', () => {
-      showToast('Opening news in Google News...');
+  const container = document.getElementById('news-feed-container');
+  const badge = document.getElementById('news-refresh-badge');
+  const btnRefresh = document.getElementById('news-refresh-btn');
+  const itemsWrapIntl = document.getElementById('news-items-intl');
+  const itemsWrapNat = document.getElementById('news-items-nat');
+  const itemsWrapBlr = document.getElementById('news-items-blr');
+
+  if (!container) return;
+
+  const NEWS_POOLS = {
+    international: [
+      { source: 'Reuters', baseMins: 12, headline: 'Global fusion energy milestone achieved with historic net power benchmark', query: 'fusion energy milestone net power' },
+      { source: 'ESA / NASA', baseMins: 45, headline: 'James Webb Telescope detects atmospheric markers on temperate exoplanet', query: 'James Webb telescope exoplanet atmosphere' },
+      { source: 'MIT Tech Review', baseMins: 18, headline: 'DeepMind unveils generative model predicting crystal structures for solid-state batteries', query: 'DeepMind crystal structures solid state batteries' },
+      { source: 'Bloomberg', baseMins: 28, headline: 'Global maritime shipping adopts zero-emission green ammonia freighters', query: 'green ammonia ships maritime' },
+      { source: 'Nature', baseMins: 36, headline: 'CERN announces High-Luminosity LHC upgrade enters final commissioning phase', query: 'CERN High Luminosity LHC upgrade' },
+      { source: 'Science', baseMins: 24, headline: 'Next-gen quantum processor demonstrates fault-tolerant logical qubit cluster', query: 'quantum processor logical qubit cluster' },
+      { source: 'SpaceNews', baseMins: 52, headline: 'ESA Hera planetary defense probe returns first high-res asteroid rendezvous imagery', query: 'ESA Hera asteroid mission imagery' },
+      { source: 'Financial Times', baseMins: 60, headline: 'Global clean energy investments outpace fossil fuels by 2-to-1 in landmark annual audit', query: 'clean energy investment outpaces fossil fuels' }
+    ],
+    national: [
+      { source: 'The Hindu', baseMins: 18, headline: 'ISRO readies autonomous landing mission for reusable space shuttle RLV-LEX', query: 'ISRO RLV autonomous landing mission' },
+      { source: 'Economic Times', baseMins: 40, headline: 'India semiconductor corridor begins trial commercial silicon runs at Sanand', query: 'India semiconductor corridor Sanand silicon' },
+      { source: 'Indian Express', baseMins: 22, headline: 'Vande Bharat sleeper trainsets clear 180 km/h high-speed trial runs', query: 'Vande Bharat sleeper train speed trial' },
+      { source: 'LiveMint', baseMins: 35, headline: 'India’s UPI international payments grid links with three new ASEAN central banks', query: 'UPI international payments ASEAN central banks' },
+      { source: 'PIB India', baseMins: 50, headline: 'National Green Hydrogen Mission approves 8 gigawatt electrolyser manufacturing clusters', query: 'National Green Hydrogen Mission electrolyser manufacturing' },
+      { source: 'The Hindu', baseMins: 29, headline: 'LIGO-India gravitational wave observatory breaks ground in Hingoli', query: 'LIGO India gravitational wave observatory Hingoli' },
+      { source: 'Business Standard', baseMins: 44, headline: 'India’s open digital public infrastructure adopted by five additional nations', query: 'India DPI digital public infrastructure global adoption' },
+      { source: 'ISRO', baseMins: 15, headline: 'Gaganyaan crew module clears supersonic atmospheric drogue parachute test', query: 'Gaganyaan parachute drop test ISRO' }
+    ],
+    bengaluru: [
+      { source: 'Deccan Herald', baseMins: 25, headline: 'Namma Metro Pink Line underground tunneling crosses 90% milestone', query: 'Namma Metro Pink line underground tunneling' },
+      { source: 'Bangalore Mirror', baseMins: 55, headline: 'Karnataka deploys AI traffic sensor grid across Silk Board and ORR', query: 'Bengaluru AI traffic sensor Silk Board ORR' },
+      { source: 'The Hindu', baseMins: 20, headline: 'Bengaluru Suburban Rail Project awards major civil contract for Corridor-4 Kanaka Line', query: 'Bengaluru Suburban Rail Corridor 4 Kanaka Line' },
+      { source: 'Deccan Herald', baseMins: 32, headline: 'BMRCL greenlights driverless CBTC signalling upgrade for Yellow Line rollout', query: 'BMRCL driverless CBTC yellow line' },
+      { source: 'Bangalore Mirror', baseMins: 48, headline: 'HAL delivers series-production Tejas Mk1A fighter to IAF from Bengaluru base', query: 'HAL Tejas Mk1A IAF Bengaluru' },
+      { source: 'Praja Bengaluru', baseMins: 28, headline: 'Bengaluru tech corridors roll out 24x7 electric feeder buses for Metro stations', query: 'Bengaluru electric feeder buses metro' },
+      { source: 'Times of India', baseMins: 62, headline: 'Cubbon Park and Lalbagh biodiversity census identifies 45 rare urban bird species', query: 'Cubbon park Lalbagh biodiversity census' },
+      { source: 'Deccan Herald', baseMins: 16, headline: 'KIAL Bengaluru Terminal 2 awarded global UNESCO Prix Versailles for architecture', query: 'KIAL Terminal 2 Bengaluru Prix Versailles' }
+    ]
+  };
+
+  let intlIdx = 0;
+  let natIdx = 0;
+  let blrIdx = 0;
+  let countdownSecs = 30;
+  let elapsedSeconds = 0;
+
+  function formatAgo(baseMins) {
+    const totalMins = baseMins + Math.floor(elapsedSeconds / 60);
+    if (totalMins < 60) return `${totalMins}m ago`;
+    const hrs = Math.floor(totalMins / 60);
+    const rem = totalMins % 60;
+    return rem > 0 ? `${hrs}h ${rem}m ago` : `${hrs}h ago`;
+  }
+
+  function renderSection(wrapEl, pool, startIdx) {
+    if (!wrapEl) return;
+    const itemA = pool[startIdx % pool.length];
+    const itemB = pool[(startIdx + 1) % pool.length];
+
+    wrapEl.innerHTML = `
+      <div class="news-item">
+        <span class="news-item-source">${itemA.source} • ${formatAgo(itemA.baseMins)}</span>
+        <a href="https://news.google.com/search?q=${encodeURIComponent(itemA.query)}" target="_blank" rel="noopener noreferrer"
+          class="news-item-headline" data-headline="${itemA.headline}">${itemA.headline}</a>
+      </div>
+      <div class="news-item">
+        <span class="news-item-source">${itemB.source} • ${formatAgo(itemB.baseMins)}</span>
+        <a href="https://news.google.com/search?q=${encodeURIComponent(itemB.query)}" target="_blank" rel="noopener noreferrer"
+          class="news-item-headline" data-headline="${itemB.headline}">${itemB.headline}</a>
+      </div>
+    `;
+
+    // Bind toast click
+    wrapEl.querySelectorAll('.news-item-headline').forEach(a => {
+      a.addEventListener('click', () => {
+        showToast('Opening story in Google News...');
+      });
     });
-  });
+  }
+
+  function cycleNews(animate = true, isManual = false) {
+    if (animate) {
+      container.classList.add('news-fading');
+    }
+
+    // Advance indices by 2 (next pair of stories)
+    intlIdx = (intlIdx + 2) % NEWS_POOLS.international.length;
+    natIdx = (natIdx + 2) % NEWS_POOLS.national.length;
+    blrIdx = (blrIdx + 2) % NEWS_POOLS.bengaluru.length;
+
+    setTimeout(() => {
+      renderSection(itemsWrapIntl, NEWS_POOLS.international, intlIdx);
+      renderSection(itemsWrapNat, NEWS_POOLS.national, natIdx);
+      renderSection(itemsWrapBlr, NEWS_POOLS.bengaluru, blrIdx);
+
+      if (animate) {
+        container.classList.remove('news-fading');
+      }
+
+      if (isManual) {
+        if (btnRefresh) {
+          btnRefresh.classList.add('spinning');
+          setTimeout(() => btnRefresh.classList.remove('spinning'), 650);
+        }
+        showToast('News feed refreshed');
+      }
+    }, animate ? 160 : 0);
+  }
+
+  // Initial render (already in HTML, but wire up event listeners)
+  renderSection(itemsWrapIntl, NEWS_POOLS.international, intlIdx);
+  renderSection(itemsWrapNat, NEWS_POOLS.national, natIdx);
+  renderSection(itemsWrapBlr, NEWS_POOLS.bengaluru, blrIdx);
+
+  // Manual refresh button
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', () => {
+      countdownSecs = 30;
+      if (badge) badge.textContent = '30s';
+      cycleNews(true, true);
+    });
+  }
+
+  // 1-second countdown ticker for 30s auto-refresh
+  setInterval(() => {
+    elapsedSeconds++;
+    countdownSecs--;
+
+    if (countdownSecs <= 0) {
+      countdownSecs = 30;
+      cycleNews(true, false);
+    }
+
+    if (badge) {
+      badge.textContent = `${countdownSecs}s`;
+    }
+  }, 1000);
 }
 
 /* ==========================================================================
