@@ -1865,7 +1865,7 @@ html, body {
 .netflix-divider-wrap {
   position: relative;
   width: 100%;
-  margin: 0 0 24px 0;
+  margin: 0 0 16px 0;
 }
 
 .netflix-divider-line {
@@ -1902,7 +1902,7 @@ html, body {
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .movies-section-title {
@@ -1918,13 +1918,12 @@ html, body {
 .netflix-top10-rail {
   display: flex;
   gap: 16px;
-  align-items: stretch;
+  align-items: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 10px 60px 42px 4px;
+  padding: 4px 60px 36px 4px;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  min-height: 330px;
 }
 
 .netflix-top10-rail::-webkit-scrollbar {
@@ -1939,6 +1938,7 @@ html, body {
   display: flex;
   align-items: flex-end;
   flex: 0 0 auto;
+  height: 260px;
   text-decoration: none;
   cursor: pointer;
   user-select: none;
@@ -2040,26 +2040,6 @@ html, body {
     transparent 100%
   );
   pointer-events: none;
-}
-
-/* Top Right Badge */
-.netflix-card-badge-top {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 3;
-}
-
-.netflix-badge-pill {
-  font-family: 'Poppins', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #FFFFFF;
-  background: rgba(229, 9, 20, 0.94);
-  padding: 3px 7px;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(229, 9, 20, 0.5);
 }
 
 /* Card Bottom Info */

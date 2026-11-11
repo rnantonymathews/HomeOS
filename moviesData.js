@@ -166,7 +166,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Fahadh Faasil', 'Ssara Palekar', 'Saurabh Sachdeva'],
     weeksInTop10: 2,
     streamUrl: "https://www.netflix.com/search?q=Don't%20Trouble%20the%20Trouble",
-    poster: 'https://image.tmdb.org/t/p/w500/velWPhVMQeQKcxggNEU8YmIo52R.jpg',
+    poster: 'assets/posters/dont-trouble-the-trouble.jpg',
     synopsis: 'A desperate ambulance driver schemes to solve his debts, only to be dragged into a supernatural rollercoaster alongside a girl who claims she made her family vanish.'
   },
   {
@@ -182,7 +182,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Manoj Bajpayee', 'Akshay Oberoi'],
     weeksInTop10: 3,
     streamUrl: 'https://www.netflix.com/search?q=Gajab%20Raat',
-    poster: 'https://image.tmdb.org/t/p/w500/sh7Rg8Er3tFcN9BpKIPOMvALgZd.jpg',
+    poster: 'assets/posters/gajab-raat.jpg',
     synopsis: 'Over the course of a single rain-drenched midnight in Delhi, an undercover handler and an unhinged rogue detective clash in an explosive game of cat and mouse.'
   },
   {
@@ -198,7 +198,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Mihir Ahuja', 'Manoj Pahwa', 'Neelu Kohli'],
     weeksInTop10: 1,
     streamUrl: 'https://www.netflix.com/search?q=Dilwali%20Diwali',
-    poster: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg',
+    poster: 'assets/posters/dilwali-diwali.jpg',
     synopsis: 'Three estranged generations reunite under one chaotic ancestral roof for Diwali, unlocking long-buried family secrets and festive humor.'
   },
   {
@@ -214,7 +214,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Vidyut Jammwal', 'Mrunal Thakur'],
     weeksInTop10: 2,
     streamUrl: 'https://www.netflix.com/search?q=Sigma',
-    poster: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
+    poster: 'assets/posters/sigma.jpg',
     synopsis: 'A shadowy black-ops specialist disavowed by his agency goes rogue across European capitals to stop a catastrophic cyber-weapon auction.'
   },
   {
@@ -230,7 +230,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Rohit Saraf', 'Pashmina Roshan'],
     weeksInTop10: 1,
     streamUrl: 'https://www.netflix.com/search?q=Meethe%20Mein%20Kya%20Hai',
-    poster: 'https://image.tmdb.org/t/p/w500/pThyQovXQrw2m0s9x82twj48Jq4.jpg',
+    poster: 'https://image.tmdb.org/t/p/w500/AaV1YIdWKnjAIAOe8UUKBFm327v.jpg',
     synopsis: 'An ambitious pastry chef and a traditional sweetshop heir strike a fierce culinary rivalry that gradually turns into an unexpected romance.'
   },
   {
@@ -246,7 +246,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Biju Menon', 'Sreenath Bhasi', 'Ganapathi'],
     weeksInTop10: 2,
     streamUrl: 'https://www.netflix.com/search?q=Avarachan%20and%20Sons',
-    poster: 'https://m.media-amazon.com/images/M/MV5BMTNkYmE1NjktZWQ3Yi00OTlkLWExM2YtNWVhZDVhNWRlMGQ1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',
+    poster: 'assets/posters/avarachan-and-sons.jpg',
     synopsis: 'An eccentric, free-spirited widower upends his conservative town and baffles his adult sons when he decides to live life completely on his own terms.'
   },
   {
@@ -262,7 +262,7 @@ export const NETFLIX_TOP_10_INDIA = [
     cast: ['Florence Pugh', 'Cillian Murphy'],
     weeksInTop10: 3,
     streamUrl: 'https://www.netflix.com/search?q=Dorothy',
-    poster: 'https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg',
+    poster: 'https://image.tmdb.org/t/p/w500/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
     synopsis: 'A high-profile archivist investigating an unsolved 1970s coastal disappearance finds herself descending into a labyrinth of distorted memories and psychological paranoia.'
   },
   {

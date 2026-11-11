@@ -164,10 +164,6 @@ function renderNetflixTop10Rail(movies) {
             onerror="this.onerror=null; this.src='https://image.tmdb.org/t/p/w500/5sBnZMT1aJ6cBvehKOzOOLdI6bz.jpg';" 
           />
           <div class="netflix-card-scrim"></div>
-          
-          <div class="netflix-card-badge-top">
-            <span class="netflix-badge-pill">TOP 10</span>
-          </div>
 
           <div class="netflix-card-info">
             <span class="netflix-card-rank-sub">#${movie.rank} in Movies Today</span>
