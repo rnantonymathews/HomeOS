@@ -654,31 +654,14 @@ function initVerticalDock() {
 
       const target = item.dataset.nav;
 
-      if (target === 'movie') {
+      if (target === 'movie' || target === 'shows' || target === 'music') {
         openMoviesView();
-        showToast('Movies: Unified Library');
         return;
       }
 
       if (target === 'profile') {
         closeMoviesView();
-        showToast('Profile: Aaron Antony');
         return;
-      }
-
-      if (target === 'shows') {
-        // Can open Movies view filtered to shows or show toast
-        openMoviesView();
-        showToast('Shows: Unified Series Library');
-        return;
-      }
-
-      const toastMessages = {
-        music: 'Music & Audio Experience'
-      };
-
-      if (toastMessages[target]) {
-        showToast(toastMessages[target]);
       }
     });
   });

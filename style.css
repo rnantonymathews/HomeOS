@@ -1363,6 +1363,7 @@ html, body {
 }
 
 .bento-dashboard.view-hidden {
+  display: none !important;
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -46%) scale(0.96);
