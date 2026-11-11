@@ -1070,81 +1070,105 @@ html, body {
 }
 
 /* ==========================================================================
-   6. Card: Today's News (Vertical Large)
+   6. Card: Fresh Drops Spotlight (One-at-a-time 4-part vertical tier)
    ========================================================================== */
-.card-news {
+.card-spotlight {
   width: 328px;
   height: 520px;
-  padding: 20px 22px;
+  padding: 14px 16px 14px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
 }
 
-.news-card-inner {
+.glow-spotlight {
+  top: -20px;
+  right: -20px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.28) 0%, rgba(99, 102, 241, 0.12) 50%, rgba(0, 0, 0, 0) 75%);
+  transition: background 0.5s ease;
+}
+
+.spotlight-card-inner {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
   position: relative;
   z-index: 1;
+  transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
-.news-top-bar {
+.spotlight-animating {
+  opacity: 0.15;
+  transform: scale(0.98);
+}
+
+/* Header row (height ~24px) */
+.spotlight-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 8px;
 }
 
-.news-brand {
+.spotlight-brand {
   display: flex;
   align-items: center;
   gap: 7px;
 }
 
-.news-live-dot {
+.spotlight-live-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 10px #ef4444;
-  animation: pulseBeacon 1.5s infinite ease-in-out;
+  background: var(--accent-green);
+  box-shadow: 0 0 10px var(--accent-green);
+  animation: pulseBeacon 1.8s infinite ease-in-out;
 }
 
-.news-title-text {
+.spotlight-header-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #FFFFFF;
+  letter-spacing: -0.2px;
 }
 
-.news-refresh-badge {
+.spotlight-type-chip {
   font-family: 'Space Grotesk', monospace;
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 700;
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.12);
-  border: 1px solid rgba(34, 197, 94, 0.28);
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.28);
   padding: 1px 6px;
   border-radius: 9999px;
-  letter-spacing: 0.3px;
-  margin-left: 2px;
-  min-width: 24px;
-  text-align: center;
+  letter-spacing: 0.4px;
 }
 
-.news-actions-group {
+.spotlight-nav-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
-.news-refresh-btn {
+.spotlight-counter {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  margin-right: 2px;
+}
+
+.spotlight-nav-btn {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1154,137 +1178,279 @@ html, body {
   transition: all 0.2s ease;
 }
 
-.news-refresh-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.25);
+.spotlight-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #FFFFFF;
+  transform: scale(1.06);
+}
+
+/* PART 1 & PART 2: Cinematic Hero Poster Stage (~236px) */
+.spotlight-poster-stage {
+  height: 236px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
+}
+
+.spotlight-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.spotlight-poster-stage:hover .spotlight-poster-img {
+  transform: scale(1.03);
+}
+
+.spotlight-poster-fade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(13, 17, 23, 0.95) 0%, rgba(13, 17, 23, 0.35) 45%, transparent 80%);
+}
+
+.spotlight-platform-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  background: rgba(13, 17, 23, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #FFFFFF;
 }
 
-.news-refresh-btn.spinning svg {
-  animation: newsSpin 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes newsSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.news-open-link {
-  font-size: 11px;
+.spotlight-format-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 9px;
   font-weight: 600;
-  color: #38bdf8;
-  text-decoration: none;
-  transition: color 0.2s ease;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.news-open-link:hover {
-  color: #7dd3fc;
-  text-decoration: underline;
-}
-
-/* 2 News from Intl, National, Bengaluru Feed (Auto-Cycles every 30s) */
-.news-feed-container {
+/* PART 3: Title & Creator Metadata Stage (~72px) */
+.spotlight-title-stage {
+  height: 72px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: none;
-  flex: 1;
-  margin-top: 10px;
-  padding-right: 2px;
-  transition: opacity 0.32s ease, transform 0.32s ease;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 8px;
+  flex-shrink: 0;
 }
 
-.news-feed-container.news-fading {
-  opacity: 0.12;
-  transform: translateY(-4px);
-}
-
-.news-feed-container::-webkit-scrollbar {
-  display: none;
-}
-
-.news-feed-section {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding-bottom: 7px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.news-items-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.news-feed-section:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.section-badge-row {
+.spotlight-title-row {
   display: flex;
   align-items: center;
-  margin-bottom: 1px;
+  justify-content: space-between;
 }
 
-.feed-section-badge {
-  font-size: 9px;
+.spotlight-main-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.spotlight-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.spotlight-meta-info {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spotlight-rating-pill {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  padding: 1.5px 7px;
-  border-radius: 9999px;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  padding: 1.5px 6px;
+  border-radius: 6px;
+  flex-shrink: 0;
 }
 
-.badge-intl {
-  background: rgba(59, 130, 246, 0.18);
-  color: #93c5fd;
-  border: 1px solid rgba(59, 130, 246, 0.35);
-}
-
-.badge-nat {
-  background: rgba(249, 115, 22, 0.18);
-  color: #fdba74;
-  border: 1px solid rgba(249, 115, 22, 0.35);
-}
-
-.badge-blr {
-  background: rgba(16, 185, 129, 0.18);
-  color: #86efac;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-}
-
-.news-item {
+/* PART 4: Context Tag & 2-Line Description & Action Stage (~136px) */
+.spotlight-desc-stage {
+  height: 136px;
   display: flex;
   flex-direction: column;
-  gap: 1.5px;
+  justify-content: space-between;
+  margin-top: 6px;
+  flex-shrink: 0;
 }
 
-.news-item-source {
-  font-size: 9.5px;
-  color: rgba(255, 255, 255, 0.45);
-  font-weight: 500;
+.spotlight-context-row {
+  display: flex;
+  align-items: center;
 }
 
-.news-item-headline {
+.spotlight-context-badge {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* Context Badge Color Themes */
+.badge-ott-release {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.badge-top-show {
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+}
+
+.badge-album-release {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.badge-music-release {
+  color: #f472b6;
+  background: rgba(244, 114, 182, 0.12);
+  border: 1px solid rgba(244, 114, 182, 0.3);
+}
+
+.badge-theater-release {
+  color: #fb923c;
+  background: rgba(251, 146, 60, 0.12);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+}
+
+.spotlight-synopsis-text {
   font-family: 'Poppins', sans-serif;
-  font-size: 11.5px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.88);
-  line-height: 1.35;
-  text-decoration: none;
-  transition: color 0.18s ease;
+  font-size: 11px;
+  line-height: 1.38;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 4px 0 6px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.news-item-headline:hover {
-  color: #38bdf8;
+.spotlight-action-row {
+  margin-top: auto;
+}
+
+.spotlight-action-btn {
+  width: 100%;
+  height: 34px;
+  border-radius: 9px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  border: 1px solid transparent;
+}
+
+/* Platform button themes */
+.btn-theme-hotstar {
+  background: #003666;
+  border-color: #005099;
+  color: #FFFFFF;
+}
+.btn-theme-hotstar:hover {
+  background: #004c8f;
+  box-shadow: 0 0 16px rgba(0, 80, 153, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-theme-netflix {
+  background: #e50914;
+  border-color: #ff1f2d;
+  color: #FFFFFF;
+}
+.btn-theme-netflix:hover {
+  background: #f40612;
+  box-shadow: 0 0 16px rgba(229, 9, 20, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-theme-apple {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+}
+.btn-theme-apple:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-theme-spotify {
+  background: #1db954;
+  border-color: #1ed760;
+  color: #000000;
+}
+.btn-theme-spotify:hover {
+  background: #1ed760;
+  box-shadow: 0 0 16px rgba(29, 185, 84, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-theme-theater {
+  background: #ea580c;
+  border-color: #f97316;
+  color: #FFFFFF;
+}
+.btn-theme-theater:hover {
+  background: #f97316;
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.6);
+  transform: translateY(-1px);
 }
 
 /* ==========================================================================
@@ -1351,10 +1517,11 @@ html, body {
     height: auto;
   }
 
+  .card-spotlight,
   .card-news {
     width: 100%;
     height: auto;
-    min-height: 280px;
+    min-height: 480px;
   }
 }
 
@@ -1398,6 +1565,7 @@ html, body {
     height: 180px;
   }
 
+  .card-spotlight,
   .card-news {
     height: auto;
   }

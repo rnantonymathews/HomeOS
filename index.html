@@ -337,90 +337,76 @@
     <!-- RIGHT COLUMN (320px) -->
     <div class="bento-col bento-col-right">
 
-      <!-- 6. Vertical Large Card: Today's News -->
-      <div class="bento-card card-news" id="card-news">
-        <div class="card-glow glow-news-multi"></div>
-        <div class="news-card-inner">
-          <div class="news-top-bar">
-            <div class="news-brand">
-              <span class="news-live-dot"></span>
-              <span class="news-title-text">Today's News</span>
-              <span class="news-refresh-badge" id="news-refresh-badge" title="Auto-refreshes every 30s">30s</span>
+      <!-- 6. Vertical Large Card: Fresh Drops (One-at-a-time OTT & Music Spotlight) -->
+      <div class="bento-card card-spotlight" id="card-spotlight">
+        <div class="card-glow glow-spotlight" id="spotlight-glow"></div>
+        <div class="spotlight-card-inner">
+
+          <!-- Top Navigation Header -->
+          <div class="spotlight-top-bar">
+            <div class="spotlight-brand">
+              <span class="spotlight-live-dot"></span>
+              <span class="spotlight-header-title">Fresh Drops</span>
+              <span class="spotlight-type-chip" id="spotlight-type-chip">OTT</span>
             </div>
-            <div class="news-actions-group">
-              <button class="news-refresh-btn" id="news-refresh-btn" title="Refresh news now" aria-label="Refresh news">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/>
+            <div class="spotlight-nav-controls">
+              <span class="spotlight-counter" id="spotlight-counter">1 / 8</span>
+              <button class="spotlight-nav-btn btn-prev" id="spotlight-btn-prev" title="Previous Drop" aria-label="Previous">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
               </button>
-              <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-open-link"
-                title="Open Google News">
-                Google News ↗
+              <button class="spotlight-nav-btn btn-next" id="spotlight-btn-next" title="Next Drop" aria-label="Next">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- PART 1 & PART 2: Cinematic Hero Poster Stage (~236px) -->
+          <div class="spotlight-poster-stage" id="spotlight-poster-stage">
+            <img class="spotlight-poster-img" id="spotlight-poster-img" src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg" alt="Dune: Part Two Poster" />
+            <div class="spotlight-poster-fade"></div>
+            
+            <!-- Floating platform badge (bottom-left) -->
+            <div class="spotlight-platform-badge" id="spotlight-platform-badge">
+              <span class="spotlight-platform-name" id="spotlight-platform-name">JioHotstar</span>
+            </div>
+
+            <!-- Floating format tag (bottom-right) -->
+            <div class="spotlight-format-badge" id="spotlight-format-badge">
+              <span id="spotlight-format-text">4K UHD • Atmos</span>
+            </div>
+          </div>
+
+          <!-- PART 3: Title & Creator Metadata Stage (~72px) -->
+          <div class="spotlight-title-stage">
+            <div class="spotlight-title-row">
+              <h2 class="spotlight-main-title" id="spotlight-main-title">Dune: Part Two</h2>
+            </div>
+            <div class="spotlight-meta-row">
+              <span class="spotlight-meta-info" id="spotlight-meta-info">Denis Villeneuve • 2024 • Sci-Fi</span>
+              <span class="spotlight-rating-pill" id="spotlight-rating">★ 8.6</span>
+            </div>
+          </div>
+
+          <!-- PART 4: Context Tag & 2-Line Description & Action Stage (~136px) -->
+          <div class="spotlight-desc-stage">
+            <div class="spotlight-context-row">
+              <span class="spotlight-context-badge badge-ott-release" id="spotlight-context-badge">LATEST OTT RELEASE</span>
+            </div>
+            <p class="spotlight-synopsis-text" id="spotlight-synopsis">
+              Paul Atreides unites with Chani and the Fremen to wage war against House Harkonnen in Denis Villeneuve's acclaimed sci-fi epic.
+            </p>
+            <div class="spotlight-action-row">
+              <a href="https://www.hotstar.com/in/movies/dune-part-two/1271318044" target="_blank" rel="noopener noreferrer" class="spotlight-action-btn btn-theme-hotstar" id="spotlight-action-btn">
+                <span class="btn-action-icon" id="spotlight-btn-icon">▶</span>
+                <span class="btn-action-label" id="spotlight-btn-label">Stream on JioHotstar ↗</span>
               </a>
             </div>
           </div>
 
-          <!-- 2 News each from Intl, National, Bengaluru (Auto-cycles every 30s) -->
-          <div class="news-feed-container" id="news-feed-container">
-
-            <!-- International (2 News) -->
-            <div class="news-feed-section" id="news-sec-intl">
-              <div class="section-badge-row">
-                <span class="feed-section-badge badge-intl">INTERNATIONAL</span>
-              </div>
-              <div class="news-items-wrap" id="news-items-intl">
-                <div class="news-item">
-                  <span class="news-item-source">Reuters • 12m ago</span>
-                  <a href="https://news.google.com/search?q=fusion%20energy%20milestone" target="_blank" rel="noopener noreferrer"
-                    class="news-item-headline">Global fusion energy milestone achieved with historic net power benchmark</a>
-                </div>
-                <div class="news-item">
-                  <span class="news-item-source">ESA / NASA • 45m ago</span>
-                  <a href="https://news.google.com/search?q=James%20Webb%20telescope%20exoplanet" target="_blank" rel="noopener noreferrer"
-                    class="news-item-headline">James Webb Telescope detects atmospheric markers on temperate exoplanet</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- National (2 News) -->
-            <div class="news-feed-section" id="news-sec-nat">
-              <div class="section-badge-row">
-                <span class="feed-section-badge badge-nat">NATIONAL</span>
-              </div>
-              <div class="news-items-wrap" id="news-items-nat">
-                <div class="news-item">
-                  <span class="news-item-source">The Hindu • 18m ago</span>
-                  <a href="https://news.google.com/search?q=ISRO%20autonomous%20landing%20mission" target="_blank" rel="noopener noreferrer"
-                    class="news-item-headline">ISRO readies autonomous landing mission for reusable space shuttle</a>
-                </div>
-                <div class="news-item">
-                  <span class="news-item-source">Economic Times • 40m ago</span>
-                  <a href="https://news.google.com/search?q=India%20semiconductor%20corridor" target="_blank" rel="noopener noreferrer"
-                    class="news-item-headline">India semiconductor corridor begins trial commercial silicon runs</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Bengaluru (2 News) -->
-            <div class="news-feed-section" id="news-sec-blr">
-              <div class="section-badge-row">
-                <span class="feed-section-badge badge-blr">BENGALURU</span>
-              </div>
-              <div class="news-items-wrap" id="news-items-blr">
-                <div class="news-item">
-                  <span class="news-item-source">Deccan Herald • 25m ago</span>
-                  <a href="https://news.google.com/search?q=Namma%20Metro%20Pink%20Line" target="_blank" rel="noopener noreferrer"
-                    class="news-item-headline">Namma Metro Pink Line underground tunneling crosses 90% milestone</a>
-                </div>
-                <div class="news-item">
-                  <span class="news-item-source">Bangalore Mirror • 55m ago</span>
-                  <a href="https://news.google.com/search?q=Karnataka%20AI%20traffic%20sensor" target="_blank" rel="noopener noreferrer"
-                    class="news-item-headline">Karnataka deploys AI traffic sensor grid across Silk Board and ORR</a>
-                </div>
-              </div>
-            </div>
-
-          </div>
         </div>
       </div>
 

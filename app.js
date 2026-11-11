@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initClockAndDate();
   initWeatherLive();
   initMusicPlayer();
-  initNewsFeed();
+  initSpotlightCard();
   initContinueWatching();
   initVerticalDock();
   initMoviesView();
@@ -368,148 +368,278 @@ function initMusicPlayer() {
 }
 
 /* ==========================================================================
-   4. Today's News Feed (Auto-Refreshes Every 30 Seconds with 2 Intl, 2 Nat, 2 BLR)
+   4. Fresh Drops Spotlight (One-at-a-Time 4-Part Vertical Tier)
    ========================================================================== */
-function initNewsFeed() {
-  const container = document.getElementById('news-feed-container');
-  const badge = document.getElementById('news-refresh-badge');
-  const btnRefresh = document.getElementById('news-refresh-btn');
-  const itemsWrapIntl = document.getElementById('news-items-intl');
-  const itemsWrapNat = document.getElementById('news-items-nat');
-  const itemsWrapBlr = document.getElementById('news-items-blr');
+function initSpotlightCard() {
+  const card = document.getElementById('card-spotlight');
+  if (!card) return;
 
-  if (!container) return;
-
-  const NEWS_POOLS = {
-    international: [
-      { source: 'Reuters', baseMins: 12, headline: 'Global fusion energy milestone achieved with historic net power benchmark', query: 'fusion energy milestone net power' },
-      { source: 'ESA / NASA', baseMins: 45, headline: 'James Webb Telescope detects atmospheric markers on temperate exoplanet', query: 'James Webb telescope exoplanet atmosphere' },
-      { source: 'MIT Tech Review', baseMins: 18, headline: 'DeepMind unveils generative model predicting crystal structures for solid-state batteries', query: 'DeepMind crystal structures solid state batteries' },
-      { source: 'Bloomberg', baseMins: 28, headline: 'Global maritime shipping adopts zero-emission green ammonia freighters', query: 'green ammonia ships maritime' },
-      { source: 'Nature', baseMins: 36, headline: 'CERN announces High-Luminosity LHC upgrade enters final commissioning phase', query: 'CERN High Luminosity LHC upgrade' },
-      { source: 'Science', baseMins: 24, headline: 'Next-gen quantum processor demonstrates fault-tolerant logical qubit cluster', query: 'quantum processor logical qubit cluster' },
-      { source: 'SpaceNews', baseMins: 52, headline: 'ESA Hera planetary defense probe returns first high-res asteroid rendezvous imagery', query: 'ESA Hera asteroid mission imagery' },
-      { source: 'Financial Times', baseMins: 60, headline: 'Global clean energy investments outpace fossil fuels by 2-to-1 in landmark annual audit', query: 'clean energy investment outpaces fossil fuels' }
-    ],
-    national: [
-      { source: 'The Hindu', baseMins: 18, headline: 'ISRO readies autonomous landing mission for reusable space shuttle RLV-LEX', query: 'ISRO RLV autonomous landing mission' },
-      { source: 'Economic Times', baseMins: 40, headline: 'India semiconductor corridor begins trial commercial silicon runs at Sanand', query: 'India semiconductor corridor Sanand silicon' },
-      { source: 'Indian Express', baseMins: 22, headline: 'Vande Bharat sleeper trainsets clear 180 km/h high-speed trial runs', query: 'Vande Bharat sleeper train speed trial' },
-      { source: 'LiveMint', baseMins: 35, headline: 'India’s UPI international payments grid links with three new ASEAN central banks', query: 'UPI international payments ASEAN central banks' },
-      { source: 'PIB India', baseMins: 50, headline: 'National Green Hydrogen Mission approves 8 gigawatt electrolyser manufacturing clusters', query: 'National Green Hydrogen Mission electrolyser manufacturing' },
-      { source: 'The Hindu', baseMins: 29, headline: 'LIGO-India gravitational wave observatory breaks ground in Hingoli', query: 'LIGO India gravitational wave observatory Hingoli' },
-      { source: 'Business Standard', baseMins: 44, headline: 'India’s open digital public infrastructure adopted by five additional nations', query: 'India DPI digital public infrastructure global adoption' },
-      { source: 'ISRO', baseMins: 15, headline: 'Gaganyaan crew module clears supersonic atmospheric drogue parachute test', query: 'Gaganyaan parachute drop test ISRO' }
-    ],
-    bengaluru: [
-      { source: 'Deccan Herald', baseMins: 25, headline: 'Namma Metro Pink Line underground tunneling crosses 90% milestone', query: 'Namma Metro Pink line underground tunneling' },
-      { source: 'Bangalore Mirror', baseMins: 55, headline: 'Karnataka deploys AI traffic sensor grid across Silk Board and ORR', query: 'Bengaluru AI traffic sensor Silk Board ORR' },
-      { source: 'The Hindu', baseMins: 20, headline: 'Bengaluru Suburban Rail Project awards major civil contract for Corridor-4 Kanaka Line', query: 'Bengaluru Suburban Rail Corridor 4 Kanaka Line' },
-      { source: 'Deccan Herald', baseMins: 32, headline: 'BMRCL greenlights driverless CBTC signalling upgrade for Yellow Line rollout', query: 'BMRCL driverless CBTC yellow line' },
-      { source: 'Bangalore Mirror', baseMins: 48, headline: 'HAL delivers series-production Tejas Mk1A fighter to IAF from Bengaluru base', query: 'HAL Tejas Mk1A IAF Bengaluru' },
-      { source: 'Praja Bengaluru', baseMins: 28, headline: 'Bengaluru tech corridors roll out 24x7 electric feeder buses for Metro stations', query: 'Bengaluru electric feeder buses metro' },
-      { source: 'Times of India', baseMins: 62, headline: 'Cubbon Park and Lalbagh biodiversity census identifies 45 rare urban bird species', query: 'Cubbon park Lalbagh biodiversity census' },
-      { source: 'Deccan Herald', baseMins: 16, headline: 'KIAL Bengaluru Terminal 2 awarded global UNESCO Prix Versailles for architecture', query: 'KIAL Terminal 2 Bengaluru Prix Versailles' }
-    ]
-  };
-
-  let intlIdx = 0;
-  let natIdx = 0;
-  let blrIdx = 0;
-  let countdownSecs = 30;
-  let elapsedSeconds = 0;
-
-  function formatAgo(baseMins) {
-    const totalMins = baseMins + Math.floor(elapsedSeconds / 60);
-    if (totalMins < 60) return `${totalMins}m ago`;
-    const hrs = Math.floor(totalMins / 60);
-    const rem = totalMins % 60;
-    return rem > 0 ? `${hrs}h ${rem}m ago` : `${hrs}h ago`;
-  }
-
-  function renderSection(wrapEl, pool, startIdx) {
-    if (!wrapEl) return;
-    const itemA = pool[startIdx % pool.length];
-    const itemB = pool[(startIdx + 1) % pool.length];
-
-    wrapEl.innerHTML = `
-      <div class="news-item">
-        <span class="news-item-source">${itemA.source} • ${formatAgo(itemA.baseMins)}</span>
-        <a href="https://news.google.com/search?q=${encodeURIComponent(itemA.query)}" target="_blank" rel="noopener noreferrer"
-          class="news-item-headline" data-headline="${itemA.headline}">${itemA.headline}</a>
-      </div>
-      <div class="news-item">
-        <span class="news-item-source">${itemB.source} • ${formatAgo(itemB.baseMins)}</span>
-        <a href="https://news.google.com/search?q=${encodeURIComponent(itemB.query)}" target="_blank" rel="noopener noreferrer"
-          class="news-item-headline" data-headline="${itemB.headline}">${itemB.headline}</a>
-      </div>
-    `;
-
-    // Bind toast click
-    wrapEl.querySelectorAll('.news-item-headline').forEach(a => {
-      a.addEventListener('click', () => {
-        showToast('Opening story in Google News...');
-      });
-    });
-  }
-
-  function cycleNews(animate = true, isManual = false) {
-    if (animate) {
-      container.classList.add('news-fading');
+  const SPOTLIGHT_DROPS = [
+    {
+      id: 'dune-2',
+      category: 'OTT',
+      contextTag: 'LATEST OTT RELEASE',
+      badgeClass: 'badge-ott-release',
+      title: 'Dune: Part Two',
+      meta: 'Denis Villeneuve • 2024 • Sci-Fi / Adventure',
+      rating: '★ 8.6',
+      platform: 'JioHotstar',
+      format: '4K UHD • Atmos',
+      poster: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg',
+      synopsis: "Paul Atreides unites with Chani and the Fremen to wage war against House Harkonnen in Denis Villeneuve's acclaimed sci-fi epic.",
+      btnText: 'Stream on JioHotstar ↗',
+      btnClass: 'btn-theme-hotstar',
+      btnIcon: '▶',
+      url: 'https://www.hotstar.com/in/movies/dune-part-two/1271318044',
+      glowColor: 'radial-gradient(circle, rgba(14, 165, 233, 0.35) 0%, rgba(12, 32, 68, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+    },
+    {
+      id: 'severance-s2',
+      category: 'OTT',
+      contextTag: 'TOP SHOW IN INDIA TODAY',
+      badgeClass: 'badge-top-show',
+      title: 'Severance',
+      meta: 'Ben Stiller • Season 2 • Sci-Fi / Thriller',
+      rating: '★ 8.7',
+      platform: 'Apple TV+',
+      format: '4K HDR • Vision',
+      poster: 'https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg',
+      synopsis: 'Mark Scout leads a team at Lumon Industries whose memories have been surgically divided between their work and personal lives.',
+      btnText: 'Watch on Apple TV+ ↗',
+      btnClass: 'btn-theme-apple',
+      btnIcon: '▶',
+      url: 'https://tv.apple.com/in/show/severance/umc.cmc.1srk2goyh2q2zdxcx60pfw6cd',
+      glowColor: 'radial-gradient(circle, rgba(167, 139, 250, 0.35) 0%, rgba(109, 40, 217, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+    },
+    {
+      id: 'hit-me-hard',
+      category: 'MUSIC',
+      contextTag: 'ALBUM RELEASE',
+      badgeClass: 'badge-album-release',
+      title: 'HIT ME HARD AND SOFT',
+      meta: 'Billie Eilish • 2024 • Alternative Pop',
+      rating: '★ 9.1',
+      platform: 'Spotify',
+      format: 'Lossless • Spatial',
+      poster: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/92/9f/69/929f69f1-9977-3a44-d674-11f70c852d1b/24UMGIM36186.rgb.jpg/600x600bb.jpg',
+      synopsis: "Billie Eilish's critically acclaimed third studio album featuring chart-topping singles 'LUNCH', 'BIRDS OF A FEATHER' and 'CHIHIRO'.",
+      btnText: 'Listen on Spotify ♫',
+      btnClass: 'btn-theme-spotify',
+      btnIcon: '♫',
+      url: 'https://open.spotify.com/album/7aJuG4My1svFuBkDC4TCAc',
+      glowColor: 'radial-gradient(circle, rgba(29, 185, 84, 0.35) 0%, rgba(16, 185, 129, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+    },
+    {
+      id: 'the-penguin',
+      category: 'OTT',
+      contextTag: 'LATEST OTT RELEASE',
+      badgeClass: 'badge-ott-release',
+      title: 'The Penguin',
+      meta: 'Colin Farrell • Miniseries • Crime / Noir',
+      rating: '★ 8.8',
+      platform: 'JioHotstar',
+      format: '4K UHD • Atmos',
+      poster: 'https://image.tmdb.org/t/p/w500/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg',
+      synopsis: "Oz Cobb fights ruthlessly to seize control of Gotham City's criminal underworld following the devastating aftermath of The Batman.",
+      btnText: 'Stream on JioHotstar ↗',
+      btnClass: 'btn-theme-hotstar',
+      btnIcon: '▶',
+      url: 'https://www.hotstar.com/in/shows/the-penguin/1271324834',
+      glowColor: 'radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(30, 58, 138, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+    },
+    {
+      id: 'radical-optimism',
+      category: 'MUSIC',
+      contextTag: 'MUSIC RELEASE',
+      badgeClass: 'badge-music-release',
+      title: 'Radical Optimism',
+      meta: 'Dua Lipa • 2024 • Psychedelic Dance',
+      rating: '★ 8.2',
+      platform: 'Apple Music',
+      format: 'Spatial Audio • Hi-Res',
+      poster: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bd/d3/2c/bdd32c8c-bba7-def3-4e1f-2992550b2d16/5021732379115.jpg/600x600bb.jpg',
+      synopsis: "Dua Lipa channels UK rave culture and 90s psychedelia with anthemic tracks 'Houdini', 'Training Season' and 'Illusion'.",
+      btnText: 'Listen on Apple Music ♫',
+      btnClass: 'btn-theme-apple',
+      btnIcon: '♫',
+      url: 'https://music.apple.com/in/album/radical-optimism/1735578768',
+      glowColor: 'radial-gradient(circle, rgba(244, 114, 182, 0.35) 0%, rgba(219, 39, 119, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+    },
+    {
+      id: 'gladiator-2',
+      category: 'THEATER',
+      contextTag: 'THEATER RELEASE',
+      badgeClass: 'badge-theater-release',
+      title: 'Gladiator II',
+      meta: 'Ridley Scott • 2024 • Historical Epic',
+      rating: '★ 7.9',
+      platform: 'Theaters / IMAX',
+      format: 'IMAX • Dolby Cinema',
+      poster: 'https://image.tmdb.org/t/p/w500/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg',
+      synopsis: "Years after witnessing the fall of Maximus, Lucius must enter the Colosseum to fight for the future of Rome against tyrannical emperors.",
+      btnText: 'View Theaters & Showtimes ↗',
+      btnClass: 'btn-theme-theater',
+      btnIcon: '🎟',
+      url: 'https://in.bookmyshow.com/movies/gladiator-ii/ET00392813',
+      glowColor: 'radial-gradient(circle, rgba(249, 115, 22, 0.35) 0%, rgba(194, 65, 12, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+    },
+    {
+      id: 'squid-game-2',
+      category: 'OTT',
+      contextTag: 'TOP SHOW IN INDIA TODAY',
+      badgeClass: 'badge-top-show',
+      title: 'Squid Game',
+      meta: 'Hwang Dong-hyuk • Season 2 • Survival Thriller',
+      rating: '★ 8.5',
+      platform: 'Netflix',
+      format: '4K UHD • Atmos',
+      poster: 'https://image.tmdb.org/t/p/w500/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg',
+      synopsis: 'Three years after winning Squid Game, Player 456 gives up going to the states and returns with a brand-new resolve in his mind.',
+      btnText: 'Watch on Netflix ↗',
+      btnClass: 'btn-theme-netflix',
+      btnIcon: '▶',
+      url: 'https://www.netflix.com/title/81040344',
+      glowColor: 'radial-gradient(circle, rgba(229, 9, 20, 0.35) 0%, rgba(153, 27, 27, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+    },
+    {
+      id: 'hurry-up-tomorrow',
+      category: 'MUSIC',
+      contextTag: 'ALBUM RELEASE',
+      badgeClass: 'badge-album-release',
+      title: 'Hurry Up Tomorrow',
+      meta: 'The Weeknd • 2025 • Synthwave / R&B',
+      rating: '★ 8.9',
+      platform: 'Spotify',
+      format: 'Lossless • Atmos',
+      poster: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/13/fd/a3/13fda38d-fc63-ddc3-1cf2-c09251adc532/25UMGIM09489.rgb.jpg/600x600bb.jpg',
+      synopsis: "The highly anticipated finale to The Weeknd's blockbuster album trilogy, featuring 'Dancing in the Flames' and 'Timeless'.",
+      btnText: 'Listen on Spotify ♫',
+      btnClass: 'btn-theme-spotify',
+      btnIcon: '♫',
+      url: 'https://open.spotify.com/album/2wGv5fU4b2WkIvhJ4WqL0t',
+      glowColor: 'radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(126, 34, 206, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
     }
+  ];
 
-    // Advance indices by 2 (next pair of stories)
-    intlIdx = (intlIdx + 2) % NEWS_POOLS.international.length;
-    natIdx = (natIdx + 2) % NEWS_POOLS.national.length;
-    blrIdx = (blrIdx + 2) % NEWS_POOLS.bengaluru.length;
+  let currentIdx = 0;
+  let autoTimer = null;
+
+  const cardInner = card.querySelector('.spotlight-card-inner');
+  const glow = document.getElementById('spotlight-glow');
+  const typeChip = document.getElementById('spotlight-type-chip');
+  const counter = document.getElementById('spotlight-counter');
+  const btnPrev = document.getElementById('spotlight-btn-prev');
+  const btnNext = document.getElementById('spotlight-btn-next');
+
+  const posterImg = document.getElementById('spotlight-poster-img');
+  const platformName = document.getElementById('spotlight-platform-name');
+  const formatText = document.getElementById('spotlight-format-text');
+
+  const mainTitle = document.getElementById('spotlight-main-title');
+  const metaInfo = document.getElementById('spotlight-meta-info');
+  const ratingEl = document.getElementById('spotlight-rating');
+
+  const contextBadge = document.getElementById('spotlight-context-badge');
+  const synopsisEl = document.getElementById('spotlight-synopsis');
+  const actionBtn = document.getElementById('spotlight-action-btn');
+  const btnIcon = document.getElementById('spotlight-btn-icon');
+  const btnLabel = document.getElementById('spotlight-btn-label');
+
+  function renderDrop(idx, animate = true) {
+    const drop = SPOTLIGHT_DROPS[idx];
+    if (!drop) return;
+
+    if (animate && cardInner) {
+      cardInner.classList.add('spotlight-animating');
+    }
 
     setTimeout(() => {
-      renderSection(itemsWrapIntl, NEWS_POOLS.international, intlIdx);
-      renderSection(itemsWrapNat, NEWS_POOLS.national, natIdx);
-      renderSection(itemsWrapBlr, NEWS_POOLS.bengaluru, blrIdx);
+      // 1. Header & Counter
+      if (counter) counter.textContent = `${idx + 1} / ${SPOTLIGHT_DROPS.length}`;
+      if (typeChip) typeChip.textContent = drop.category;
 
-      if (animate) {
-        container.classList.remove('news-fading');
+      // 2. Parts 1 & 2: Poster & Badges
+      if (posterImg) {
+        posterImg.src = drop.poster;
+        posterImg.alt = `${drop.title} Artwork`;
+      }
+      if (platformName) platformName.textContent = drop.platform;
+      if (formatText) formatText.textContent = drop.format;
+
+      // 3. Part 3: Title & Creator Metadata
+      if (mainTitle) mainTitle.textContent = drop.title;
+      if (metaInfo) metaInfo.textContent = drop.meta;
+      if (ratingEl) ratingEl.textContent = drop.rating;
+
+      // 4. Part 4: Context Tag & 2-Line Synopsis & Action Button
+      if (contextBadge) {
+        contextBadge.textContent = drop.contextTag;
+        contextBadge.className = `spotlight-context-badge ${drop.badgeClass}`;
+      }
+      if (synopsisEl) {
+        synopsisEl.textContent = drop.synopsis;
+      }
+      if (actionBtn) {
+        actionBtn.href = drop.url;
+        actionBtn.className = `spotlight-action-btn ${drop.btnClass}`;
+      }
+      if (btnIcon) btnIcon.textContent = drop.btnIcon;
+      if (btnLabel) btnLabel.textContent = drop.btnText;
+
+      // Dynamic ambient glow
+      if (glow && drop.glowColor) {
+        glow.style.background = drop.glowColor;
       }
 
-      if (isManual) {
-        if (btnRefresh) {
-          btnRefresh.classList.add('spinning');
-          setTimeout(() => btnRefresh.classList.remove('spinning'), 650);
-        }
-        showToast('News feed refreshed');
+      if (animate && cardInner) {
+        cardInner.classList.remove('spotlight-animating');
       }
-    }, animate ? 160 : 0);
+    }, animate ? 140 : 0);
   }
 
-  // Initial render (already in HTML, but wire up event listeners)
-  renderSection(itemsWrapIntl, NEWS_POOLS.international, intlIdx);
-  renderSection(itemsWrapNat, NEWS_POOLS.national, natIdx);
-  renderSection(itemsWrapBlr, NEWS_POOLS.bengaluru, blrIdx);
+  function nextDrop() {
+    currentIdx = (currentIdx + 1) % SPOTLIGHT_DROPS.length;
+    renderDrop(currentIdx, true);
+    resetAutoCycle();
+  }
 
-  // Manual refresh button
-  if (btnRefresh) {
-    btnRefresh.addEventListener('click', () => {
-      countdownSecs = 30;
-      if (badge) badge.textContent = '30s';
-      cycleNews(true, true);
+  function prevDrop() {
+    currentIdx = (currentIdx - 1 + SPOTLIGHT_DROPS.length) % SPOTLIGHT_DROPS.length;
+    renderDrop(currentIdx, true);
+    resetAutoCycle();
+  }
+
+  function startAutoCycle() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => {
+      currentIdx = (currentIdx + 1) % SPOTLIGHT_DROPS.length;
+      renderDrop(currentIdx, true);
+    }, 12000);
+  }
+
+  function resetAutoCycle() {
+    startAutoCycle();
+  }
+
+  // Button navigation listeners
+  if (btnPrev) btnPrev.addEventListener('click', prevDrop);
+  if (btnNext) btnNext.addEventListener('click', nextDrop);
+
+  // Pause on hover
+  card.addEventListener('mouseenter', () => clearInterval(autoTimer));
+  card.addEventListener('mouseleave', () => startAutoCycle());
+
+  // Action button toast feedback
+  if (actionBtn) {
+    actionBtn.addEventListener('click', () => {
+      const drop = SPOTLIGHT_DROPS[currentIdx];
+      showToast(`Opening "${drop.title}" on ${drop.platform}...`);
     });
   }
 
-  // 1-second countdown ticker for 30s auto-refresh
-  setInterval(() => {
-    elapsedSeconds++;
-    countdownSecs--;
-
-    if (countdownSecs <= 0) {
-      countdownSecs = 30;
-      cycleNews(true, false);
-    }
-
-    if (badge) {
-      badge.textContent = `${countdownSecs}s`;
-    }
-  }, 1000);
+  // Initial render
+  renderDrop(currentIdx, false);
+  startAutoCycle();
 }
 
 /* ==========================================================================
