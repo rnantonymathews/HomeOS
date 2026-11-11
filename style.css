@@ -1397,7 +1397,7 @@ html, body {
    HomeOS - Movies View: Continue Watching Accordion Rail
    ========================================================================== */
 .movies-cw-section {
-  padding: 38px 54px 44px 54px;
+  padding: 24px 5% 16px 5%;
   width: 100%;
   position: relative;
   z-index: 2;
@@ -1407,7 +1407,7 @@ html, body {
 .movie-block-top {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .movie-block-tag {
@@ -1426,7 +1426,7 @@ html, body {
 .movie-block-divider-wrap {
   position: relative;
   width: 100%;
-  margin: 0 0 24px 0;
+  margin: 0 0 14px 0;
 }
 
 .movie-block-divider-line {
@@ -1463,7 +1463,7 @@ html, body {
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .movies-cw-header-left {
@@ -1486,10 +1486,10 @@ html, body {
   display: flex;
   gap: 18px;
   align-items: flex-start;
-  min-height: 440px;
+  min-height: 405px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 8px 60px 48px 4px;
+  padding: 6px 60px 16px 4px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE / Edge */
 }
@@ -1503,7 +1503,8 @@ html, body {
 .cw-rail-end-spacer {
   flex: 0 0 54px;
   min-width: 54px;
-  height: 380px;
+  height: 1px;
+  align-self: stretch;
   pointer-events: none;
 }
 
@@ -1855,7 +1856,7 @@ html, body {
    HomeOS - Movies View: Streaming Platform Sections (Netflix, Prime, Hotstar)
    ========================================================================== */
 .movies-platform-section {
-  padding: 10px 54px 60px 54px;
+  padding: 8px 5% 18px 5%;
   width: 100%;
   position: relative;
   z-index: 2;
@@ -1867,7 +1868,7 @@ html, body {
 .hotstar-divider-wrap {
   position: relative;
   width: 100%;
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
 }
 
 /* 1. Netflix (Red Glow) */
@@ -1967,7 +1968,7 @@ html, body {
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .movies-section-title {
@@ -1987,7 +1988,7 @@ html, body {
   align-items: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 4px 60px 36px 4px;
+  padding: 4px 60px 14px 4px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -2218,15 +2219,15 @@ html, body {
 /* Responsive Adaptations */
 @media (max-width: 1080px) {
   .movies-cw-section {
-    padding: 32px 28px 36px 28px;
+    padding: 24px 4% 16px 4%;
   }
   .movies-netflix-section,
   .movies-platform-section {
-    padding: 10px 28px 48px 28px;
+    padding: 8px 4% 16px 4%;
   }
   .movies-cw-rail {
-    min-height: 440px;
-    padding: 8px 48px 48px 4px;
+    min-height: 405px;
+    padding: 8px 36px 16px 4px;
   }
   .movies-cw-card.is-active {
     flex: 0 0 540px;
@@ -2235,16 +2236,16 @@ html, body {
 
 @media (max-width: 768px) {
   .movies-cw-section {
-    padding: 24px 16px 28px 16px;
+    padding: 20px 3% 14px 3%;
   }
   .movies-netflix-section,
   .movies-platform-section {
-    padding: 10px 16px 36px 16px;
+    padding: 6px 3% 14px 3%;
   }
   .movies-cw-rail {
-    min-height: 400px;
-    height: 400px;
-    padding: 8px 32px 40px 4px;
+    min-height: 370px;
+    height: 370px;
+    padding: 6px 24px 14px 4px;
   }
   .movies-cw-card {
     height: 350px;
@@ -2258,10 +2259,5 @@ html, body {
   }
   .cw-card-title {
     font-size: 22px;
-  }
-  .netflix-movie-card {
-    flex: 0 0 140px;
-    width: 140px;
-    height: 210px;
   }
 }
