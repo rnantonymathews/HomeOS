@@ -3,7 +3,13 @@
  * Clean, Frameless Architecture floating directly on Matte Desktop Wallpaper
  */
 
-import { CONTINUE_WATCHING_MOVIES, MOVIES_CATALOG, NETFLIX_TOP_10_INDIA } from './moviesData.js';
+import { 
+  CONTINUE_WATCHING_MOVIES, 
+  MOVIES_CATALOG, 
+  NETFLIX_TOP_10_INDIA,
+  PRIME_TOP_10,
+  HOTSTAR_TOP_10
+} from './moviesData.js';
 
 export function initMoviesView() {
   const overlay = document.getElementById('movies-overlay');
@@ -11,17 +17,17 @@ export function initMoviesView() {
 
   // Build the Movie Block Section & Netflix Section directly on the clean matte canvas
   overlay.innerHTML = `
-    <!-- 1. Continue Watching Block -->
+    <!-- 1. Continue Watching Block (Orange Glow) -->
     <div class="movies-cw-section" id="movies-cw-section">
       <!-- Top Supertitle Tag: MOVIE BLOCK -->
       <div class="movie-block-top">
         <span class="movie-block-tag">MOVIE BLOCK</span>
       </div>
 
-      <!-- Hairline divider with gentle downward purple glow -->
-      <div class="movie-block-divider-wrap" aria-hidden="true">
-        <div class="movie-block-divider-line"></div>
-        <div class="movie-block-divider-glow"></div>
+      <!-- Hairline divider with downward ORANGE glow -->
+      <div class="movie-block-divider-wrap cw-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line cw-divider-line"></div>
+        <div class="movie-block-divider-glow cw-divider-glow"></div>
       </div>
 
       <!-- Continue Watching Header -->
@@ -38,8 +44,8 @@ export function initMoviesView() {
     </div>
 
     <!-- 2. Netflix Section with Hairline Divider, Downward RED Glow, and "Netflix" Title (No Logo) -->
-    <div class="movies-netflix-section" id="movies-netflix-section">
-      <!-- Hairline divider with gentle downward RED glow -->
+    <div class="movies-platform-section movies-netflix-section" id="movies-netflix-section">
+      <!-- Hairline divider with downward RED glow -->
       <div class="movie-block-divider-wrap netflix-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line netflix-divider-line"></div>
         <div class="movie-block-divider-glow netflix-divider-glow"></div>
@@ -53,8 +59,50 @@ export function initMoviesView() {
       </div>
 
       <!-- Netflix Top 10 Movies Rail (Iconic Oversized Rank Numerals) -->
-      <div class="netflix-top10-rail" id="movies-netflix-rail" role="region" aria-label="Top 10 Movies on Netflix India">
-        ${renderNetflixTop10Rail(NETFLIX_TOP_10_INDIA)}
+      <div class="platform-top10-rail netflix-top10-rail" id="movies-netflix-rail" role="region" aria-label="Top 10 Movies on Netflix India">
+        ${renderPlatformTop10Rail(NETFLIX_TOP_10_INDIA, 'netflix', 'Netflix')}
+      </div>
+    </div>
+
+    <!-- 3. Prime Video Section with Hairline Divider, Downward BLUE Glow, and "Prime Video" Title (No Logo) -->
+    <div class="movies-platform-section movies-prime-section" id="movies-prime-section">
+      <!-- Hairline divider with downward BLUE glow -->
+      <div class="movie-block-divider-wrap prime-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line prime-divider-line"></div>
+        <div class="movie-block-divider-glow prime-divider-glow"></div>
+      </div>
+
+      <!-- Section Title: Prime Video (no logo) -->
+      <div class="movies-section-header">
+        <div class="prime-header-left">
+          <h2 class="movies-section-title">Prime Video</h2>
+        </div>
+      </div>
+
+      <!-- Prime Video Top 10 Movies Rail (Iconic Oversized Rank Numerals) -->
+      <div class="platform-top10-rail prime-top10-rail" id="movies-prime-rail" role="region" aria-label="Top 10 Movies on Prime Video">
+        ${renderPlatformTop10Rail(PRIME_TOP_10, 'prime', 'Prime Video')}
+      </div>
+    </div>
+
+    <!-- 4. Hotstar Section with Hairline Divider, Downward PURPLE Glow, and "Hotstar" Title (No Logo) -->
+    <div class="movies-platform-section movies-hotstar-section" id="movies-hotstar-section">
+      <!-- Hairline divider with downward PURPLE glow -->
+      <div class="movie-block-divider-wrap hotstar-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line hotstar-divider-line"></div>
+        <div class="movie-block-divider-glow hotstar-divider-glow"></div>
+      </div>
+
+      <!-- Section Title: Hotstar (no logo) -->
+      <div class="movies-section-header">
+        <div class="hotstar-header-left">
+          <h2 class="movies-section-title">Hotstar</h2>
+        </div>
+      </div>
+
+      <!-- Hotstar Top 10 Movies Rail (Iconic Oversized Rank Numerals) -->
+      <div class="platform-top10-rail hotstar-top10-rail" id="movies-hotstar-rail" role="region" aria-label="Top 10 Movies on Hotstar">
+        ${renderPlatformTop10Rail(HOTSTAR_TOP_10, 'hotstar', 'Hotstar')}
       </div>
     </div>
   `;
@@ -144,36 +192,36 @@ function renderContinueWatchingCards(movies) {
   return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
-function renderNetflixTop10Rail(movies) {
+function renderPlatformTop10Rail(movies, platformKey, platformName) {
   const cardsHtml = movies.map((movie) => {
     const isTen = movie.rank === 10;
     return `
-      <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="netflix-top10-item" title="Watch #${movie.rank} ${movie.title} on Netflix">
-        <!-- Iconic Netflix Stylized Rank Numeral -->
-        <div class="netflix-rank-wrap ${isTen ? 'is-ten' : ''}">
-          <span class="netflix-rank-num ${isTen ? 'netflix-rank-ten' : ''}">${movie.rank}</span>
+      <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="platform-top10-item platform-item-${platformKey}" title="Watch #${movie.rank} ${movie.title} on ${platformName}">
+        <!-- Iconic Stylized Rank Numeral -->
+        <div class="platform-rank-wrap ${isTen ? 'is-ten' : ''}">
+          <span class="platform-rank-num ${isTen ? 'platform-rank-ten' : ''}">${movie.rank}</span>
         </div>
 
         <!-- Vertical Poster Card -->
-        <div class="netflix-poster-card">
+        <div class="platform-poster-card">
           <img 
-            class="netflix-poster-img" 
+            class="platform-poster-img" 
             src="${movie.poster}" 
             alt="${movie.title} Poster" 
             loading="lazy"
-            onerror="this.onerror=null; this.src='https://image.tmdb.org/t/p/w500/5sBnZMT1aJ6cBvehKOzOOLdI6bz.jpg';" 
+            onerror="this.onerror=null; this.src='https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg';" 
           />
-          <div class="netflix-card-scrim"></div>
+          <div class="platform-card-scrim"></div>
 
-          <div class="netflix-card-info">
-            <span class="netflix-card-rank-sub">#${movie.rank} in Movies Today</span>
-            <span class="netflix-card-title">${movie.title}</span>
-            <div class="netflix-card-meta">
+          <div class="platform-card-info">
+            <span class="platform-card-rank-sub rank-sub-${platformKey}">#${movie.rank} in Movies Today</span>
+            <span class="platform-card-title">${movie.title}</span>
+            <div class="platform-card-meta">
               <span>${movie.year}</span>
               <span class="meta-dot">•</span>
               <span>${movie.language}</span>
               <span class="meta-dot">•</span>
-              <span class="netflix-rating">★ ${movie.rating}</span>
+              <span class="platform-rating">★ ${movie.rating}</span>
             </div>
           </div>
         </div>

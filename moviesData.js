@@ -299,6 +299,252 @@ export const NETFLIX_TOP_10_INDIA = [
   }
 ];
 
+export const PRIME_TOP_10 = [
+  {
+    rank: 1,
+    id: 'prime-dune-2',
+    title: 'Dune: Part Two',
+    year: 2024,
+    duration: '2h 46m',
+    rating: 8.6,
+    genres: ['Sci-Fi', 'Adventure'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Dune%20Part%20Two',
+    poster: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg'
+  },
+  {
+    rank: 2,
+    id: 'prime-civil-war',
+    title: 'Civil War',
+    year: 2024,
+    duration: '1h 49m',
+    rating: 7.6,
+    genres: ['Action', 'Thriller'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Civil%20War',
+    poster: 'https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg'
+  },
+  {
+    rank: 3,
+    id: 'prime-the-batman',
+    title: 'The Batman',
+    year: 2022,
+    duration: '2h 56m',
+    rating: 8.1,
+    genres: ['Crime', 'Mystery'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=The%20Batman',
+    poster: 'https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg'
+  },
+  {
+    rank: 4,
+    id: 'prime-top-gun',
+    title: 'Top Gun: Maverick',
+    year: 2022,
+    duration: '2h 10m',
+    rating: 8.3,
+    genres: ['Action', 'Drama'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Top%20Gun%20Maverick',
+    poster: 'https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg'
+  },
+  {
+    rank: 5,
+    id: 'prime-fight-club',
+    title: 'Fight Club',
+    year: 1999,
+    duration: '2h 19m',
+    rating: 8.8,
+    genres: ['Drama', 'Thriller'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Fight%20Club',
+    poster: 'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg'
+  },
+  {
+    rank: 6,
+    id: 'prime-whiplash',
+    title: 'Whiplash',
+    year: 2014,
+    duration: '1h 47m',
+    rating: 8.5,
+    genres: ['Drama', 'Music'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Whiplash',
+    poster: 'https://image.tmdb.org/t/p/w500/7fn624j5lj3xTme2SgiLCeuedmO.jpg'
+  },
+  {
+    rank: 7,
+    id: 'prime-godfather',
+    title: 'The Godfather',
+    year: 1972,
+    duration: '2h 55m',
+    rating: 9.2,
+    genres: ['Crime', 'Drama'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=The%20Godfather',
+    poster: 'https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg'
+  },
+  {
+    rank: 8,
+    id: 'prime-fury-road',
+    title: 'Mad Max: Fury Road',
+    year: 2015,
+    duration: '2h 00m',
+    rating: 8.1,
+    genres: ['Action', 'Sci-Fi'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Mad%20Max%20Fury%20Road',
+    poster: 'https://image.tmdb.org/t/p/w500/hA2ple9q4qnwxp3hKVNhroipsir.jpg'
+  },
+  {
+    rank: 9,
+    id: 'prime-interstellar',
+    title: 'Interstellar',
+    year: 2014,
+    duration: '2h 49m',
+    rating: 8.7,
+    genres: ['Sci-Fi', 'Drama'],
+    language: 'English',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Interstellar',
+    poster: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg'
+  },
+  {
+    rank: 10,
+    id: 'prime-parasite',
+    title: 'Parasite',
+    year: 2019,
+    duration: '2h 12m',
+    rating: 8.5,
+    genres: ['Comedy', 'Thriller'],
+    language: 'Korean',
+    streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Parasite',
+    poster: 'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg'
+  }
+];
+
+export const HOTSTAR_TOP_10 = [
+  {
+    rank: 1,
+    id: 'hotstar-oppenheimer',
+    title: 'Oppenheimer',
+    year: 2023,
+    duration: '3h 00m',
+    rating: 8.9,
+    genres: ['Biography', 'Drama'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=Oppenheimer',
+    poster: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg'
+  },
+  {
+    rank: 2,
+    id: 'hotstar-endgame',
+    title: 'Avengers: Endgame',
+    year: 2019,
+    duration: '3h 01m',
+    rating: 8.4,
+    genres: ['Action', 'Sci-Fi'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=Avengers%20Endgame',
+    poster: 'https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg'
+  },
+  {
+    rank: 3,
+    id: 'hotstar-dark-knight',
+    title: 'The Dark Knight',
+    year: 2008,
+    duration: '2h 32m',
+    rating: 9.0,
+    genres: ['Action', 'Crime'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=The%20Dark%20Knight',
+    poster: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg'
+  },
+  {
+    rank: 4,
+    id: 'hotstar-inception',
+    title: 'Inception',
+    year: 2010,
+    duration: '2h 28m',
+    rating: 8.8,
+    genres: ['Action', 'Sci-Fi'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=Inception',
+    poster: 'https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg'
+  },
+  {
+    rank: 5,
+    id: 'hotstar-matrix',
+    title: 'The Matrix',
+    year: 1999,
+    duration: '2h 16m',
+    rating: 8.7,
+    genres: ['Action', 'Sci-Fi'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=The%20Matrix',
+    poster: 'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg'
+  },
+  {
+    rank: 6,
+    id: 'hotstar-joker',
+    title: 'Joker',
+    year: 2019,
+    duration: '2h 02m',
+    rating: 8.4,
+    genres: ['Crime', 'Drama'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=Joker',
+    poster: 'https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg'
+  },
+  {
+    rank: 7,
+    id: 'hotstar-spider-verse',
+    title: 'Spider-Man: Across the Spider-Verse',
+    year: 2023,
+    duration: '2h 20m',
+    rating: 8.7,
+    genres: ['Animation', 'Action'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=Spider-Man%20Across%20the%20Spider-Verse',
+    poster: 'https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg'
+  },
+  {
+    rank: 8,
+    id: 'hotstar-rrr',
+    title: 'RRR',
+    year: 2022,
+    duration: '3h 07m',
+    rating: 8.2,
+    genres: ['Action', 'Drama'],
+    language: 'Telugu',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=RRR',
+    poster: 'https://image.tmdb.org/t/p/w500/velWPhVMQeQKcxggNEU8YmIo52R.jpg'
+  },
+  {
+    rank: 9,
+    id: 'hotstar-blade-runner',
+    title: 'Blade Runner 2049',
+    year: 2017,
+    duration: '2h 44m',
+    rating: 8.3,
+    genres: ['Sci-Fi', 'Mystery'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=Blade%20Runner%202049',
+    poster: 'https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg'
+  },
+  {
+    rank: 10,
+    id: 'hotstar-knives-out',
+    title: 'Knives Out',
+    year: 2019,
+    duration: '2h 10m',
+    rating: 7.9,
+    genres: ['Comedy', 'Crime'],
+    language: 'English',
+    streamUrl: 'https://www.hotstar.com/in/explore?search_query=Knives%20Out',
+    poster: 'https://image.tmdb.org/t/p/w500/pThyQovXQrw2m0s9x82twj48Jq4.jpg'
+  }
+];
+
 export const MOVIE_RAILS = [
   { id: 'trending', title: 'Trending This Week', subtitle: 'What the world is streaming right now' },
   { id: 'masterpieces', title: 'All-Time Masterpieces', subtitle: 'Critically acclaimed 8.0+ masterpieces' },
