@@ -9,24 +9,34 @@ export function initMoviesView() {
   const overlay = document.getElementById('movies-overlay');
   if (!overlay) return;
 
-  // Build the Continue Watching Section directly on the clean matte canvas
+  // Build the Movie Block Section directly on the clean matte canvas
   overlay.innerHTML = `
     <div class="movies-cw-section" id="movies-cw-section">
-      <!-- Minimalist Frameless Header with Left/Right Nav Arrows -->
+      <!-- 1. Top Supertitle Tag: MOVIE BLOCK -->
+      <div class="movie-block-top">
+        <span class="movie-block-tag">MOVIE BLOCK</span>
+      </div>
+
+      <!-- 2. Hairline divider with gentle downward purple glow -->
+      <div class="movie-block-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line"></div>
+        <div class="movie-block-divider-glow"></div>
+      </div>
+
+      <!-- 3. Continue Watching Header with Prev/Next Navigation -->
       <div class="movies-cw-header">
         <div class="movies-cw-header-left">
-          <span class="movies-cw-tag">RESUME PLAYBACK</span>
           <h2 class="movies-cw-title">Continue Watching</h2>
         </div>
         <div class="movies-cw-header-right">
           <span class="movies-cw-counter">${CONTINUE_WATCHING_MOVIES.length} in progress</span>
           <div class="movies-cw-nav-arrows">
-            <button class="cw-nav-btn btn-cw-prev" id="btn-cw-prev" title="Previous Movie (Left Arrow)" aria-label="Previous Movie">
+            <button class="cw-nav-btn btn-cw-prev" id="btn-cw-prev" title="Previous Movie" aria-label="Previous Movie">
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
-            <button class="cw-nav-btn btn-cw-next" id="btn-cw-next" title="Next Movie (Right Arrow)" aria-label="Next Movie">
+            <button class="cw-nav-btn btn-cw-next" id="btn-cw-next" title="Next Movie" aria-label="Next Movie">
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
@@ -35,36 +45,16 @@ export function initMoviesView() {
         </div>
       </div>
 
-      <!-- Horizontal Expanding Accordion Rail (Hidden Scrollbar + Centering) -->
+      <!-- 4. Horizontal Expanding Accordion Rail (Hidden Scrollbar + Anchored First/Last) -->
       <div class="movies-cw-rail" id="movies-cw-rail" role="region" aria-label="Continue Watching Movies">
         ${renderContinueWatchingCards(CONTINUE_WATCHING_MOVIES)}
-      </div>
-    </div>
-
-    <!-- YouTube Trailer Modal Overlay -->
-    <div class="movie-trailer-modal" id="movie-trailer-modal" aria-hidden="true">
-      <div class="trailer-modal-backdrop" id="trailer-modal-backdrop"></div>
-      <div class="trailer-modal-container">
-        <div class="trailer-header">
-          <span class="trailer-movie-title" id="trailer-modal-title">Trailer</span>
-          <button class="trailer-modal-close" id="trailer-modal-close" aria-label="Close Trailer">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-        <div class="trailer-iframe-wrap">
-          <iframe id="trailer-iframe" src="" title="Movie Trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
       </div>
     </div>
   `;
 
   attachContinueWatchingEvents();
-  attachTrailerModalEvents();
 
-  // Initial centering of active card
+  // Initial position: 1st card stays naturally at the start
   setTimeout(() => {
     const activeCard = document.querySelector('.movies-cw-card.is-active');
     if (activeCard) {
@@ -130,12 +120,6 @@ function renderContinueWatchingCards(movies) {
               </svg>
               <span>Continue Watching</span>
             </a>
-            <button class="cw-card-trailer-btn" data-trailer="${movie.trailerId}" data-title="${movie.title}" title="Watch Trailer">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-              <span>Trailer</span>
-            </button>
           </div>
         </div>
 
@@ -182,7 +166,7 @@ export function setActiveCard(card, smooth = true) {
   // Update Nav Buttons State
   updateNavArrows();
 
-  // Center the expanded card smoothly in the viewport
+  // Scroll appropriately: first and last stay as is; middle items center
   centerCard(card, smooth);
 }
 
@@ -191,15 +175,34 @@ function centerCard(card, smooth = true) {
   const rail = document.getElementById('movies-cw-rail');
   if (!rail) return;
 
+  const cards = Array.from(document.querySelectorAll('.movies-cw-card'));
+  const cardIndex = cards.indexOf(card);
+
   const performScroll = () => {
-    const cardRect = card.getBoundingClientRect();
-    const railRect = rail.getBoundingClientRect();
-    const currentScroll = rail.scrollLeft;
-    const cardCenter = (cardRect.left - railRect.left) + currentScroll + (cardRect.width / 2);
-    const targetScroll = cardCenter - (railRect.width / 2);
+    // The first card stays as it is (at the start)
+    if (cardIndex === 0) {
+      rail.scrollTo({
+        left: 0,
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+      return;
+    }
+
+    // The last card stays as it is (at the end)
+    if (cardIndex === cards.length - 1) {
+      rail.scrollTo({
+        left: Math.max(0, rail.scrollWidth - rail.clientWidth),
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+      return;
+    }
+
+    // Middle cards center so the user has the option to look/go right and left
+    const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+    const targetScroll = cardCenter - (rail.clientWidth / 2);
 
     rail.scrollTo({
-      left: Math.max(0, targetScroll),
+      left: Math.max(0, Math.min(rail.scrollWidth - rail.clientWidth, targetScroll)),
       behavior: smooth ? 'smooth' : 'auto'
     });
   };
@@ -229,8 +232,8 @@ function attachContinueWatchingEvents() {
 
   cards.forEach(card => {
     card.addEventListener('click', (e) => {
-      // If user clicked inside an action button (stream link or trailer button), don't collapse/expand
-      if (e.target.closest('.cw-card-play-btn') || e.target.closest('.cw-card-trailer-btn')) {
+      // If user clicked inside an action button (stream link), don't collapse/expand
+      if (e.target.closest('.cw-card-play-btn')) {
         return;
       }
 
@@ -276,8 +279,6 @@ function attachContinueWatchingEvents() {
   document.addEventListener('keydown', (e) => {
     const overlay = document.getElementById('movies-overlay');
     if (!overlay || !overlay.classList.contains('active')) return;
-    const modal = document.getElementById('movie-trailer-modal');
-    if (modal && modal.classList.contains('active')) return;
 
     const allCards = Array.from(document.querySelectorAll('.movies-cw-card'));
     const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
@@ -289,45 +290,6 @@ function attachContinueWatchingEvents() {
       e.preventDefault();
       setActiveCard(allCards[activeIdx - 1], true);
     }
-  });
-}
-
-function attachTrailerModalEvents() {
-  const modal = document.getElementById('movie-trailer-modal');
-  const iframe = document.getElementById('trailer-iframe');
-  const closeBtn = document.getElementById('trailer-modal-close');
-  const backdrop = document.getElementById('trailer-modal-backdrop');
-  const titleEl = document.getElementById('trailer-modal-title');
-  if (!modal) return;
-
-  const closeTrailer = () => {
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
-    if (iframe) iframe.src = '';
-  };
-
-  if (closeBtn) closeBtn.addEventListener('click', closeTrailer);
-  if (backdrop) backdrop.addEventListener('click', closeTrailer);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      closeTrailer();
-    }
-  });
-
-  const trailerButtons = document.querySelectorAll('.cw-card-trailer-btn');
-  trailerButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const trailerId = btn.dataset.trailer;
-      const movieTitle = btn.dataset.title;
-      if (trailerId && iframe) {
-        iframe.src = `https://www.youtube.com/embed/${trailerId}?autoplay=1&rel=0`;
-        if (titleEl) titleEl.textContent = `${movieTitle} - Trailer`;
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
-      }
-    });
   });
 }
 
@@ -343,7 +305,7 @@ export function openMoviesView() {
   overlay.classList.add('active');
   overlay.scrollTop = 0;
 
-  // Center active card when view opens
+  // Initial positioning: 1st card stays at the start
   setTimeout(() => {
     const activeCard = document.querySelector('.movies-cw-card.is-active');
     if (activeCard) {
