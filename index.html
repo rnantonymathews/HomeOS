@@ -171,63 +171,61 @@
         </div>
       </div>
 
-      <!-- 2. Horizontal Medium Card: Weather Card (Week, AQI, Rain %) -->
+      <!-- 2. Horizontal Medium Card: Weather Card (Day Forecast: 3am, 9am, 3pm, 9pm) -->
       <div class="bento-card card-weather" id="card-weather">
         <div class="card-glow glow-cyan"></div>
-        <div class="weather-header-row">
-          <div class="weather-location-group">
-            <span class="weather-city-name" id="weather-city">Ejipura</span>
+        <div class="weather-top-section">
+          <div class="weather-header-row">
+            <div class="weather-location-group">
+              <span class="weather-city-name" id="weather-city">Ejipura</span>
+            </div>
+          </div>
+
+          <div class="weather-main-row">
+            <div class="weather-temp-display">
+              <span class="weather-big-temp" id="weather-temp">27°</span>
+              <span class="weather-range-tag" id="weather-range">H: 28° &nbsp; L: 18°</span>
+            </div>
+            <div class="weather-metrics-pills">
+              <div class="weather-metric aqi-pill" title="Air Quality Index">
+                <span class="metric-icon">🍃</span>
+                <div class="metric-text-group">
+                  <span class="metric-val" id="weather-aqi">AQI 107</span>
+                  <span class="metric-status status-good">Good</span>
+                </div>
+              </div>
+              <div class="weather-metric rain-pill" title="Chances of Rain">
+                <span class="metric-icon">💧</span>
+                <div class="metric-text-group">
+                  <span class="metric-val" id="weather-rain">15%</span>
+                  <span class="metric-status">Rain</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="weather-main-row">
-          <div class="weather-temp-display">
-            <span class="weather-big-temp" id="weather-temp">24°</span>
-            <span class="weather-range-tag" id="weather-range">H: 29° &nbsp; L: 19°</span>
+        <!-- 4 Daily Time Slots: 3 AM, 9 AM, 3 PM, 9 PM -->
+        <div class="weather-day-forecast" id="weather-day-forecast">
+          <div class="forecast-slot-col" id="slot-3am">
+            <span class="slot-time">3 AM</span>
+            <span class="slot-icon" id="slot-icon-3am">🌙</span>
+            <span class="slot-temp" id="slot-temp-3am">18°</span>
           </div>
-          <div class="weather-metrics-pills">
-            <div class="weather-metric aqi-pill" title="Air Quality Index">
-              <span class="metric-icon">🍃</span>
-              <div class="metric-text-group">
-                <span class="metric-val" id="weather-aqi">AQI 42</span>
-                <span class="metric-status status-good">Good</span>
-              </div>
-            </div>
-            <div class="weather-metric rain-pill" title="Chances of Rain">
-              <span class="metric-icon">💧</span>
-              <div class="metric-text-group">
-                <span class="metric-val" id="weather-rain">15%</span>
-                <span class="metric-status">Rain</span>
-              </div>
-            </div>
+          <div class="forecast-slot-col" id="slot-9am">
+            <span class="slot-time">9 AM</span>
+            <span class="slot-icon" id="slot-icon-9am">🌤️</span>
+            <span class="slot-temp" id="slot-temp-9am">24°</span>
           </div>
-        </div>
-
-        <div class="weather-week-forecast" id="weather-week-forecast">
-          <div class="forecast-day-col">
-            <span class="f-day" id="f-day-0">Wed</span>
-            <span class="f-icon" id="f-icon-0">⛅</span>
-            <span class="f-temp" id="f-temp-0">24°</span>
+          <div class="forecast-slot-col" id="slot-3pm">
+            <span class="slot-time">3 PM</span>
+            <span class="slot-icon" id="slot-icon-3pm">☀️</span>
+            <span class="slot-temp" id="slot-temp-3pm">28°</span>
           </div>
-          <div class="forecast-day-col">
-            <span class="f-day" id="f-day-1">Thu</span>
-            <span class="f-icon" id="f-icon-1">🌤️</span>
-            <span class="f-temp" id="f-temp-1">26°</span>
-          </div>
-          <div class="forecast-day-col">
-            <span class="f-day" id="f-day-2">Fri</span>
-            <span class="f-icon" id="f-icon-2">🌧️</span>
-            <span class="f-temp" id="f-temp-2">22°</span>
-          </div>
-          <div class="forecast-day-col">
-            <span class="f-day" id="f-day-3">Sat</span>
-            <span class="f-icon" id="f-icon-3">🌦️</span>
-            <span class="f-temp" id="f-temp-3">23°</span>
-          </div>
-          <div class="forecast-day-col">
-            <span class="f-day" id="f-day-4">Sun</span>
-            <span class="f-icon" id="f-icon-4">☀️</span>
-            <span class="f-temp" id="f-temp-4">27°</span>
+          <div class="forecast-slot-col" id="slot-9pm">
+            <span class="slot-time">9 PM</span>
+            <span class="slot-icon" id="slot-icon-9pm">🌙</span>
+            <span class="slot-temp" id="slot-temp-9pm">22°</span>
           </div>
         </div>
       </div>

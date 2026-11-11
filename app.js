@@ -95,7 +95,7 @@ async function initWeatherLive() {
 
   async function fetchForecast() {
     try {
-      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,weather_code,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&timezone=Asia%2FKolkata`;
+      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,weather_code,precipitation_probability&hourly=temperature_2m,weather_code,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&timezone=Asia%2FKolkata&forecast_days=1`;
       const res = await fetch(weatherUrl);
       if (!res.ok) return;
       const data = await res.json();
@@ -128,30 +128,49 @@ async function initWeatherLive() {
           const hi = Math.round(data.daily.temperature_2m_max[0]);
           const lo = Math.round(data.daily.temperature_2m_min[0]);
           if (rangeEl) rangeEl.textContent = `H: ${hi}°   L: ${lo}°`;
+        }
 
-          // 5-Day Forecast Row
-          const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-          for (let i = 0; i < 5; i++) {
-            const dateStr = data.daily.time[i];
-            const d = new Date(dateStr);
-            const dName = i === 0 ? 'Today' : dayNames[d.getDay()];
-            const dCode = data.daily.weather_code[i];
-            const dMax = Math.round(data.daily.temperature_2m_max[i]);
+        // 4 Daily Time Slots: 3 AM, 9 AM, 3 PM, 9 PM
+        if (data.hourly && data.hourly.temperature_2m) {
+          const slotConfigs = [
+            { id: '3am', hour: 3, isNight: true },
+            { id: '9am', hour: 9, isNight: false },
+            { id: '3pm', hour: 15, isNight: false },
+            { id: '9pm', hour: 21, isNight: true }
+          ];
 
-            let icon = '☀️';
-            if (dCode === 1 || dCode === 2) icon = '⛅';
-            else if (dCode === 3) icon = '🌤️';
-            else if ([51, 53, 55, 61, 63, 65].includes(dCode)) icon = '🌧️';
-            else if ([80, 81, 82, 95].includes(dCode)) icon = '⛈️';
+          const currentHour = new Date().getHours();
+          // Determine closest slot: 0-5 => 3am, 6-11 => 9am, 12-17 => 3pm, 18-23 => 9pm
+          let activeSlotId = '3am';
+          if (currentHour >= 6 && currentHour < 12) activeSlotId = '9am';
+          else if (currentHour >= 12 && currentHour < 18) activeSlotId = '3pm';
+          else if (currentHour >= 18 || currentHour < 0) activeSlotId = '9pm';
 
-            const fDayEl = document.getElementById(`f-day-${i}`);
-            const fIconEl = document.getElementById(`f-icon-${i}`);
-            const fTempEl = document.getElementById(`f-temp-${i}`);
+          slotConfigs.forEach(slot => {
+            const hTemp = data.hourly.temperature_2m[slot.hour] !== undefined
+              ? Math.round(data.hourly.temperature_2m[slot.hour])
+              : null;
+            const hCode = data.hourly.weather_code && data.hourly.weather_code[slot.hour] !== undefined
+              ? data.hourly.weather_code[slot.hour]
+              : 0;
 
-            if (fDayEl) fDayEl.textContent = dName;
-            if (fIconEl) fIconEl.textContent = icon;
-            if (fTempEl) fTempEl.textContent = `${dMax}°`;
-          }
+            let icon = slot.isNight ? '🌙' : '☀️';
+            if (hCode === 1 || hCode === 2) icon = slot.isNight ? '☁️' : '🌤️';
+            else if (hCode === 3) icon = slot.isNight ? '☁️' : '⛅';
+            else if ([51, 53, 55, 61, 63, 65].includes(hCode)) icon = '🌧️';
+            else if ([80, 81, 82, 95].includes(hCode)) icon = '⛈️';
+
+            const iconEl = document.getElementById(`slot-icon-${slot.id}`);
+            const tempEl = document.getElementById(`slot-temp-${slot.id}`);
+            const colEl = document.getElementById(`slot-${slot.id}`);
+
+            if (iconEl) iconEl.textContent = icon;
+            if (tempEl && hTemp !== null) tempEl.textContent = `${hTemp}°`;
+            if (colEl) {
+              if (slot.id === activeSlotId) colEl.classList.add('active-slot');
+              else colEl.classList.remove('active-slot');
+            }
+          });
         }
       }
     } catch (err) {

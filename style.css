@@ -323,7 +323,7 @@ html, body {
    1. Card: User Name & Continue Hub (Movies, Shows, Music)
    ========================================================================== */
 .card-user-continue {
-  height: 340px;
+  height: 336px;
   padding: 16px 16px 14px;
   display: flex;
   flex-direction: column;
@@ -541,14 +541,20 @@ html, body {
 }
 
 /* ==========================================================================
-   2. Card: Weather (Horizontal Compact)
+   2. Card: Weather (Day Forecast: 3 AM, 9 AM, 3 PM, 9 PM)
    ========================================================================== */
 .card-weather {
-  height: 164px;
+  height: 168px;
   padding: 12px 18px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.weather-top-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .weather-header-row {
@@ -566,9 +572,10 @@ html, body {
 
 .weather-city-name {
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: #FFFFFF;
+  letter-spacing: -0.2px;
 }
 
 .weather-main-row {
@@ -577,6 +584,7 @@ html, body {
   justify-content: space-between;
   position: relative;
   z-index: 1;
+  margin-top: 2px;
 }
 
 .weather-temp-display {
@@ -586,7 +594,7 @@ html, body {
 
 .weather-big-temp {
   font-family: 'Orbitron', 'Space Grotesk', monospace;
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 800;
   color: #FFFFFF;
   line-height: 1;
@@ -597,7 +605,8 @@ html, body {
 .weather-range-tag {
   font-size: 10px;
   color: rgba(255, 255, 255, 0.55);
-  margin-top: 2px;
+  font-weight: 500;
+  margin-top: 3px;
 }
 
 .weather-metrics-pills {
@@ -610,31 +619,32 @@ html, body {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   padding: 3px 8px;
   border-radius: 9px;
   min-width: 88px;
 }
 
 .metric-icon {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .metric-text-group {
   display: flex;
   flex-direction: column;
+  line-height: 1.1;
 }
 
 .metric-val {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: #FFFFFF;
 }
 
 .metric-status {
-  font-size: 9.5px;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 8.5px;
+  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
@@ -643,36 +653,58 @@ html, body {
   color: #22c55e;
 }
 
-.weather-week-forecast {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 12px;
+/* Day Forecast Row: 3 AM, 9 AM, 3 PM, 9 PM */
+.weather-day-forecast {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding-top: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
   z-index: 1;
 }
 
-.forecast-day-col {
+.forecast-slot-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
+  padding: 4px 4px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.2s ease;
 }
 
-.f-day {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
+.forecast-slot-col:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
-.f-icon {
-  font-size: 14px;
+.forecast-slot-col.active-slot {
+  background: rgba(14, 165, 233, 0.14);
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.22);
 }
 
-.f-temp {
-  font-size: 11px;
+.slot-time {
+  font-family: 'Poppins', sans-serif;
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.65);
   font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.slot-icon {
+  font-size: 13px;
+  line-height: 1;
+  margin: 1px 0;
+}
+
+.slot-temp {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
   color: #FFFFFF;
 }
 
