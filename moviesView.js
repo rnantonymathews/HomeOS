@@ -23,25 +23,10 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow"></div>
       </div>
 
-      <!-- 3. Continue Watching Header with Prev/Next Navigation -->
+      <!-- 3. Continue Watching Header -->
       <div class="movies-cw-header">
         <div class="movies-cw-header-left">
           <h2 class="movies-cw-title">Continue Watching</h2>
-        </div>
-        <div class="movies-cw-header-right">
-          <span class="movies-cw-counter">${CONTINUE_WATCHING_MOVIES.length} in progress</span>
-          <div class="movies-cw-nav-arrows">
-            <button class="cw-nav-btn btn-cw-prev" id="btn-cw-prev" title="Previous Movie" aria-label="Previous Movie">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
-            <button class="cw-nav-btn btn-cw-next" id="btn-cw-next" title="Next Movie" aria-label="Next Movie">
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -59,7 +44,6 @@ export function initMoviesView() {
     const activeCard = document.querySelector('.movies-cw-card.is-active');
     if (activeCard) {
       centerCard(activeCard, false);
-      updateNavArrows();
     }
   }, 100);
 }
@@ -163,9 +147,6 @@ export function setActiveCard(card, smooth = true) {
     });
   }
 
-  // Update Nav Buttons State
-  updateNavArrows();
-
   // Scroll appropriately: first and last stay as is; middle items center
   centerCard(card, smooth);
 }
@@ -212,20 +193,6 @@ function centerCard(card, smooth = true) {
   setTimeout(performScroll, 280);
 }
 
-function updateNavArrows() {
-  const cards = Array.from(document.querySelectorAll('.movies-cw-card'));
-  const activeIndex = cards.findIndex(c => c.classList.contains('is-active'));
-  const prevBtn = document.getElementById('btn-cw-prev');
-  const nextBtn = document.getElementById('btn-cw-next');
-
-  if (prevBtn) {
-    prevBtn.disabled = activeIndex <= 0;
-  }
-  if (nextBtn) {
-    nextBtn.disabled = activeIndex >= cards.length - 1;
-  }
-}
-
 function attachContinueWatchingEvents() {
   const cards = document.querySelectorAll('.movies-cw-card');
   if (!cards.length) return;
@@ -248,32 +215,6 @@ function attachContinueWatchingEvents() {
       }
     });
   });
-
-  // Nav Arrow buttons
-  const prevBtn = document.getElementById('btn-cw-prev');
-  const nextBtn = document.getElementById('btn-cw-next');
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const allCards = Array.from(document.querySelectorAll('.movies-cw-card'));
-      const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
-      if (activeIdx > 0) {
-        setActiveCard(allCards[activeIdx - 1], true);
-      }
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const allCards = Array.from(document.querySelectorAll('.movies-cw-card'));
-      const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
-      if (activeIdx < allCards.length - 1) {
-        setActiveCard(allCards[activeIdx + 1], true);
-      }
-    });
-  }
 
   // Global Left/Right Arrow Key Navigation
   document.addEventListener('keydown', (e) => {
@@ -310,7 +251,6 @@ export function openMoviesView() {
     const activeCard = document.querySelector('.movies-cw-card.is-active');
     if (activeCard) {
       centerCard(activeCard, false);
-      updateNavArrows();
     }
   }, 80);
 }
