@@ -361,13 +361,18 @@ function initNewsFeed() {
 }
 
 /* ==========================================================================
-   5. Continue Watching Action & LocalStorage Restore
+   5. Continue Hub Actions (Movies, Shows, Music) & LocalStorage Restore
    ========================================================================== */
 function initContinueWatching() {
-  const resumeBtn = document.getElementById('btn-resume-watching');
-  const cwBox = document.getElementById('continue-watching-box');
+  const movieItem = document.getElementById('cw-item-movie');
+  const showItem = document.getElementById('cw-item-show');
+  const musicItem = document.getElementById('cw-item-music');
 
-  // Check saved continue watching state from Movies/Shows
+  const btnMovie = document.getElementById('btn-play-movie-cw');
+  const btnShow = document.getElementById('btn-play-show-cw');
+  const btnMusic = document.getElementById('btn-play-music-cw');
+
+  // Check saved continue watching state from Movies catalog
   try {
     const saved = localStorage.getItem('homeos_continue_watching');
     if (saved) {
@@ -377,7 +382,8 @@ function initContinueWatching() {
     console.warn('LocalStorage continue watching read failed:', e);
   }
 
-  function handleResume() {
+  // 1. Movie Resume: Dune Part Two (or pinned movie)
+  function resumeMovie() {
     try {
       const saved = localStorage.getItem('homeos_continue_watching');
       if (saved) {
@@ -390,20 +396,33 @@ function initContinueWatching() {
       }
     } catch (e) { }
 
+    showToast('Resuming Dune: Part Two on JioHotstar...');
+    window.open('https://www.hotstar.com/in/explore?search_query=Dune+Part+Two', '_blank', 'noopener,noreferrer');
+  }
+
+  // 2. Show Resume: Severance S1:E4 on Apple TV+
+  function resumeShow() {
     showToast('Resuming Severance (S1:E4) on Apple TV+...');
     window.open('https://tv.apple.com/search?term=Severance', '_blank', 'noopener,noreferrer');
   }
 
-  if (resumeBtn) {
-    resumeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      handleResume();
-    });
+  // 3. Music Resume: After Hours • The Weeknd
+  function resumeMusic() {
+    const playBtn = document.getElementById('btn-play');
+    if (playBtn) {
+      playBtn.click();
+    }
+    showToast('Resuming After Hours • The Weeknd');
   }
 
-  if (cwBox) {
-    cwBox.addEventListener('click', handleResume);
-  }
+  if (btnMovie) btnMovie.addEventListener('click', (e) => { e.stopPropagation(); resumeMovie(); });
+  if (movieItem) movieItem.addEventListener('click', resumeMovie);
+
+  if (btnShow) btnShow.addEventListener('click', (e) => { e.stopPropagation(); resumeShow(); });
+  if (showItem) showItem.addEventListener('click', resumeShow);
+
+  if (btnMusic) btnMusic.addEventListener('click', (e) => { e.stopPropagation(); resumeMusic(); });
+  if (musicItem) musicItem.addEventListener('click', resumeMusic);
 }
 
 /* ==========================================================================

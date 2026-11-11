@@ -1,5 +1,5 @@
 // HomeOS Service Worker
-const CACHE_NAME = 'homeos-v5.0';
+const CACHE_NAME = 'homeos-v5.1';
 
 const ASSETS_TO_CACHE = [
   './',

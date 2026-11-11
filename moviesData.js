@@ -421,3 +421,4 @@ export const MOVIES_CATALOG = [
     rails: ['action', 'masterpieces']
   }
 ];
+

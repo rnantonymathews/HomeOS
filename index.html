@@ -14,7 +14,9 @@
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet">
   <title>HomeOS</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -34,11 +36,12 @@
     <div class="dock-active-pill" id="dock-active-pill"></div>
 
     <!-- 1. Profile (Selected by default) -->
-    <button class="dock-item active" data-nav="profile" id="nav-profile" title="Profile: Aaron Antony" aria-label="Profile">
+    <button class="dock-item active" data-nav="profile" id="nav-profile" title="Profile: Aaron Antony"
+      aria-label="Profile">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-        <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/>
-        <circle cx="12" cy="10" r="2.8" stroke="currentColor" stroke-width="1.8"/>
-        <path d="M7 17.5a5.5 5.5 0 0 1 10 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8" />
+        <circle cx="12" cy="10" r="2.8" stroke="currentColor" stroke-width="1.8" />
+        <path d="M7 17.5a5.5 5.5 0 0 1 10 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
       </svg>
     </button>
 
@@ -47,61 +50,124 @@
     <!-- 2. Movies -->
     <button class="dock-item" data-nav="movie" id="nav-movie" title="Movies" aria-label="Movies">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-        <rect x="3" y="6" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/>
-        <path d="M3 11h18M7.5 6l2 5M13.5 6l2 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        <polygon points="10 14 15 16.5 10 19" fill="currentColor"/>
+        <rect x="3" y="6" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8" />
+        <path d="M3 11h18M7.5 6l2 5M13.5 6l2 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        <polygon points="10 14 15 16.5 10 19" fill="currentColor" />
       </svg>
     </button>
 
     <!-- 3. Shows -->
     <button class="dock-item" data-nav="shows" id="nav-shows" title="Shows" aria-label="Shows">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-        <rect x="3" y="7" width="18" height="13" rx="3" stroke="currentColor" stroke-width="1.8"/>
-        <path d="M8.5 3.5l3.5 3.5 3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="17" cy="11" r="1" fill="currentColor"/>
-        <circle cx="17" cy="15" r="1" fill="currentColor"/>
+        <rect x="3" y="7" width="18" height="13" rx="3" stroke="currentColor" stroke-width="1.8" />
+        <path d="M8.5 3.5l3.5 3.5 3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round" />
+        <circle cx="17" cy="11" r="1" fill="currentColor" />
+        <circle cx="17" cy="15" r="1" fill="currentColor" />
       </svg>
     </button>
 
     <!-- 4. Music -->
     <button class="dock-item" data-nav="music" id="nav-music" title="Music" aria-label="Music">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-        <path d="M9 17V5l11-2v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="6.5" cy="17.5" r="2.5" stroke="currentColor" stroke-width="1.8"/>
-        <circle cx="17.5" cy="15.5" r="2.5" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M9 17V5l11-2v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round" />
+        <circle cx="6.5" cy="17.5" r="2.5" stroke="currentColor" stroke-width="1.8" />
+        <circle cx="17.5" cy="15.5" r="2.5" stroke="currentColor" stroke-width="1.8" />
       </svg>
     </button>
   </nav>
 
   <!-- Bento Grid Dashboard -->
   <main class="bento-dashboard" id="bento-dashboard" role="main" aria-label="HomeOS Dashboard">
-    
-    <!-- LEFT COLUMN (360px) -->
+
+    <!-- LEFT COLUMN (388px) -->
     <div class="bento-col bento-col-left">
-      
-      <!-- 1. Horizontal Small Card: User Name & Continue Watching -->
+
+      <!-- 1. Expanded Profile Card: User Name & 3 Continue Cards (Movie, Show, Music) -->
       <div class="bento-card card-user-continue" id="card-user-continue">
         <div class="card-glow glow-emerald"></div>
         <div class="user-greeting-header">
           <span class="user-fullname">Aaron Antony</span>
         </div>
 
-        <div class="continue-watching-box" id="continue-watching-box">
-          <div class="cw-content">
-            <div class="cw-top-row">
-              <span class="cw-badge">CONTINUE WATCHING</span>
-              <span class="cw-time-left">42m left</span>
+        <div class="continue-items-stack" id="continue-items-stack">
+
+          <!-- 1. Movies: CONTINUE WATCHING -->
+          <div class="cw-card-item cw-movie-item" id="cw-item-movie" title="Resume Movie: Dune: Part Two">
+            <div class="cw-poster-box">
+              <img src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg" alt="Dune: Part Two" class="cw-poster-img" />
+              <div class="cw-poster-glow"></div>
             </div>
-            <span class="cw-title">Severance <span class="cw-episode">• S1:E4</span></span>
-            <div class="cw-progress-bar">
-              <div class="cw-progress-fill" style="width: 64%;"></div>
+            <div class="cw-item-info">
+              <div class="cw-item-top">
+                <span class="cw-type-badge badge-movie">CONTINUE WATCHING</span>
+                <span class="cw-time-remaining">1h 14m left</span>
+              </div>
+              <div class="cw-title-row">
+                <span class="cw-item-title">Dune: Part Two</span>
+              </div>
+              <div class="cw-progress-track">
+                <div class="cw-progress-fill fill-movie" style="width: 58%;"></div>
+              </div>
             </div>
+            <button class="cw-action-btn btn-play-movie" id="btn-play-movie-cw" title="Resume Dune: Part Two" aria-label="Resume Dune: Part Two">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
           </div>
-          <button class="cw-resume-btn" id="btn-resume-watching" title="Resume Severance" aria-label="Resume Severance">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          </button>
+
+          <!-- 2. Shows: CONTINUE BINGING -->
+          <div class="cw-card-item cw-show-item" id="cw-item-show" title="Resume Show: Severance S1:E4">
+            <div class="cw-poster-box">
+              <img src="https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg" alt="Severance" class="cw-poster-img" />
+              <div class="cw-poster-glow"></div>
+            </div>
+            <div class="cw-item-info">
+              <div class="cw-item-top">
+                <span class="cw-type-badge badge-show">CONTINUE BINGING</span>
+                <span class="cw-time-remaining">42m left</span>
+              </div>
+              <div class="cw-title-row">
+                <span class="cw-item-title">Severance <span class="cw-sub-detail">• S1:E4</span></span>
+              </div>
+              <div class="cw-progress-track">
+                <div class="cw-progress-fill fill-show" style="width: 64%;"></div>
+              </div>
+            </div>
+            <button class="cw-action-btn btn-play-show" id="btn-play-show-cw" title="Resume Severance S1:E4" aria-label="Resume Severance S1:E4">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- 3. Music: CONTINUE LISTENING -->
+          <div class="cw-card-item cw-music-item" id="cw-item-music" title="Resume Track: After Hours - The Weeknd">
+            <div class="cw-poster-box">
+              <img src="https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png" alt="After Hours - The Weeknd" class="cw-poster-img" />
+              <div class="cw-poster-glow"></div>
+            </div>
+            <div class="cw-item-info">
+              <div class="cw-item-top">
+                <span class="cw-type-badge badge-music">CONTINUE LISTENING</span>
+                <span class="cw-time-remaining">2:41 left</span>
+              </div>
+              <div class="cw-title-row">
+                <span class="cw-item-title">After Hours <span class="cw-sub-detail">• The Weeknd</span></span>
+              </div>
+              <div class="cw-progress-track">
+                <div class="cw-progress-fill fill-music" style="width: 48%;"></div>
+              </div>
+            </div>
+            <button class="cw-action-btn btn-play-music" id="btn-play-music-cw" title="Resume After Hours" aria-label="Resume After Hours">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+          </div>
+
         </div>
       </div>
 
@@ -170,7 +236,7 @@
 
     <!-- CENTER COLUMN (336px) -->
     <div class="bento-col bento-col-center">
-      
+
       <!-- 3. Horizontal Small Card: Today's Date -->
       <div class="bento-card card-date" id="card-date">
         <div class="card-glow glow-white-specular"></div>
@@ -187,7 +253,7 @@
 
       <!-- Split Row: 2 Vertical Small Cards (Time + Music) -->
       <div class="bento-split-row">
-        
+
         <!-- 4. Vertical Small Card: Current Time -->
         <div class="bento-card card-time" id="card-time">
           <div class="card-glow glow-violet"></div>
@@ -221,8 +287,8 @@
               <div class="music-album-art">
                 <div class="disc-glow"></div>
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-                  <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+                  <circle cx="12" cy="12" r="3" fill="currentColor" />
                 </svg>
               </div>
               <div class="music-equalizer" id="equalizer">
@@ -248,17 +314,18 @@
             <div class="music-controls">
               <button class="music-btn" id="btn-prev" title="Previous Track" aria-label="Previous Track">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-                  <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+                  <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" />
                 </svg>
               </button>
-              <button class="music-btn play-btn" id="btn-play" title="Play Ambient Synth" aria-label="Play Ambient Synth">
+              <button class="music-btn play-btn" id="btn-play" title="Play Ambient Synth"
+                aria-label="Play Ambient Synth">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" id="play-icon">
-                  <path d="M8 5v14l11-7z"/>
+                  <path d="M8 5v14l11-7z" />
                 </svg>
               </button>
               <button class="music-btn" id="btn-next" title="Next Track" aria-label="Next Track">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-                  <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                  <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
                 </svg>
               </button>
             </div>
@@ -271,7 +338,7 @@
 
     <!-- RIGHT COLUMN (320px) -->
     <div class="bento-col bento-col-right">
-      
+
       <!-- 6. Vertical Large Card: Today's News -->
       <div class="bento-card card-news" id="card-news">
         <div class="card-glow glow-news-multi"></div>
@@ -281,14 +348,15 @@
               <span class="news-live-dot"></span>
               <span class="news-title-text">Today's News</span>
             </div>
-            <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-open-link" title="Open Google News">
+            <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-open-link"
+              title="Open Google News">
               Google News ↗
             </a>
           </div>
 
           <!-- 2 News from Intl, National, Bengaluru -->
           <div class="news-feed-container" id="news-feed-container">
-            
+
             <!-- International (2 News) -->
             <div class="news-feed-section">
               <div class="section-badge-row">
@@ -296,11 +364,14 @@
               </div>
               <div class="news-item">
                 <span class="news-item-source">Reuters • 12m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">Global fusion energy milestone achieved with historic net power benchmark</a>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
+                  class="news-item-headline">Global fusion energy milestone achieved with historic net power
+                  benchmark</a>
               </div>
               <div class="news-item">
                 <span class="news-item-source">ESA / NASA • 45m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">James Webb Telescope detects atmospheric markers on temperate exoplanet</a>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
+                  class="news-item-headline">James Webb Telescope detects atmospheric markers on temperate exoplanet</a>
               </div>
             </div>
 
@@ -311,11 +382,13 @@
               </div>
               <div class="news-item">
                 <span class="news-item-source">The Hindu • 18m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">ISRO readies autonomous landing mission for reusable space shuttle</a>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
+                  class="news-item-headline">ISRO readies autonomous landing mission for reusable space shuttle</a>
               </div>
               <div class="news-item">
                 <span class="news-item-source">Economic Times • 40m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">India semiconductor corridor begins trial commercial silicon runs</a>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
+                  class="news-item-headline">India semiconductor corridor begins trial commercial silicon runs</a>
               </div>
             </div>
 
@@ -326,11 +399,13 @@
               </div>
               <div class="news-item">
                 <span class="news-item-source">Deccan Herald • 25m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">Namma Metro Pink Line underground tunneling crosses 90% milestone</a>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
+                  class="news-item-headline">Namma Metro Pink Line underground tunneling crosses 90% milestone</a>
               </div>
               <div class="news-item">
                 <span class="news-item-source">Bangalore Mirror • 55m ago</span>
-                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer" class="news-item-headline">Karnataka deploys AI traffic sensor grid across Silk Board and ORR</a>
+                <a href="https://news.google.com" target="_blank" rel="noopener noreferrer"
+                  class="news-item-headline">Karnataka deploys AI traffic sensor grid across Silk Board and ORR</a>
               </div>
             </div>
 
@@ -352,7 +427,8 @@
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="text" id="movies-search-input" placeholder="Search movies, directors, actors..." autocomplete="off" spellcheck="false" />
+          <input type="text" id="movies-search-input" placeholder="Search movies, directors, actors..."
+            autocomplete="off" spellcheck="false" />
         </div>
 
         <!-- Genre / Mood Quick Pills -->
@@ -398,7 +474,8 @@
 
         <!-- View Mode Switcher: Rails vs Grid -->
         <div class="movies-view-modes">
-          <button class="btn-view-mode active" id="btn-view-rails" title="Curated Rails View" aria-label="Curated Rails View">
+          <button class="btn-view-mode active" id="btn-view-rails" title="Curated Rails View"
+            aria-label="Curated Rails View">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="4" width="18" height="4" rx="1"></rect>
               <rect x="3" y="10" width="18" height="4" rx="1"></rect>
@@ -450,7 +527,9 @@
         </button>
       </div>
       <div class="trailer-iframe-wrap">
-        <iframe id="trailer-iframe" src="" title="Movie Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe id="trailer-iframe" src="" title="Movie Trailer" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
       </div>
     </div>
   </div>

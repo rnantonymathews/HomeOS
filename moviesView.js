@@ -730,26 +730,36 @@ function setContinueWatching(movie) {
 }
 
 export function updateBentoContinueWatchingCard(data) {
-  const titleEl = document.querySelector('.cw-title');
-  const timeLeftEl = document.querySelector('.cw-time-left');
-  const progressFill = document.querySelector('.cw-progress-fill');
-  const resumeBtn = document.getElementById('btn-resume-watching');
+  const movieCard = document.getElementById('cw-item-movie');
+  if (movieCard) {
+    const titleEl = movieCard.querySelector('.cw-item-title');
+    const timeLeftEl = movieCard.querySelector('.cw-time-remaining');
+    const progressFill = movieCard.querySelector('.cw-progress-fill');
+    const posterImg = movieCard.querySelector('.cw-poster-img');
+    const resumeBtn = document.getElementById('btn-play-movie-cw');
 
-  if (titleEl) {
-    titleEl.innerHTML = `${data.title} <span class="cw-episode">• ${data.subtext || 'Movie'}</span>`;
-  }
-  if (timeLeftEl) {
-    timeLeftEl.textContent = data.timeLeft || 'Resume';
-  }
-  if (progressFill) {
-    progressFill.style.width = `${data.progress || 65}%`;
-  }
-  if (resumeBtn) {
-    resumeBtn.title = `Resume ${data.title} on ${data.providerName || 'Streaming'}`;
-    resumeBtn.onclick = () => {
-      if (data.url) {
-        window.open(data.url, '_blank', 'noopener,noreferrer');
-      }
-    };
+    if (titleEl) {
+      titleEl.innerHTML = data.title;
+    }
+    if (timeLeftEl) {
+      timeLeftEl.textContent = data.timeLeft || 'Resume';
+    }
+    if (progressFill) {
+      progressFill.style.width = `${data.progress || 65}%`;
+    }
+    if (posterImg && data.poster) {
+      posterImg.src = data.poster;
+      posterImg.alt = data.title;
+    }
+    if (resumeBtn) {
+      resumeBtn.title = `Resume ${data.title} on ${data.providerName || 'Streaming'}`;
+      resumeBtn.onclick = (e) => {
+        e.stopPropagation();
+        if (data.url) {
+          window.open(data.url, '_blank', 'noopener,noreferrer');
+        }
+      };
+    }
   }
 }
+

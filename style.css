@@ -196,8 +196,8 @@ html, body {
   gap: 16px;
   align-items: stretch;
   justify-content: center;
-  width: 1052px;
-  height: 446px;
+  width: 1088px;
+  height: 520px;
   z-index: 10;
   user-select: none;
   -webkit-user-select: none;
@@ -219,25 +219,25 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  height: 446px;
+  height: 520px;
 }
 
 .bento-col-left {
-  width: 360px;
+  width: 388px;
 }
 
 .bento-col-center {
-  width: 336px;
+  width: 340px;
 }
 
 .bento-col-right {
-  width: 320px;
+  width: 328px;
 }
 
 .bento-split-row {
   display: flex;
   gap: 16px;
-  height: 275px;
+  height: 340px;
 }
 
 /* Universal Bento Glass Card */
@@ -320,14 +320,15 @@ html, body {
 }
 
 /* ==========================================================================
-   1. Card: User Name & Continue Watching (Horizontal Small)
+   1. Card: User Name & Continue Hub (Movies, Shows, Music)
    ========================================================================== */
 .card-user-continue {
-  height: 155px;
-  padding: 16px 20px;
+  height: 340px;
+  padding: 16px 16px 14px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 12px;
 }
 
 .user-greeting-header {
@@ -347,64 +348,123 @@ html, body {
   text-shadow: 0 0 18px rgba(118, 255, 3, 0.45);
 }
 
-.continue-watching-box {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 10px 14px;
+.continue-items-stack {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 9px;
   position: relative;
   z-index: 1;
-  transition: all 0.2s ease;
 }
 
-.continue-watching-box:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.2);
+.cw-card-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 7px 12px 7px 9px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cw-content {
+.cw-card-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.5);
+}
+
+.cw-poster-box {
+  width: 38px;
+  height: 52px;
+  border-radius: 7px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.cw-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.cw-card-item:hover .cw-poster-img {
+  transform: scale(1.08);
+}
+
+.cw-poster-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+}
+
+.cw-item-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
   flex: 1;
+  min-width: 0;
 }
 
-.cw-top-row {
+.cw-item-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.cw-badge {
-  font-size: 9.5px;
+.cw-type-badge {
+  font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 0.6px;
-  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.cw-time-left {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.6);
+.badge-movie {
+  color: #a7f3d0;
+}
+
+.badge-show {
+  color: #7dd3fc;
+}
+
+.badge-music {
+  color: #fde68a;
+}
+
+.cw-time-remaining {
+  font-size: 9.5px;
   font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
 }
 
-.cw-title {
-  font-size: 13.5px;
+.cw-title-row {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cw-item-title {
+  font-size: 13px;
   font-weight: 600;
   color: #FFFFFF;
 }
 
-.cw-episode {
+.cw-sub-detail {
   font-weight: 400;
   color: rgba(255, 255, 255, 0.6);
+  font-size: 11.5px;
 }
 
-.cw-progress-bar {
+.cw-progress-track {
   width: 100%;
   height: 3px;
   background: rgba(255, 255, 255, 0.12);
@@ -415,17 +475,30 @@ html, body {
 
 .cw-progress-fill {
   height: 100%;
-  background: var(--accent-green);
   border-radius: 9999px;
+}
+
+.fill-movie {
+  background: var(--accent-green);
   box-shadow: 0 0 8px rgba(118, 255, 3, 0.6);
 }
 
-.cw-resume-btn {
-  width: 32px;
-  height: 32px;
+.fill-show {
+  background: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+}
+
+.fill-music {
+  background: #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+}
+
+.cw-action-btn {
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: rgba(118, 255, 3, 0.15);
-  border: 1px solid rgba(118, 255, 3, 0.4);
+  background: rgba(118, 255, 3, 0.12);
+  border: 1px solid rgba(118, 255, 3, 0.35);
   color: var(--accent-green);
   display: flex;
   align-items: center;
@@ -436,19 +509,43 @@ html, body {
   flex-shrink: 0;
 }
 
-.cw-resume-btn:hover {
+.cw-action-btn:hover {
   background: var(--accent-green);
   color: #000000;
-  box-shadow: 0 0 16px rgba(118, 255, 3, 0.6);
-  transform: scale(1.08);
+  box-shadow: 0 0 14px rgba(118, 255, 3, 0.7);
+  transform: scale(1.1);
+}
+
+.btn-play-show {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+
+.btn-play-show:hover {
+  background: #38bdf8;
+  color: #000000;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.7);
+}
+
+.btn-play-music {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: #f59e0b;
+}
+
+.btn-play-music:hover {
+  background: #f59e0b;
+  color: #000000;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.7);
 }
 
 /* ==========================================================================
-   2. Card: Weather (Horizontal Medium)
+   2. Card: Weather (Horizontal Compact)
    ========================================================================== */
 .card-weather {
-  height: 275px;
-  padding: 18px 22px;
+  height: 164px;
+  padding: 12px 18px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -489,35 +586,35 @@ html, body {
 
 .weather-big-temp {
   font-family: 'Orbitron', 'Space Grotesk', monospace;
-  font-size: 52px;
+  font-size: 36px;
   font-weight: 800;
   color: #FFFFFF;
   line-height: 1;
-  letter-spacing: -2px;
-  text-shadow: 0 0 24px rgba(14, 165, 233, 0.55);
+  letter-spacing: -1.5px;
+  text-shadow: 0 0 20px rgba(14, 165, 233, 0.55);
 }
 
 .weather-range-tag {
-  font-size: 11px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.55);
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .weather-metrics-pills {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .weather-metric {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 5px 12px;
-  border-radius: 12px;
-  min-width: 105px;
+  padding: 3px 8px;
+  border-radius: 9px;
+  min-width: 88px;
 }
 
 .metric-icon {
@@ -583,7 +680,7 @@ html, body {
    3. Card: Date (Horizontal Small)
    ========================================================================== */
 .card-date {
-  height: 155px;
+  height: 164px;
   padding: 16px 20px;
   display: flex;
   align-items: center;
@@ -642,8 +739,8 @@ html, body {
    4. Card: Current Time (Vertical Small)
    ========================================================================== */
 .card-time {
-  width: 160px;
-  height: 275px;
+  width: 162px;
+  height: 340px;
   padding: 18px 14px;
   display: flex;
   flex-direction: column;
@@ -764,8 +861,8 @@ html, body {
    5. Card: Music Player (Vertical Small)
    ========================================================================== */
 .card-music {
-  width: 160px;
-  height: 275px;
+  width: 162px;
+  height: 340px;
   padding: 18px 14px;
   display: flex;
   flex-direction: column;
@@ -942,8 +1039,8 @@ html, body {
    6. Card: Today's News (Vertical Large)
    ========================================================================== */
 .card-news {
-  width: 320px;
-  height: 446px;
+  width: 328px;
+  height: 520px;
   padding: 20px 22px;
   display: flex;
   flex-direction: column;
