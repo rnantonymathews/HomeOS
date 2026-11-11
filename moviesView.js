@@ -1,17 +1,13 @@
 /**
  * HomeOS - Movies View & Discovery Engine
- * Handles rendering, filtering, sorting, Rails vs Grid switching,
- * detail sheets, and 1-click OTT redirection.
+ * Calm Profile-Matched Aesthetic: Obsidian Cards, Unboxed Gradient Posters,
+ * Full Paragraph Synopses, Poppins Typography & Neutral Matte Gray Controls.
  */
 
 import { MOVIES_CATALOG, MOVIE_RAILS, STREAMING_PLATFORMS } from './moviesData.js';
 
 let state = {
-  viewMode: 'rails', // 'rails' | 'grid'
-  activeGenre: 'all',
-  activeProvider: 'all',
   searchQuery: '',
-  sortBy: 'popularity', // 'popularity' | 'rating' | 'year' | 'duration'
   selectedMovie: null
 };
 
@@ -35,7 +31,7 @@ export function openMoviesView() {
   overlay.classList.add('active');
   overlay.scrollTop = 0;
 
-  // Re-render to ensure any state updates apply
+  // Re-render to ensure fresh state
   renderMoviesView();
 }
 
@@ -63,84 +59,18 @@ export function closeMoviesView() {
 }
 
 function setupEventListeners() {
-  // Close / Back button
+  // Close / Back to Dashboard button
   const closeBtn = document.getElementById('movies-btn-close');
   if (closeBtn) {
     closeBtn.addEventListener('click', closeMoviesView);
   }
 
-  // Search Input
+  // Minimal Calm Search Input
   const searchInput = document.getElementById('movies-search-input');
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       state.searchQuery = e.target.value.trim().toLowerCase();
-      // If user types search, automatically display results cleanly in grid mode
-      if (state.searchQuery.length > 0) {
-        state.viewMode = 'grid';
-        updateViewModeUI();
-      }
       renderFilteredContent();
-    });
-  }
-
-  // View Mode Switcher (Rails vs Grid)
-  const btnRails = document.getElementById('btn-view-rails');
-  const btnGrid = document.getElementById('btn-view-grid');
-
-  if (btnRails) {
-    btnRails.addEventListener('click', () => {
-      state.viewMode = 'rails';
-      updateViewModeUI();
-      renderFilteredContent();
-    });
-  }
-
-  if (btnGrid) {
-    btnGrid.addEventListener('click', () => {
-      state.viewMode = 'grid';
-      updateViewModeUI();
-      renderFilteredContent();
-    });
-  }
-
-  // Genre Filter Pills
-  const genrePills = document.querySelectorAll('.genre-pill');
-  genrePills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      genrePills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      state.activeGenre = pill.dataset.genre || 'all';
-      renderFilteredContent();
-    });
-  });
-
-  // OTT Provider Quick Filter Pills
-  const ottPills = document.querySelectorAll('.ott-pill');
-  ottPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      ottPills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      state.activeProvider = pill.dataset.provider || 'all';
-      renderFilteredContent();
-    });
-  });
-
-  // Sort Selector
-  const sortSelect = document.getElementById('movies-sort-select');
-  if (sortSelect) {
-    sortSelect.addEventListener('change', (e) => {
-      state.sortBy = e.target.value;
-      renderFilteredContent();
-    });
-  }
-
-  // Detail Modal Close
-  const modalClose = document.getElementById('movie-modal-close');
-  const modalOverlay = document.getElementById('movie-detail-modal');
-  if (modalClose && modalOverlay) {
-    modalClose.addEventListener('click', closeDetailModal);
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeDetailModal();
     });
   }
 
@@ -170,27 +100,13 @@ function setupEventListeners() {
   }
 }
 
-function updateViewModeUI() {
-  const btnRails = document.getElementById('btn-view-rails');
-  const btnGrid = document.getElementById('btn-view-grid');
-  if (btnRails && btnGrid) {
-    if (state.viewMode === 'rails') {
-      btnRails.classList.add('active');
-      btnGrid.classList.remove('active');
-    } else {
-      btnRails.classList.remove('active');
-      btnGrid.classList.add('active');
-    }
-  }
-}
-
 export function renderMoviesView() {
   renderHeroSpotlight();
   renderFilteredContent();
 }
 
 /**
- * 1. Render Cinematic Hero Spotlight
+ * 1. Render Cinematic Hero Spotlight (Profile Bento Aesthetic)
  */
 function renderHeroSpotlight() {
   const heroContainer = document.getElementById('movies-hero-spotlight');
@@ -200,70 +116,48 @@ function renderHeroSpotlight() {
   const featured = MOVIES_CATALOG.find(m => m.featured) || MOVIES_CATALOG[0];
   if (!featured) return;
 
-  const providerBadgesHtml = featured.providers.map(pKey => {
-    const p = STREAMING_PLATFORMS[pKey];
-    if (!p) return '';
-    return `
-      <div class="hero-provider-tag" title="Stream on ${p.name}">
-        <img src="${p.icon}" alt="${p.name}" class="provider-mini-icon" />
-        <span>${p.name}</span>
-      </div>
-    `;
-  }).join('');
+  const primaryProviderKey = featured.providers[0] || 'hotstar';
+  const primaryProvider = STREAMING_PLATFORMS[primaryProviderKey] || { name: 'JioHotstar' };
 
   heroContainer.innerHTML = `
-    <div class="hero-backdrop-wrap">
-      <img src="${featured.backdrop}" alt="${featured.title}" class="hero-backdrop-img" />
-      <div class="hero-vignette-bottom"></div>
-      <div class="hero-vignette-left"></div>
-    </div>
-
-    <div class="hero-content">
-      <div class="hero-meta-row">
-        <span class="hero-badge-spotlight">SPOTLIGHT OF THE WEEK</span>
-        <span class="hero-rating"><span class="star-gold">★</span> ${featured.rating}</span>
-        <span class="hero-year">${featured.year}</span>
-        <span class="hero-duration">${featured.duration}</span>
-        <div class="hero-genres">
-          ${featured.genres.map(g => `<span class="hero-genre-pill">${g}</span>`).join('')}
+    <div class="movies-spotlight-card">
+      <div class="card-glow glow-movies-hero"></div>
+      
+      <div class="spotlight-card-content">
+        <!-- Unboxed Backdrop with Smooth Dissolve Masks -->
+        <div class="spotlight-hero-backdrop-wrap">
+          <img src="${featured.backdrop}" alt="${featured.title}" class="spotlight-hero-backdrop-img" />
+          <div class="spotlight-hero-fade-bottom"></div>
+          <div class="spotlight-hero-fade-left"></div>
         </div>
-      </div>
 
-      <h1 class="hero-title">${featured.title}</h1>
-      <p class="hero-tagline">"${featured.tagline}"</p>
-      <p class="hero-synopsis">${featured.synopsis}</p>
+        <!-- Spotlight Content -->
+        <div class="spotlight-hero-details">
+          <div class="spotlight-hero-tag">FEATURED SPOTLIGHT</div>
+          <h2 class="spotlight-hero-title">${featured.title}</h2>
+          <div class="spotlight-hero-meta">
+            <span>${featured.director}</span>
+            <span>•</span>
+            <span>${featured.year}</span>
+            <span>•</span>
+            <span>${featured.duration}</span>
+            <span>•</span>
+            <span>${featured.genres.join(', ')}</span>
+          </div>
+          <p class="spotlight-hero-synopsis">${featured.synopsis}</p>
 
-      <div class="hero-providers-row">
-        <span class="available-on-label">Available in India on:</span>
-        <div class="hero-providers-list">
-          ${providerBadgesHtml}
+          <div class="spotlight-hero-actions">
+            <button class="spotlight-btn-stream" id="hero-btn-play" data-movie-id="${featured.id}">
+              Stream on ${primaryProvider.name}
+            </button>
+            <button class="spotlight-btn-trailer" id="hero-btn-trailer" data-trailer-id="${featured.trailerId}" data-title="${featured.title}">
+              Watch Trailer
+            </button>
+            <button class="spotlight-btn-details" id="hero-btn-details">
+              Details
+            </button>
+          </div>
         </div>
-      </div>
-
-      <div class="hero-action-row">
-        <button class="hero-btn-play" id="hero-btn-play" data-movie-id="${featured.id}">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-            <polygon points="6 3 20 12 6 21 6 3"></polygon>
-          </svg>
-          Watch Now
-        </button>
-
-        <button class="hero-btn-trailer" id="hero-btn-trailer" data-trailer-id="${featured.trailerId}" data-title="${featured.title}">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
-          </svg>
-          Trailer
-        </button>
-
-        <button class="hero-btn-details" id="hero-btn-details" data-movie-id="${featured.id}">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-          </svg>
-          Details
-        </button>
       </div>
     </div>
   `;
@@ -292,40 +186,19 @@ function renderHeroSpotlight() {
 }
 
 /**
- * 2. Filter & Render Content (Rails or Grid)
+ * 2. Filter & Render Content (Rails or Search Grid)
  */
 function getFilteredMovies() {
   let list = [...MOVIES_CATALOG];
 
-  // Genre filter
-  if (state.activeGenre !== 'all') {
-    list = list.filter(m => 
-      m.genres.some(g => g.toLowerCase() === state.activeGenre.toLowerCase())
-    );
-  }
-
-  // OTT Provider filter
-  if (state.activeProvider !== 'all') {
-    list = list.filter(m => m.providers.includes(state.activeProvider));
-  }
-
-  // Search Query filter
   if (state.searchQuery) {
     list = list.filter(m => {
       const titleMatch = m.title.toLowerCase().includes(state.searchQuery);
       const castMatch = m.cast.some(c => c.toLowerCase().includes(state.searchQuery));
       const directorMatch = m.director.toLowerCase().includes(state.searchQuery);
-      return titleMatch || castMatch || directorMatch;
+      const genreMatch = m.genres.some(g => g.toLowerCase().includes(state.searchQuery));
+      return titleMatch || castMatch || directorMatch || genreMatch;
     });
-  }
-
-  // Sorting
-  if (state.sortBy === 'rating') {
-    list.sort((a, b) => b.rating - a.rating);
-  } else if (state.sortBy === 'year') {
-    list.sort((a, b) => b.year - a.year);
-  } else if (state.sortBy === 'duration') {
-    list.sort((a, b) => a.duration.localeCompare(b.duration));
   }
 
   return list;
@@ -337,10 +210,8 @@ function renderFilteredContent() {
 
   const movies = getFilteredMovies();
 
-  // If a filter, search, or grid mode is active, display grid
-  const isFiltering = state.activeGenre !== 'all' || state.activeProvider !== 'all' || state.searchQuery.length > 0;
-  
-  if (state.viewMode === 'grid' || isFiltering) {
+  // If search query is entered, show responsive grid; otherwise show calm rails
+  if (state.searchQuery.length > 0) {
     renderGridView(contentContainer, movies);
   } else {
     renderRailsView(contentContainer);
@@ -354,7 +225,6 @@ function renderRailsView(container) {
   let html = `<div class="movies-rails-wrapper">`;
 
   MOVIE_RAILS.forEach(rail => {
-    // Filter movies that belong to this rail
     const railMovies = MOVIES_CATALOG.filter(m => m.rails && m.rails.includes(rail.id));
     if (railMovies.length === 0) return;
 
@@ -367,12 +237,12 @@ function renderRailsView(container) {
           </div>
           <div class="rail-controls">
             <button class="rail-arrow-btn rail-prev" data-rail="${rail.id}" aria-label="Previous">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
             <button class="rail-arrow-btn rail-next" data-rail="${rail.id}" aria-label="Next">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
@@ -394,7 +264,7 @@ function renderRailsView(container) {
 }
 
 /**
- * 4. Render Infinite Grid View
+ * 4. Render Grid View (for Search Results)
  */
 function renderGridView(container, movies) {
   if (movies.length === 0) {
@@ -404,8 +274,8 @@ function renderGridView(container, movies) {
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <p class="empty-title">No movies found matching your filters</p>
-        <p class="empty-subtitle">Try adjusting your search query, genre, or streaming platform filter.</p>
+        <p class="empty-title">No movies found matching "${state.searchQuery}"</p>
+        <p class="empty-subtitle">Try searching for a different title, actor, director, or genre.</p>
       </div>
     `;
     return;
@@ -414,7 +284,7 @@ function renderGridView(container, movies) {
   let html = `
     <div class="movies-grid-wrapper">
       <div class="grid-header-info">
-        <span class="grid-count">${movies.length} Movies Available</span>
+        <span class="grid-count">${movies.length} ${movies.length === 1 ? 'Movie' : 'Movies'} Found</span>
         <span class="grid-tag">Unified Catalog • India Region</span>
       </div>
       <div class="movies-grid">
@@ -428,34 +298,26 @@ function renderGridView(container, movies) {
 }
 
 /**
- * Movie Card HTML generator
+ * 5. Obsidian Movie Card HTML Generator
+ * Matches the Profile & Fresh Drops aesthetic:
+ * Unboxed poster stage melting into dark base, Poppins typography, subtle ambient hover glow.
  */
 function createMovieCardHtml(movie) {
-  // Mini provider dots/icons on poster
-  const providersHtml = movie.providers.slice(0, 3).map(pKey => {
-    const p = STREAMING_PLATFORMS[pKey];
-    if (!p) return '';
-    return `<img src="${p.icon}" alt="${p.name}" class="card-provider-mini" title="Stream on ${p.name}" />`;
-  }).join('');
-
   return `
-    <div class="movie-card" data-movie-id="${movie.id}">
-      <div class="card-poster-wrap">
-        <img src="${movie.poster}" alt="${movie.title}" class="card-poster-img" loading="lazy" />
-        <div class="card-glass-shine"></div>
-        <div class="card-rating-badge">
-          <span class="star-gold">★</span> ${movie.rating}
+    <div class="obsidian-movie-card" data-movie-id="${movie.id}">
+      <div class="card-ambient-glow"></div>
+      <div class="obsidian-card-inner">
+        <div class="obsidian-poster-stage">
+          <img src="${movie.poster}" alt="${movie.title}" class="obsidian-poster-img" loading="lazy" />
+          <div class="obsidian-poster-fade"></div>
         </div>
-        <div class="card-providers-mini-row">
-          ${providersHtml}
-        </div>
-      </div>
-      <div class="card-info">
-        <span class="card-title" title="${movie.title}">${movie.title}</span>
-        <div class="card-meta">
-          <span class="card-year">${movie.year}</span>
-          <span class="card-dot">•</span>
-          <span class="card-genre">${movie.genres[0] || ''}</span>
+        <div class="obsidian-card-info">
+          <span class="obsidian-movie-title" title="${movie.title}">${movie.title}</span>
+          <div class="obsidian-movie-meta">
+            <span class="obsidian-meta-year">${movie.year}</span>
+            <span class="obsidian-meta-dot">•</span>
+            <span class="obsidian-meta-genre">${movie.genres[0] || 'Feature'}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -466,7 +328,7 @@ function createMovieCardHtml(movie) {
  * Card Click Bindings
  */
 function bindCardClickEvents(container) {
-  const cards = container.querySelectorAll('.movie-card');
+  const cards = container.querySelectorAll('.obsidian-movie-card');
   cards.forEach(card => {
     card.addEventListener('click', () => {
       const id = card.dataset.movieId;
@@ -488,7 +350,7 @@ function bindRailScrollEvents(container) {
       const railId = btn.dataset.rail;
       const track = document.getElementById(`track-${railId}`);
       if (track) {
-        track.scrollBy({ left: -600, behavior: 'smooth' });
+        track.scrollBy({ left: -540, behavior: 'smooth' });
       }
     });
   });
@@ -498,33 +360,30 @@ function bindRailScrollEvents(container) {
       const railId = btn.dataset.rail;
       const track = document.getElementById(`track-${railId}`);
       if (track) {
-        track.scrollBy({ left: 600, behavior: 'smooth' });
+        track.scrollBy({ left: 540, behavior: 'smooth' });
       }
     });
   });
 }
 
 /**
- * 5. Detail Modal & OTT Launcher Sheet
+ * 6. Detail Modal & OTT Launcher Sheet
+ * Styled in Calm Obsidian Glass with Soft Glow & Matte Gray Buttons
  */
 export function openDetailModal(movie) {
   state.selectedMovie = movie;
   const modal = document.getElementById('movie-detail-modal');
   if (!modal) return;
 
-  // OTT Provider Buttons with direct URLs
+  // OTT Provider Buttons with uniform calm gray styling
   const providerButtonsHtml = movie.providers.map(pKey => {
     const p = STREAMING_PLATFORMS[pKey];
     if (!p) return '';
     const searchUrl = `${p.searchBase}${encodeURIComponent(movie.title)}`;
     return `
-      <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="provider-launch-btn ${p.badgeClass}" title="Stream ${movie.title} on ${p.name}">
-        <img src="${p.icon}" alt="${p.name}" class="provider-launch-icon" />
-        <div class="provider-launch-info">
-          <span class="provider-name">${p.name}</span>
-          <span class="provider-status">Subscription • 1-Click Stream</span>
-        </div>
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="arrow-out">
+      <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="provider-launch-btn" title="Stream ${movie.title} on ${p.name}">
+        <span class="provider-name">${p.name}</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
           <polyline points="15 3 21 3 21 9"></polyline>
           <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -536,33 +395,35 @@ export function openDetailModal(movie) {
   modal.innerHTML = `
     <div class="modal-backdrop-blur"></div>
     <div class="modal-card">
+      <div class="card-glow glow-modal-spotlight"></div>
+
       <button class="modal-btn-close" id="movie-modal-close" aria-label="Close details">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
 
+      <!-- Hero Cover with gradient dissolve -->
       <div class="modal-hero-cover" style="background-image: url('${movie.backdrop}')">
         <div class="modal-cover-gradient"></div>
         <div class="modal-cover-content">
           <div class="modal-meta-row">
-            <span class="modal-rating"><span class="star-gold">★</span> ${movie.rating}</span>
             <span class="modal-year">${movie.year}</span>
+            <span class="modal-dot">•</span>
             <span class="modal-duration">${movie.duration}</span>
-            <div class="modal-genres">
-              ${movie.genres.map(g => `<span class="modal-genre-tag">${g}</span>`).join('')}
-            </div>
+            <span class="modal-dot">•</span>
+            <span class="modal-genre-text">${movie.genres.join(', ')}</span>
           </div>
           <h2 class="modal-title">${movie.title}</h2>
-          <p class="modal-tagline">"${movie.tagline}"</p>
+          ${movie.tagline ? `<p class="modal-tagline">"${movie.tagline}"</p>` : ''}
         </div>
       </div>
 
       <div class="modal-body-scroll">
         <div class="modal-body-grid">
           
-          <!-- Left Column: Storyline & Details -->
+          <!-- Left Column: Storyline & Cast -->
           <div class="modal-col-left">
             <h3 class="section-title">STORYLINE</h3>
             <p class="modal-synopsis">${movie.synopsis}</p>
@@ -579,36 +440,21 @@ export function openDetailModal(movie) {
             </div>
 
             <div class="modal-actions-bar">
-              <button class="btn-modal-trailer" id="btn-modal-trailer" data-trailer-id="${movie.trailerId}">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
-                  <circle cx="12" cy="12" r="10"></circle>
-                </svg>
+              <button class="btn-modal-action" id="btn-modal-trailer" data-trailer-id="${movie.trailerId}">
                 Watch Trailer
               </button>
-
-              <button class="btn-modal-continue" id="btn-modal-continue" title="Pin to HomeOS Continue Watching card">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                </svg>
-                Pin to Continue Watching
+              <button class="btn-modal-action" id="btn-modal-continue" title="Pin to HomeOS Continue Watching card">
+                Pin to Dashboard
               </button>
             </div>
           </div>
 
-          <!-- Right Column: Where to Stream in India (JustWatch) -->
+          <!-- Right Column: Where to Stream in India -->
           <div class="modal-col-right">
             <div class="streaming-hub-box">
               <div class="hub-header">
-                <div class="hub-title-row">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#22c55e" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M8 12h8"></path>
-                    <path d="M12 8v8"></path>
-                  </svg>
-                  <span class="hub-title">WHERE TO STREAM IN INDIA</span>
-                </div>
-                <span class="hub-tag">JustWatch Verified</span>
+                <span class="hub-title">WHERE TO STREAM</span>
+                <span class="hub-tag">India</span>
               </div>
 
               <div class="provider-launch-list">
@@ -617,7 +463,7 @@ export function openDetailModal(movie) {
 
               <a href="${movie.justWatchUrl}" target="_blank" rel="noopener noreferrer" class="justwatch-fallback-link">
                 <span>View Full Availability Matrix on JustWatch</span>
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </a>
@@ -631,7 +477,7 @@ export function openDetailModal(movie) {
 
   modal.classList.add('active');
 
-  // Bind new modal buttons
+  // Bind modal buttons
   const closeBtn = document.getElementById('movie-modal-close');
   if (closeBtn) closeBtn.addEventListener('click', closeDetailModal);
 
@@ -646,17 +492,12 @@ export function openDetailModal(movie) {
   if (continueBtn) {
     continueBtn.addEventListener('click', () => {
       setContinueWatching(movie);
-      continueBtn.innerHTML = `
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#22c55e" stroke-width="2">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        Pinned to Dashboard!
-      `;
+      continueBtn.textContent = 'Pinned to Dashboard!';
       setTimeout(() => {
         if (window.showToast) {
           window.showToast(`Pinned "${movie.title}" to your HomeOS Continue Watching card!`);
         }
-      }, 200);
+      }, 150);
     });
   }
 }
@@ -667,7 +508,7 @@ export function closeDetailModal() {
 }
 
 /**
- * 6. Trailer Modal (Ad-free embedded YouTube)
+ * 7. Trailer Modal (Ad-free embedded YouTube)
  */
 export function openTrailerModal(trailerId, title) {
   const modal = document.getElementById('movie-trailer-modal');
@@ -689,7 +530,7 @@ export function closeTrailerModal() {
 }
 
 /**
- * 7. 1-Click Launch Primary Stream
+ * 8. 1-Click Launch Primary Stream
  */
 function launchPrimaryStream(movie) {
   if (!movie.providers || movie.providers.length === 0) return;
@@ -705,7 +546,7 @@ function launchPrimaryStream(movie) {
 }
 
 /**
- * 8. Sync Movie to Bento Continue Watching Card
+ * 9. Sync Movie to Bento Continue Watching Card
  */
 function setContinueWatching(movie) {
   const primaryProvider = movie.providers && movie.providers[0] ? STREAMING_PLATFORMS[movie.providers[0]] : null;
@@ -713,10 +554,11 @@ function setContinueWatching(movie) {
     id: movie.id,
     title: movie.title,
     subtext: movie.duration,
-    progress: 72,
+    poster: movie.poster,
+    progress: 68,
     timeLeft: '45m left',
     url: primaryProvider ? `${primaryProvider.searchBase}${encodeURIComponent(movie.title)}` : movie.justWatchUrl,
-    providerName: primaryProvider ? primaryProvider.name : 'JustWatch'
+    providerName: primaryProvider ? primaryProvider.name : 'Streaming'
   };
 
   try {
@@ -725,7 +567,6 @@ function setContinueWatching(movie) {
     console.warn('LocalStorage save failed:', e);
   }
 
-  // Update Bento DOM if present
   updateBentoContinueWatchingCard(continueData);
 }
 
@@ -762,4 +603,3 @@ export function updateBentoContinueWatchingCard(data) {
     }
   }
 }
-

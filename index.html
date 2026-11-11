@@ -378,83 +378,28 @@
 
   </main>
 
-  <!-- Unified Movies & Shows Experience Overlay -->
+  <!-- Movies Experience Overlay (Calm Profile-Matched Aesthetic) -->
   <section class="movies-overlay" id="movies-overlay" aria-label="Movies Catalog">
-    <!-- Sticky Control Bar: Search, Genres, OTT Badges, Sort, View Modes, Close -->
+    <div class="card-glow glow-movies-bg"></div>
+
+    <!-- Calm Minimalist Header: "Movies" on left, subtle search & close on right -->
     <header class="movies-nav-header">
       <div class="movies-header-left">
-        <div class="movies-search-box">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="movies-search-input" placeholder="Search movies, directors, actors..."
-            autocomplete="off" spellcheck="false" />
-        </div>
-
-        <!-- Genre / Mood Quick Pills -->
-        <div class="genre-pills-scroll" role="tablist" aria-label="Filter by Genre">
-          <button class="genre-pill active" data-genre="all">All</button>
-          <button class="genre-pill" data-genre="Action">Action</button>
-          <button class="genre-pill" data-genre="Sci-Fi">Sci-Fi</button>
-          <button class="genre-pill" data-genre="Thriller">Thriller</button>
-          <button class="genre-pill" data-genre="Crime">Crime</button>
-          <button class="genre-pill" data-genre="Drama">Drama</button>
-          <button class="genre-pill" data-genre="Comedy">Comedy</button>
-          <button class="genre-pill" data-genre="History">History</button>
-        </div>
+        <h1 class="movies-title-heading">Movies</h1>
       </div>
 
       <div class="movies-header-right">
-        <!-- OTT Filter Pills -->
-        <div class="ott-pills-group" aria-label="Filter by Streaming Service">
-          <button class="ott-pill active" data-provider="all" title="All Streaming Services">All OTTs</button>
-          <button class="ott-pill" data-provider="netflix" title="Filter Netflix">
-            <img src="assets/icons/netflix-512.png" alt="Netflix" class="ott-pill-icon" />
-          </button>
-          <button class="ott-pill" data-provider="prime" title="Filter Prime Video">
-            <img src="assets/icons/prime-512.png" alt="Prime Video" class="ott-pill-icon" />
-          </button>
-          <button class="ott-pill" data-provider="hotstar" title="Filter JioHotstar">
-            <img src="assets/icons/jiohotstar-512.png" alt="Hotstar" class="ott-pill-icon" />
-          </button>
-          <button class="ott-pill" data-provider="appletv" title="Filter Apple TV+">
-            <img src="assets/icons/apple-512.png" alt="Apple TV+" class="ott-pill-icon" />
-          </button>
-        </div>
-
-        <!-- Sort Dropdown -->
-        <div class="movies-sort-wrapper">
-          <select id="movies-sort-select" class="movies-sort-select" aria-label="Sort Movies">
-            <option value="popularity">Trending</option>
-            <option value="rating">Highest Rated (★)</option>
-            <option value="year">Newest Releases</option>
-            <option value="duration">Runtime</option>
-          </select>
-        </div>
-
-        <!-- View Mode Switcher: Rails vs Grid -->
-        <div class="movies-view-modes">
-          <button class="btn-view-mode active" id="btn-view-rails" title="Curated Rails View"
-            aria-label="Curated Rails View">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="4" rx="1"></rect>
-              <rect x="3" y="10" width="18" height="4" rx="1"></rect>
-              <rect x="3" y="16" width="18" height="4" rx="1"></rect>
-            </svg>
-          </button>
-          <button class="btn-view-mode" id="btn-view-grid" title="Poster Grid View" aria-label="Poster Grid View">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-              <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-              <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-              <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-            </svg>
-          </button>
+        <div class="movies-search-box">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="movies-search-input" placeholder="Search title, cast, director..."
+            autocomplete="off" spellcheck="false" />
         </div>
 
         <!-- Back to Dashboard / Close -->
-        <button class="movies-btn-close" id="movies-btn-close" title="Back to Bento Dashboard (Esc)">
+        <button class="movies-btn-close" id="movies-btn-close" title="Back to Dashboard (Esc)" aria-label="Close Movies">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -464,10 +409,10 @@
       </div>
     </header>
 
-    <!-- Hero Spotlight Section -->
+    <!-- Hero Spotlight Section (Calm Fresh-Drops Styled Showcase) -->
     <div class="movies-hero-spotlight" id="movies-hero-spotlight"></div>
 
-    <!-- Main Content: Rails or Grid -->
+    <!-- Main Content: Horizontal Curated Rails of Obsidian Movie Cards -->
     <div class="movies-content-container" id="movies-content-container"></div>
   </section>
 
