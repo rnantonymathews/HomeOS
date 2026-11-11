@@ -368,7 +368,7 @@ function initMusicPlayer() {
 }
 
 /* ==========================================================================
-   4. Fresh Drops Spotlight (One-at-a-Time 4-Part Vertical Tier)
+   4. Fresh Drops Spotlight (Automatic Showcase - 8s Interval)
    ========================================================================== */
 function initSpotlightCard() {
   const card = document.getElementById('card-spotlight');
@@ -377,147 +377,92 @@ function initSpotlightCard() {
   const SPOTLIGHT_DROPS = [
     {
       id: 'dune-2',
-      category: 'OTT',
-      contextTag: 'LATEST OTT RELEASE',
-      badgeClass: 'badge-ott-release',
       title: 'Dune: Part Two',
       meta: 'Denis Villeneuve • 2024 • Sci-Fi / Adventure',
-      rating: '★ 8.6',
-      platform: 'JioHotstar',
-      format: '4K UHD • Atmos',
       poster: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg',
-      synopsis: "Paul Atreides unites with Chani and the Fremen to wage war against House Harkonnen in Denis Villeneuve's acclaimed sci-fi epic.",
-      btnText: 'Stream on JioHotstar ↗',
-      btnClass: 'btn-theme-hotstar',
-      btnIcon: '▶',
+      synopsis: 'Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family, endeavoring to prevent a terrible future only he can foresee.',
+      btnText: 'Stream on JioHotstar',
       url: 'https://www.hotstar.com/in/movies/dune-part-two/1271318044',
-      glowColor: 'radial-gradient(circle, rgba(14, 165, 233, 0.35) 0%, rgba(12, 32, 68, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+      platform: 'JioHotstar',
+      glowColor: 'radial-gradient(circle, rgba(14, 165, 233, 0.22) 0%, rgba(12, 32, 68, 0.1) 50%, rgba(0, 0, 0, 0) 75%)'
     },
     {
       id: 'severance-s2',
-      category: 'OTT',
-      contextTag: 'TOP SHOW IN INDIA TODAY',
-      badgeClass: 'badge-top-show',
       title: 'Severance',
       meta: 'Ben Stiller • Season 2 • Sci-Fi / Thriller',
-      rating: '★ 8.7',
-      platform: 'Apple TV+',
-      format: '4K HDR • Vision',
       poster: 'https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg',
-      synopsis: 'Mark Scout leads a team at Lumon Industries whose memories have been surgically divided between their work and personal lives.',
-      btnText: 'Watch on Apple TV+ ↗',
-      btnClass: 'btn-theme-apple',
-      btnIcon: '▶',
+      synopsis: 'Mark Scout leads a team of office workers at Lumon Industries whose memories have been surgically divided between their work and personal lives as dark corporate secrets surface.',
+      btnText: 'Watch on Apple TV+',
       url: 'https://tv.apple.com/in/show/severance/umc.cmc.1srk2goyh2q2zdxcx60pfw6cd',
-      glowColor: 'radial-gradient(circle, rgba(167, 139, 250, 0.35) 0%, rgba(109, 40, 217, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+      platform: 'Apple TV+',
+      glowColor: 'radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, rgba(109, 40, 217, 0.1) 50%, rgba(0, 0, 0, 0) 75%)'
     },
     {
       id: 'hit-me-hard',
-      category: 'MUSIC',
-      contextTag: 'ALBUM RELEASE',
-      badgeClass: 'badge-album-release',
       title: 'HIT ME HARD AND SOFT',
       meta: 'Billie Eilish • 2024 • Alternative Pop',
-      rating: '★ 9.1',
-      platform: 'Spotify',
-      format: 'Lossless • Spatial',
       poster: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/92/9f/69/929f69f1-9977-3a44-d674-11f70c852d1b/24UMGIM36186.rgb.jpg/600x600bb.jpg',
-      synopsis: "Billie Eilish's critically acclaimed third studio album featuring chart-topping singles 'LUNCH', 'BIRDS OF A FEATHER' and 'CHIHIRO'.",
-      btnText: 'Listen on Spotify ♫',
-      btnClass: 'btn-theme-spotify',
-      btnIcon: '♫',
-      url: 'https://open.spotify.com/album/7aJuG4My1svFuBkDC4TCAc',
-      glowColor: 'radial-gradient(circle, rgba(29, 185, 84, 0.35) 0%, rgba(16, 185, 129, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+      synopsis: 'Billie Eilish hits hard and soft both lyrically and sonically, delivering an expansive journey across genre-bending sounds featuring the global hits LUNCH, CHIHIRO, and BIRDS OF A FEATHER.',
+      btnText: 'Listen on YouTube Music',
+      url: 'https://music.youtube.com/search?q=Billie+Eilish+HIT+ME+HARD+AND+SOFT',
+      platform: 'YouTube Music',
+      glowColor: 'radial-gradient(circle, rgba(239, 68, 68, 0.2) 0%, rgba(185, 28, 28, 0.08) 50%, rgba(0, 0, 0, 0) 75%)'
     },
     {
       id: 'the-penguin',
-      category: 'OTT',
-      contextTag: 'LATEST OTT RELEASE',
-      badgeClass: 'badge-ott-release',
       title: 'The Penguin',
       meta: 'Colin Farrell • Miniseries • Crime / Noir',
-      rating: '★ 8.8',
-      platform: 'JioHotstar',
-      format: '4K UHD • Atmos',
       poster: 'https://image.tmdb.org/t/p/w500/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg',
-      synopsis: "Oz Cobb fights ruthlessly to seize control of Gotham City's criminal underworld following the devastating aftermath of The Batman.",
-      btnText: 'Stream on JioHotstar ↗',
-      btnClass: 'btn-theme-hotstar',
-      btnIcon: '▶',
+      synopsis: 'Following the flooding of Gotham City in The Batman, Oswald Cobb maneuvers through the treacherous criminal hierarchy to seize control of the Falcone crime syndicate.',
+      btnText: 'Stream on JioHotstar',
       url: 'https://www.hotstar.com/in/shows/the-penguin/1271324834',
-      glowColor: 'radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(30, 58, 138, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+      platform: 'JioHotstar',
+      glowColor: 'radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(30, 58, 138, 0.1) 50%, rgba(0, 0, 0, 0) 75%)'
     },
     {
       id: 'radical-optimism',
-      category: 'MUSIC',
-      contextTag: 'MUSIC RELEASE',
-      badgeClass: 'badge-music-release',
       title: 'Radical Optimism',
       meta: 'Dua Lipa • 2024 • Psychedelic Dance',
-      rating: '★ 8.2',
-      platform: 'Apple Music',
-      format: 'Spatial Audio • Hi-Res',
       poster: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/bd/d3/2c/bdd32c8c-bba7-def3-4e1f-2992550b2d16/5021732379115.jpg/600x600bb.jpg',
-      synopsis: "Dua Lipa channels UK rave culture and 90s psychedelia with anthemic tracks 'Houdini', 'Training Season' and 'Illusion'.",
-      btnText: 'Listen on Apple Music ♫',
-      btnClass: 'btn-theme-apple',
-      btnIcon: '♫',
-      url: 'https://music.apple.com/in/album/radical-optimism/1735578768',
-      glowColor: 'radial-gradient(circle, rgba(244, 114, 182, 0.35) 0%, rgba(219, 39, 119, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+      synopsis: 'Inspired by self-discovery and the pure euphoria of London club culture, Dua Lipa channels raw vulnerability and triumphant joy through tracks Houdini, Training Season, and Illusion.',
+      btnText: 'Listen on YouTube Music',
+      url: 'https://music.youtube.com/search?q=Dua+Lipa+Radical+Optimism',
+      platform: 'YouTube Music',
+      glowColor: 'radial-gradient(circle, rgba(244, 114, 182, 0.2) 0%, rgba(219, 39, 119, 0.08) 50%, rgba(0, 0, 0, 0) 75%)'
     },
     {
       id: 'gladiator-2',
-      category: 'THEATER',
-      contextTag: 'THEATER RELEASE',
-      badgeClass: 'badge-theater-release',
       title: 'Gladiator II',
       meta: 'Ridley Scott • 2024 • Historical Epic',
-      rating: '★ 7.9',
-      platform: 'Theaters / IMAX',
-      format: 'IMAX • Dolby Cinema',
       poster: 'https://image.tmdb.org/t/p/w500/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg',
-      synopsis: "Years after witnessing the fall of Maximus, Lucius must enter the Colosseum to fight for the future of Rome against tyrannical emperors.",
-      btnText: 'View Theaters & Showtimes ↗',
-      btnClass: 'btn-theme-theater',
-      btnIcon: '🎟',
-      url: 'https://in.bookmyshow.com/movies/gladiator-ii/ET00392813',
-      glowColor: 'radial-gradient(circle, rgba(249, 115, 22, 0.35) 0%, rgba(194, 65, 12, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+      synopsis: 'Years after witnessing the death of revered hero Maximus at the hands of his uncle, Lucius must enter the Colosseum to fight for the future of Rome against tyrannical emperors.',
+      btnText: 'Book on BookMyShow',
+      url: 'javascript:void(0)',
+      platform: 'BookMyShow',
+      isBookMyShow: true,
+      glowColor: 'radial-gradient(circle, rgba(249, 115, 22, 0.22) 0%, rgba(194, 65, 12, 0.08) 50%, rgba(0, 0, 0, 0) 75%)'
     },
     {
       id: 'squid-game-2',
-      category: 'OTT',
-      contextTag: 'TOP SHOW IN INDIA TODAY',
-      badgeClass: 'badge-top-show',
       title: 'Squid Game',
       meta: 'Hwang Dong-hyuk • Season 2 • Survival Thriller',
-      rating: '★ 8.5',
-      platform: 'Netflix',
-      format: '4K UHD • Atmos',
       poster: 'https://image.tmdb.org/t/p/w500/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg',
-      synopsis: 'Three years after winning Squid Game, Player 456 gives up going to the states and returns with a brand-new resolve in his mind.',
-      btnText: 'Watch on Netflix ↗',
-      btnClass: 'btn-theme-netflix',
-      btnIcon: '▶',
+      synopsis: 'Three years after winning the life-or-death tournament, Seong Gi-hun abandons his journey to America and plunges back into the mysterious survival game with a brand-new resolve.',
+      btnText: 'Watch on Netflix',
       url: 'https://www.netflix.com/title/81040344',
-      glowColor: 'radial-gradient(circle, rgba(229, 9, 20, 0.35) 0%, rgba(153, 27, 27, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+      platform: 'Netflix',
+      glowColor: 'radial-gradient(circle, rgba(229, 9, 20, 0.22) 0%, rgba(153, 27, 27, 0.08) 50%, rgba(0, 0, 0, 0) 75%)'
     },
     {
       id: 'hurry-up-tomorrow',
-      category: 'MUSIC',
-      contextTag: 'ALBUM RELEASE',
-      badgeClass: 'badge-album-release',
       title: 'Hurry Up Tomorrow',
       meta: 'The Weeknd • 2025 • Synthwave / R&B',
-      rating: '★ 8.9',
-      platform: 'Spotify',
-      format: 'Lossless • Atmos',
       poster: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/13/fd/a3/13fda38d-fc63-ddc3-1cf2-c09251adc532/25UMGIM09489.rgb.jpg/600x600bb.jpg',
-      synopsis: "The highly anticipated finale to The Weeknd's blockbuster album trilogy, featuring 'Dancing in the Flames' and 'Timeless'.",
-      btnText: 'Listen on Spotify ♫',
-      btnClass: 'btn-theme-spotify',
-      btnIcon: '♫',
-      url: 'https://open.spotify.com/album/2wGv5fU4b2WkIvhJ4WqL0t',
-      glowColor: 'radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(126, 34, 206, 0.15) 50%, rgba(0, 0, 0, 0) 75%)'
+      synopsis: 'The climactic third and final chapter of The Weeknd’s blockbuster existential album trilogy, serving as the follow-up to After Hours and Dawn FM featuring new chart-topping tracks.',
+      btnText: 'Listen on YouTube Music',
+      url: 'https://music.youtube.com/search?q=The+Weeknd+Hurry+Up+Tomorrow',
+      platform: 'YouTube Music',
+      glowColor: 'radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(126, 34, 206, 0.08) 50%, rgba(0, 0, 0, 0) 75%)'
     }
   ];
 
@@ -526,23 +471,11 @@ function initSpotlightCard() {
 
   const cardInner = card.querySelector('.spotlight-card-inner');
   const glow = document.getElementById('spotlight-glow');
-  const typeChip = document.getElementById('spotlight-type-chip');
-  const counter = document.getElementById('spotlight-counter');
-  const btnPrev = document.getElementById('spotlight-btn-prev');
-  const btnNext = document.getElementById('spotlight-btn-next');
-
   const posterImg = document.getElementById('spotlight-poster-img');
-  const platformName = document.getElementById('spotlight-platform-name');
-  const formatText = document.getElementById('spotlight-format-text');
-
   const mainTitle = document.getElementById('spotlight-main-title');
   const metaInfo = document.getElementById('spotlight-meta-info');
-  const ratingEl = document.getElementById('spotlight-rating');
-
-  const contextBadge = document.getElementById('spotlight-context-badge');
   const synopsisEl = document.getElementById('spotlight-synopsis');
   const actionBtn = document.getElementById('spotlight-action-btn');
-  const btnIcon = document.getElementById('spotlight-btn-icon');
   const btnLabel = document.getElementById('spotlight-btn-label');
 
   function renderDrop(idx, animate = true) {
@@ -554,36 +487,24 @@ function initSpotlightCard() {
     }
 
     setTimeout(() => {
-      // 1. Header & Counter
-      if (counter) counter.textContent = `${idx + 1} / ${SPOTLIGHT_DROPS.length}`;
-      if (typeChip) typeChip.textContent = drop.category;
-
-      // 2. Parts 1 & 2: Poster & Badges
+      // 1. Poster
       if (posterImg) {
         posterImg.src = drop.poster;
-        posterImg.alt = `${drop.title} Artwork`;
+        posterImg.alt = `${drop.title} Poster`;
       }
-      if (platformName) platformName.textContent = drop.platform;
-      if (formatText) formatText.textContent = drop.format;
 
-      // 3. Part 3: Title & Creator Metadata
+      // 2. Title & Subtitle Meta
       if (mainTitle) mainTitle.textContent = drop.title;
       if (metaInfo) metaInfo.textContent = drop.meta;
-      if (ratingEl) ratingEl.textContent = drop.rating;
 
-      // 4. Part 4: Context Tag & 2-Line Synopsis & Action Button
-      if (contextBadge) {
-        contextBadge.textContent = drop.contextTag;
-        contextBadge.className = `spotlight-context-badge ${drop.badgeClass}`;
-      }
-      if (synopsisEl) {
-        synopsisEl.textContent = drop.synopsis;
-      }
+      // 3. Full Paragraph Synopsis
+      if (synopsisEl) synopsisEl.textContent = drop.synopsis;
+
+      // 4. Action Button (Plain text, always gray)
       if (actionBtn) {
         actionBtn.href = drop.url;
-        actionBtn.className = `spotlight-action-btn ${drop.btnClass}`;
+        actionBtn.target = drop.isBookMyShow ? '_self' : '_blank';
       }
-      if (btnIcon) btnIcon.textContent = drop.btnIcon;
       if (btnLabel) btnLabel.textContent = drop.btnText;
 
       // Dynamic ambient glow
@@ -597,43 +518,28 @@ function initSpotlightCard() {
     }, animate ? 140 : 0);
   }
 
-  function nextDrop() {
-    currentIdx = (currentIdx + 1) % SPOTLIGHT_DROPS.length;
-    renderDrop(currentIdx, true);
-    resetAutoCycle();
-  }
-
-  function prevDrop() {
-    currentIdx = (currentIdx - 1 + SPOTLIGHT_DROPS.length) % SPOTLIGHT_DROPS.length;
-    renderDrop(currentIdx, true);
-    resetAutoCycle();
-  }
-
   function startAutoCycle() {
     clearInterval(autoTimer);
     autoTimer = setInterval(() => {
       currentIdx = (currentIdx + 1) % SPOTLIGHT_DROPS.length;
       renderDrop(currentIdx, true);
-    }, 12000);
+    }, 8000); // 8-second interval
   }
-
-  function resetAutoCycle() {
-    startAutoCycle();
-  }
-
-  // Button navigation listeners
-  if (btnPrev) btnPrev.addEventListener('click', prevDrop);
-  if (btnNext) btnNext.addEventListener('click', nextDrop);
 
   // Pause on hover
   card.addEventListener('mouseenter', () => clearInterval(autoTimer));
   card.addEventListener('mouseleave', () => startAutoCycle());
 
-  // Action button toast feedback
+  // Action button click handler
   if (actionBtn) {
-    actionBtn.addEventListener('click', () => {
+    actionBtn.addEventListener('click', (e) => {
       const drop = SPOTLIGHT_DROPS[currentIdx];
-      showToast(`Opening "${drop.title}" on ${drop.platform}...`);
+      if (drop.isBookMyShow) {
+        e.preventDefault();
+        showToast('BookMyShow integration coming soon');
+      } else {
+        showToast(`Opening "${drop.title}" on ${drop.platform}...`);
+      }
     });
   }
 

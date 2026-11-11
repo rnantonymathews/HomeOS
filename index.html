@@ -337,72 +337,36 @@
     <!-- RIGHT COLUMN (320px) -->
     <div class="bento-col bento-col-right">
 
-      <!-- 6. Vertical Large Card: Fresh Drops (One-at-a-time OTT & Music Spotlight) -->
+      <!-- 6. Vertical Large Card: Fresh Drops (Automatic Spotlight) -->
       <div class="bento-card card-spotlight" id="card-spotlight">
         <div class="card-glow glow-spotlight" id="spotlight-glow"></div>
         <div class="spotlight-card-inner">
 
-          <!-- Top Navigation Header -->
+          <!-- Top Header: Clean Left-Aligned Fresh Drops -->
           <div class="spotlight-top-bar">
-            <div class="spotlight-brand">
-              <span class="spotlight-live-dot"></span>
-              <span class="spotlight-header-title">Fresh Drops</span>
-              <span class="spotlight-type-chip" id="spotlight-type-chip">OTT</span>
-            </div>
-            <div class="spotlight-nav-controls">
-              <span class="spotlight-counter" id="spotlight-counter">1 / 8</span>
-              <button class="spotlight-nav-btn btn-prev" id="spotlight-btn-prev" title="Previous Drop" aria-label="Previous">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-              </button>
-              <button class="spotlight-nav-btn btn-next" id="spotlight-btn-next" title="Next Drop" aria-label="Next">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </button>
-            </div>
+            <span class="spotlight-header-title">Fresh Drops</span>
           </div>
 
-          <!-- PART 1 & PART 2: Cinematic Hero Poster Stage (~236px) -->
+          <!-- Poster Stage: Starts right below Fresh Drops, smooth fade into background -->
           <div class="spotlight-poster-stage" id="spotlight-poster-stage">
             <img class="spotlight-poster-img" id="spotlight-poster-img" src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg" alt="Dune: Part Two Poster" />
             <div class="spotlight-poster-fade"></div>
-            
-            <!-- Floating platform badge (bottom-left) -->
-            <div class="spotlight-platform-badge" id="spotlight-platform-badge">
-              <span class="spotlight-platform-name" id="spotlight-platform-name">JioHotstar</span>
-            </div>
-
-            <!-- Floating format tag (bottom-right) -->
-            <div class="spotlight-format-badge" id="spotlight-format-badge">
-              <span id="spotlight-format-text">4K UHD • Atmos</span>
-            </div>
           </div>
 
-          <!-- PART 3: Title & Creator Metadata Stage (~72px) -->
+          <!-- Title & Creator Metadata Stage -->
           <div class="spotlight-title-stage">
-            <div class="spotlight-title-row">
-              <h2 class="spotlight-main-title" id="spotlight-main-title">Dune: Part Two</h2>
-            </div>
-            <div class="spotlight-meta-row">
-              <span class="spotlight-meta-info" id="spotlight-meta-info">Denis Villeneuve • 2024 • Sci-Fi</span>
-              <span class="spotlight-rating-pill" id="spotlight-rating">★ 8.6</span>
-            </div>
+            <h2 class="spotlight-main-title" id="spotlight-main-title">Dune: Part Two</h2>
+            <span class="spotlight-meta-info" id="spotlight-meta-info">Denis Villeneuve • 2024 • Sci-Fi / Adventure</span>
           </div>
 
-          <!-- PART 4: Context Tag & 2-Line Description & Action Stage (~136px) -->
+          <!-- Description & Action Stage -->
           <div class="spotlight-desc-stage">
-            <div class="spotlight-context-row">
-              <span class="spotlight-context-badge badge-ott-release" id="spotlight-context-badge">LATEST OTT RELEASE</span>
-            </div>
             <p class="spotlight-synopsis-text" id="spotlight-synopsis">
-              Paul Atreides unites with Chani and the Fremen to wage war against House Harkonnen in Denis Villeneuve's acclaimed sci-fi epic.
+              Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family, endeavoring to prevent a terrible future only he can foresee.
             </p>
             <div class="spotlight-action-row">
-              <a href="https://www.hotstar.com/in/movies/dune-part-two/1271318044" target="_blank" rel="noopener noreferrer" class="spotlight-action-btn btn-theme-hotstar" id="spotlight-action-btn">
-                <span class="btn-action-icon" id="spotlight-btn-icon">▶</span>
-                <span class="btn-action-label" id="spotlight-btn-label">Stream on JioHotstar ↗</span>
+              <a href="https://www.hotstar.com/in/movies/dune-part-two/1271318044" target="_blank" rel="noopener noreferrer" class="spotlight-action-btn" id="spotlight-action-btn">
+                <span class="btn-action-label" id="spotlight-btn-label">Stream on JioHotstar</span>
               </a>
             </div>
           </div>
