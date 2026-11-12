@@ -10,7 +10,8 @@ import {
   PRIME_TOP_10,
   HOTSTAR_TOP_10,
   WATCHLIST_MOVIES,
-  MOVIE_CATEGORIES
+  MOVIE_CATEGORIES,
+  WATCH_NOW_LIBRARY
 } from './moviesData.js';
 
 export function initMoviesView() {
@@ -202,13 +203,44 @@ export function initMoviesView() {
       <div class="movies-section-header">
         <div class="categories-header-left">
           <h2 class="movies-section-title">Categories</h2>
-          <span class="categories-count-pill">${MOVIE_CATEGORIES.length} Genres</span>
+          <span class="categories-count-pill">${MOVIE_CATEGORIES.length} Categories (Genres & Languages)</span>
         </div>
       </div>
 
-      <!-- Categories 2-Row Stacked Grid (6 in Row 1, 6 in Row 2) -->
-      <div class="categories-grid" id="movies-categories-grid" role="region" aria-label="Movie Categories & Genres">
+      <!-- Categories 3-Row Stacked Grid (6 Genres in Row 1, 6 Genres in Row 2, 6 Languages in Row 3) -->
+      <div class="categories-grid" id="movies-categories-grid" role="region" aria-label="Movie Categories & Languages">
         ${renderCategoryCards(MOVIE_CATEGORIES)}
+      </div>
+    </div>
+
+    <!-- 7. Watch Now Section (The Unified Library) with Emerald Hairline Divider & Radiant Glow -->
+    <div class="movies-platform-section movies-watchnow-section" id="movies-watchnow-section">
+      <!-- Hairline divider with downward EMERALD glow -->
+      <div class="movie-block-divider-wrap watchnow-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line watchnow-divider-line"></div>
+        <div class="movie-block-divider-glow watchnow-divider-glow"></div>
+      </div>
+
+      <!-- Section Title: Watch Now with Dynamic Filter Pills and Reset Action -->
+      <div class="movies-section-header watchnow-section-header">
+        <div class="watchnow-header-left">
+          <h2 class="movies-section-title">Watch Now</h2>
+          <span class="watchnow-status-pill" id="watchnow-status-pill">Library • ${WATCH_NOW_LIBRARY.length} Movies</span>
+        </div>
+        <div class="watchnow-header-actions" id="watchnow-header-actions" style="display: none;">
+          <button type="button" class="watchnow-clear-btn" id="watchnow-clear-btn" title="Reset filter to view all movies">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span>Reset to All</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Watch Now Movie Grid Container (Dynamic Rendering based on Selected Category) -->
+      <div class="watchnow-grid" id="movies-watchnow-grid" role="region" aria-label="Watch Now Library Movies">
+        ${renderWatchNowLibrary(null)}
       </div>
     </div>
   `;
@@ -217,6 +249,7 @@ export function initMoviesView() {
   attachWatchlistEvents();
   attachRailNavigationEvents();
   attachCategoryEvents();
+  attachWatchNowEvents();
 
   // Initial position: 1st card stays naturally at the start
   setTimeout(() => {
@@ -402,9 +435,11 @@ function renderWatchlistCards(movies) {
   return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
+let activeCategoryFilter = null;
+
 function renderCategoryCards(categories) {
   const cardsHtml = categories.map(cat => `
-    <div class="category-card" data-genre="${cat.id}" data-genre-title="${cat.name}" style="--cat-accent: ${cat.color}; --cat-rgb: ${cat.rgb};" role="button" tabindex="0" title="Browse ${cat.name} Movies">
+    <div class="category-card" data-genre="${cat.id}" data-genre-title="${cat.name}" style="--cat-accent: ${cat.color}; --cat-rgb: ${cat.rgb};" role="button" tabindex="0" title="Filter Watch Now by ${cat.name}">
       <div class="cat-card-ambient" aria-hidden="true"></div>
       <div class="cat-card-body">
         <div class="cat-card-content">
@@ -422,13 +457,194 @@ function renderCategoryCards(categories) {
   return cardsHtml;
 }
 
+function renderWatchNowLibrary(categoryFilter = null) {
+  if (!categoryFilter) {
+    return WATCH_NOW_LIBRARY.map(movie => renderWatchNowCard(movie, false)).join('');
+  }
+
+  const normalize = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const isLanguage = categoryFilter.categoryType === 'language';
+  const filterId = categoryFilter.id.toLowerCase();
+  const normF = normalize(filterId);
+
+  const matched = [];
+  const others = [];
+
+  WATCH_NOW_LIBRARY.forEach(movie => {
+    let isMatch = false;
+    if (isLanguage) {
+      const movieLang = (movie.language || '').toLowerCase();
+      if (filterId === 'others') {
+        isMatch = movieLang && !['malayalam', 'hindi', 'kannada', 'tamil', 'english'].includes(movieLang);
+      } else {
+        isMatch = movieLang === filterId;
+      }
+    } else {
+      isMatch = (movie.genres || []).some(g => {
+        const normG = normalize(g);
+        return normG === normF || normG.includes(normF) || normF.includes(normG);
+      });
+    }
+
+    if (isMatch) {
+      matched.push(movie);
+    } else {
+      others.push(movie);
+    }
+  });
+
+  const matchedHtml = matched.map(movie => renderWatchNowCard(movie, true)).join('');
+  const othersHtml = others.map(movie => renderWatchNowCard(movie, false)).join('');
+
+  if (others.length === 0) {
+    return matchedHtml;
+  }
+
+  const dividerHtml = `
+    <div class="watchnow-dotted-divider" aria-hidden="true">
+      <div class="watchnow-dotted-line"></div>
+      <div class="watchnow-dotted-pill">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 8v8"></path>
+          <path d="M8 12h8"></path>
+        </svg>
+        <span>OTHER TITLES IN LIBRARY (${others.length})</span>
+      </div>
+      <div class="watchnow-dotted-line"></div>
+    </div>
+  `;
+
+  return `${matchedHtml}${dividerHtml}${othersHtml}`;
+}
+
+function renderWatchNowCard(movie, isDirectMatch = false) {
+  const matchClass = isDirectMatch ? 'is-matched-category' : '';
+  const genreList = Array.isArray(movie.genres) ? movie.genres.slice(0, 2).join(' • ') : '';
+
+  return `
+    <div class="watchnow-card ${matchClass}" data-id="${movie.id}" role="article" tabindex="0">
+      <div class="watchnow-poster-wrap">
+        <img class="watchnow-poster-img" src="${movie.poster}" alt="${movie.title} Poster" loading="lazy" />
+        <div class="watchnow-poster-scrim"></div>
+
+        <!-- Top Badges: Provider & Language -->
+        <div class="watchnow-top-badges">
+          <span class="watchnow-provider-pill ${movie.providerBadgeClass || 'badge-streaming'}">${movie.providerName || 'Streaming'}</span>
+          <span class="watchnow-lang-pill">${movie.language || 'Feature'}</span>
+        </div>
+
+        ${isDirectMatch ? `<div class="watchnow-match-ribbon"><span>MATCH</span></div>` : ''}
+
+        <!-- Hover Stream Overlay -->
+        <div class="watchnow-hover-overlay">
+          <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="watchnow-stream-btn" title="Stream ${movie.title} on ${movie.providerName || 'Streaming'}">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>Watch Now</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Info Below Poster -->
+      <div class="watchnow-card-info">
+        <h4 class="watchnow-card-title" title="${movie.title}">${movie.title}</h4>
+        <div class="watchnow-card-meta">
+          <span>${movie.year}</span>
+          <span class="meta-dot">•</span>
+          <span>${movie.duration}</span>
+          <span class="meta-dot">•</span>
+          <span class="watchnow-rating">★ ${movie.rating}</span>
+        </div>
+        <span class="watchnow-genres">${genreList}</span>
+      </div>
+    </div>
+  `;
+}
+
+function filterWatchNow(category) {
+  const grid = document.getElementById('movies-watchnow-grid');
+  const statusPill = document.getElementById('watchnow-status-pill');
+  const clearActions = document.getElementById('watchnow-header-actions');
+  const categoryCards = document.querySelectorAll('.category-card');
+
+  if (!category) {
+    activeCategoryFilter = null;
+    categoryCards.forEach(c => c.classList.remove('is-selected'));
+    if (grid) grid.innerHTML = renderWatchNowLibrary(null);
+    if (statusPill) statusPill.textContent = `Library • ${WATCH_NOW_LIBRARY.length} Movies`;
+    if (clearActions) clearActions.style.display = 'none';
+    if (window.showToast) window.showToast('Showing all library movies');
+    return;
+  }
+
+  // Toggle off if clicking the already active category
+  if (activeCategoryFilter && activeCategoryFilter.id === category.id) {
+    filterWatchNow(null);
+    return;
+  }
+
+  activeCategoryFilter = category;
+
+  // Highlight active category card
+  categoryCards.forEach(c => {
+    if (c.dataset.genre === category.id) {
+      c.classList.add('is-selected');
+    } else {
+      c.classList.remove('is-selected');
+    }
+  });
+
+  if (grid) {
+    grid.innerHTML = renderWatchNowLibrary(category);
+  }
+
+  // Count matches
+  const normalize = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const isLanguage = category.categoryType === 'language';
+  const filterId = category.id.toLowerCase();
+  const normF = normalize(filterId);
+  const matchedCount = WATCH_NOW_LIBRARY.filter(m => {
+    if (isLanguage) {
+      const ml = (m.language || '').toLowerCase();
+      return filterId === 'others' 
+        ? ml && !['malayalam', 'hindi', 'kannada', 'tamil', 'english'].includes(ml)
+        : ml === filterId;
+    }
+    return (m.genres || []).some(g => {
+      const normG = normalize(g);
+      return normG === normF || normG.includes(normF) || normF.includes(normG);
+    });
+  }).length;
+
+  if (statusPill) {
+    statusPill.innerHTML = `<strong>${category.name}</strong> (${matchedCount} Matches) • Plus Library`;
+  }
+
+  if (clearActions) {
+    clearActions.style.display = 'flex';
+  }
+
+  if (window.showToast) {
+    window.showToast(`Filtered by ${category.name} (${matchedCount} movies)`);
+  }
+
+  // Smooth scroll to Watch Now section
+  const section = document.getElementById('movies-watchnow-section');
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 function attachCategoryEvents() {
   const cards = document.querySelectorAll('.category-card');
   cards.forEach(card => {
     const handleSelect = () => {
-      const genre = card.dataset.genreTitle || card.dataset.genre;
-      if (window.showToast) {
-        window.showToast(`Exploring ${genre} movies...`);
+      const genreId = card.dataset.genre;
+      const category = MOVIE_CATEGORIES.find(c => c.id === genreId);
+      if (category) {
+        filterWatchNow(category);
       }
     };
 
@@ -440,6 +656,16 @@ function attachCategoryEvents() {
       }
     });
   });
+}
+
+function attachWatchNowEvents() {
+  const clearBtn = document.getElementById('watchnow-clear-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      filterWatchNow(null);
+    });
+  }
 }
 
 function attachWatchlistEvents() {

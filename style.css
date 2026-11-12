@@ -1867,7 +1867,8 @@ html, body {
 .prime-divider-wrap,
 .hotstar-divider-wrap,
 .watchlist-divider-wrap,
-.categories-divider-wrap {
+.categories-divider-wrap,
+.watchnow-divider-wrap {
   position: relative;
   width: 100%;
   margin: 0 0 12px 0;
@@ -2022,6 +2023,37 @@ html, body {
     rgba(6, 182, 212, 0.22) 22%,
     rgba(13, 148, 136, 0.1) 48%,
     rgba(13, 148, 136, 0.02) 75%,
+    transparent 100%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+/* 6. Watch Now (Electric Emerald Glow) */
+.watchnow-divider-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.95) 0%,
+    rgba(5, 150, 105, 0.55) 25%,
+    rgba(255, 255, 255, 0.12) 65%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+}
+
+.watchnow-divider-glow {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  right: 0;
+  height: 240px;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 185, 129, 0.42) 0%,
+    rgba(5, 150, 105, 0.22) 22%,
+    rgba(4, 120, 87, 0.1) 48%,
+    rgba(4, 120, 87, 0.02) 75%,
     transparent 100%
   );
   filter: blur(20px);
@@ -2787,6 +2819,355 @@ html, body {
   outline-offset: 3px;
 }
 
+/* Selected Active Category Card State */
+.category-card.is-selected {
+  border-color: var(--cat-accent, #14b8a6) !important;
+  box-shadow: 0 0 28px rgba(var(--cat-rgb), 0.55),
+              0 14px 32px rgba(0, 0, 0, 0.9) !important;
+  transform: translateY(-4px) scale(1.025);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--cat-rgb), 0.22) 0%,
+    rgba(18, 18, 24, 0.96) 100%
+  ) !important;
+}
+
+.category-card.is-selected .cat-card-ambient {
+  opacity: 1 !important;
+  transform: scale(1.35) !important;
+}
+
+.category-card.is-selected .cat-card-emoji-wrap {
+  background: rgba(var(--cat-rgb), 0.3) !important;
+  border-color: rgba(var(--cat-rgb), 0.8) !important;
+  box-shadow: 0 0 20px rgba(var(--cat-rgb), 0.6) !important;
+  transform: scale(1.1) !important;
+}
+
+.category-card.is-selected .cat-card-title {
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 14px rgba(var(--cat-rgb), 0.6) !important;
+}
+
+/* ==========================================================================
+   HomeOS - Movies View: Watch Now Section (The Unified Library)
+   ========================================================================== */
+.movies-watchnow-section {
+  padding: 8px 5% 40px 5%;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.watchnow-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.watchnow-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.watchnow-status-pill {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 3px 12px;
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.18);
+  transition: all 0.25s ease;
+}
+
+.watchnow-header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.watchnow-clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.watchnow-clear-btn:hover {
+  background: rgba(239, 68, 68, 0.28);
+  border-color: rgba(239, 68, 68, 0.65);
+  color: #ffffff;
+  transform: scale(1.04);
+}
+
+/* 6-Column Responsive Movie Grid */
+.watchnow-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  width: 100%;
+  padding: 16px 0 28px 0;
+}
+
+/* Watch Now Movie Card */
+.watchnow-card {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  border-radius: 14px;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.28s ease;
+  user-select: none;
+}
+
+.watchnow-card:hover {
+  transform: translateY(-6px);
+}
+
+.watchnow-poster-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #111216;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.watchnow-card:hover .watchnow-poster-wrap {
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85),
+              0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Direct category match styling */
+.watchnow-card.is-matched-category .watchnow-poster-wrap {
+  border-color: rgba(16, 185, 129, 0.75);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7),
+              0 0 16px rgba(16, 185, 129, 0.25);
+}
+
+.watchnow-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.watchnow-card:hover .watchnow-poster-img {
+  transform: scale(1.06);
+}
+
+.watchnow-poster-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.25) 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Top badges (Provider + Language) */
+.watchnow-top-badges {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.watchnow-provider-pill {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 2.5px 7px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.watchnow-lang-pill {
+  font-family: 'Poppins', sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 2.5px 7px;
+  border-radius: 999px;
+}
+
+/* Match Ribbon for filtered direct matches */
+.watchnow-match-ribbon {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 3;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #FFFFFF;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Hover Stream Overlay */
+.watchnow-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  z-index: 4;
+}
+
+.watchnow-card:hover .watchnow-hover-overlay {
+  opacity: 1;
+}
+
+.watchnow-stream-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #10b981;
+  color: #042f2e;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.watchnow-stream-btn:hover {
+  transform: scale(1.05);
+  background: #34d399;
+}
+
+/* Card Info */
+.watchnow-card-info {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.watchnow-card-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.watchnow-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.watchnow-rating {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.watchnow-genres {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   DOTTED LINE DIVIDER (When category is over and showing the rest of library)
+   ========================================================================== */
+.watchnow-dotted-divider {
+  grid-column: 1 / -1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 32px 0 20px 0;
+  user-select: none;
+}
+
+.watchnow-dotted-line {
+  flex: 1;
+  height: 0;
+  border-bottom: 2px dotted rgba(16, 185, 129, 0.45);
+}
+
+.watchnow-dotted-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1.5px dotted rgba(16, 185, 129, 0.5);
+  padding: 6px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
 /* Responsive Adaptations */
 @media (max-width: 1080px) {
   .movies-cw-section {
@@ -2806,6 +3187,10 @@ html, body {
   .categories-grid {
     gap: 10px;
   }
+  .watchnow-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -2815,6 +3200,9 @@ html, body {
   .movies-netflix-section,
   .movies-platform-section {
     padding: 6px 3% 14px 3%;
+  }
+  .movies-watchnow-section {
+    padding: 6px 3% 28px 3%;
   }
   .movies-cw-rail {
     min-height: 370px;
@@ -2856,5 +3244,12 @@ html, body {
   .cat-outline-emoji-svg {
     width: 24px;
     height: 24px;
+  }
+  .watchnow-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .watchnow-card-title {
+    font-size: 12px;
   }
 }
