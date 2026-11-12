@@ -173,14 +173,6 @@ export function initMusicView() {
   }, 100);
 }
 
-  setTimeout(() => {
-    const activeCard = document.querySelector('#music-cw-rail .movies-cw-card.is-active');
-    if (activeCard) {
-      centerCard(activeCard, false);
-    }
-  }, 100);
-}
-
 function renderContinueWatchingCards(tracks) {
   const cardsHtml = tracks.map((track, index) => {
     const isActive = index === 0 ? 'is-active' : '';
@@ -349,8 +341,6 @@ function renderWatchlistCards(tracks) {
 
   return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
-
-let activeMusicCategoryFilter = null;
 
 function renderCategoryCards(categories) {
   const cardsHtml = categories.map(cat => `
