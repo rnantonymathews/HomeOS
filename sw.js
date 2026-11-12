@@ -1,17 +1,14 @@
-// HomeOS Service Worker
-const CACHE_NAME = 'homeos-v8.2';
+// HomeOS Service Worker - Blank Slate Clean Architecture
+const CACHE_NAME = 'homeos-v9.0-clean-slate';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
   './app.js',
-  './musicPlayer.js',
-  './moviesData.js',
+  './ottData.js',
   './moviesView.js',
-  './showsData.js',
   './showsView.js',
-  './musicData.js',
   './musicView.js',
   './sky.js',
   './wallpaper.js',
