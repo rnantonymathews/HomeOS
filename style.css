@@ -1372,7 +1372,9 @@ html, body {
 /* ==========================================================================
    HomeOS - Movies View (Clean Blank Canvas)
    ========================================================================== */
-.movies-overlay {
+.movies-overlay,
+.shows-overlay,
+.music-overlay {
   position: fixed;
   inset: 0;
   left: 110px; /* offset for the left vertical dock */
@@ -1388,7 +1390,9 @@ html, body {
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.movies-overlay.active {
+.movies-overlay.active,
+.shows-overlay.active,
+.music-overlay.active {
   opacity: 1;
   pointer-events: auto;
 }
@@ -1868,10 +1872,42 @@ html, body {
 .hotstar-divider-wrap,
 .watchlist-divider-wrap,
 .categories-divider-wrap,
-.watchnow-divider-wrap {
+.watchnow-divider-wrap,
+.ytmusic-divider-wrap {
   position: relative;
   width: 100%;
   margin: 0 0 12px 0;
+}
+
+/* YouTube Music (Crimson Red Glow) */
+.ytmusic-divider-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 51, 0.95) 0%,
+    rgba(229, 9, 20, 0.6) 25%,
+    rgba(255, 255, 255, 0.12) 65%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+}
+
+.ytmusic-divider-glow {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 0, 51, 0.42) 0%,
+    rgba(229, 9, 20, 0.22) 22%,
+    rgba(185, 28, 28, 0.1) 48%,
+    rgba(185, 28, 28, 0.02) 75%,
+    transparent 100%
+  );
+  filter: blur(20px);
+  pointer-events: none;
 }
 
 /* 1. Netflix (Red Glow) */
@@ -3251,5 +3287,81 @@ html, body {
   }
   .watchnow-card-title {
     font-size: 12px;
+  }
+}
+
+/* ==========================================================================
+   HomeOS - Music Specific Styling (YouTube Music & Square Art)
+   ========================================================================== */
+.music-square-card .watchlist-poster-wrap,
+.music-square-card .top10-poster-wrap,
+.music-square-card .watchnow-poster-wrap,
+.music-cover-wrap {
+  aspect-ratio: 1 / 1 !important;
+}
+
+.music-square-card .watchlist-poster-img,
+.music-square-card .top10-poster-img,
+.music-square-card .watchnow-poster-img,
+.music-cover-img {
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+}
+
+.music-collapsed-cover {
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 8px !important;
+}
+
+.badge-ytmusic {
+  background: rgba(255, 0, 51, 0.16) !important;
+  color: #ff3366 !important;
+  border: 1px solid rgba(255, 0, 51, 0.45) !important;
+}
+
+.ytmusic-title {
+  color: #ffffff;
+}
+
+.ytmusic-trending-pill {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff3366;
+  background: rgba(255, 0, 51, 0.12);
+  border: 1px solid rgba(255, 0, 51, 0.35);
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+
+.ytmusic-rank-badge {
+  color: #ff3366 !important;
+}
+
+.fill-music {
+  background: linear-gradient(90deg, #ff0055, #ff5500) !important;
+}
+
+.music-block-tag {
+  color: #f97316 !important;
+  border-color: rgba(249, 115, 22, 0.35) !important;
+  background: rgba(249, 115, 22, 0.1) !important;
+}
+
+.music-library-grid {
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1280px) {
+  .music-library-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .music-library-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

@@ -3,6 +3,8 @@
  */
 
 import { initMoviesView, openMoviesView, closeMoviesView, updateBentoContinueWatchingCard } from './moviesView.js';
+import { initShowsView, openShowsView, closeShowsView, updateBentoContinueShowsCard } from './showsView.js';
+import { initMusicView, openMusicView, closeMusicView, updateBentoContinueMusicCard } from './musicView.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
@@ -14,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initContinueWatching();
   initVerticalDock();
   initMoviesView();
+  initShowsView();
+  initMusicView();
 });
 
 /* ==========================================================================
@@ -604,13 +608,25 @@ function initContinueWatching() {
   }
 
   if (btnMovie) btnMovie.addEventListener('click', (e) => { e.stopPropagation(); resumeMovie(); });
-  if (movieItem) movieItem.addEventListener('click', resumeMovie);
+  if (movieItem) movieItem.addEventListener('click', () => {
+    const movieDock = document.getElementById('nav-movies') || document.querySelector('[data-nav="movie"]');
+    if (movieDock) movieDock.click();
+    else openMoviesView();
+  });
 
   if (btnShow) btnShow.addEventListener('click', (e) => { e.stopPropagation(); resumeShow(); });
-  if (showItem) showItem.addEventListener('click', resumeShow);
+  if (showItem) showItem.addEventListener('click', () => {
+    const showsDock = document.getElementById('nav-shows') || document.querySelector('[data-nav="shows"]');
+    if (showsDock) showsDock.click();
+    else openShowsView();
+  });
 
   if (btnMusic) btnMusic.addEventListener('click', (e) => { e.stopPropagation(); resumeMusic(); });
-  if (musicItem) musicItem.addEventListener('click', resumeMusic);
+  if (musicItem) musicItem.addEventListener('click', () => {
+    const musicDock = document.getElementById('nav-music') || document.querySelector('[data-nav="music"]');
+    if (musicDock) musicDock.click();
+    else openMusicView();
+  });
 }
 
 /* ==========================================================================
@@ -654,13 +670,25 @@ function initVerticalDock() {
 
       const target = item.dataset.nav;
 
-      if (target === 'movie' || target === 'shows' || target === 'music') {
+      if (target === 'movie') {
         openMoviesView();
+        return;
+      }
+
+      if (target === 'shows') {
+        openShowsView();
+        return;
+      }
+
+      if (target === 'music') {
+        openMusicView();
         return;
       }
 
       if (target === 'profile') {
         closeMoviesView();
+        closeShowsView();
+        closeMusicView();
         return;
       }
     });

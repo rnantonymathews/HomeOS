@@ -1,5 +1,5 @@
 // HomeOS Service Worker
-const CACHE_NAME = 'homeos-v7.8';
+const CACHE_NAME = 'homeos-v7.9';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -8,6 +8,10 @@ const ASSETS_TO_CACHE = [
   './app.js',
   './moviesData.js',
   './moviesView.js',
+  './showsData.js',
+  './showsView.js',
+  './musicData.js',
+  './musicView.js',
   './sky.js',
   './wallpaper.js',
   './manifest.json',

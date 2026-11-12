@@ -904,8 +904,13 @@ function attachContinueWatchingEvents() {
 
 export function openMoviesView() {
   const overlay = document.getElementById('movies-overlay');
+  const showsOverlay = document.getElementById('shows-overlay');
+  const musicOverlay = document.getElementById('music-overlay');
   const bento = document.getElementById('bento-dashboard');
   if (!overlay) return;
+
+  if (showsOverlay) showsOverlay.classList.remove('active');
+  if (musicOverlay) musicOverlay.classList.remove('active');
 
   if (bento) {
     bento.classList.add('view-hidden');
