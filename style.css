@@ -1461,9 +1461,9 @@ html, body {
 
 .movies-cw-header {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  margin-bottom: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
 }
 
 .movies-cw-header-left {
@@ -1486,10 +1486,10 @@ html, body {
   display: flex;
   gap: 18px;
   align-items: flex-start;
-  min-height: 405px;
+  min-height: 415px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 6px 60px 16px 4px;
+  padding: 16px 60px 20px 4px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE / Edge */
 }
@@ -1998,9 +1998,9 @@ html, body {
 
 .movies-section-header {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
 }
 
 .movies-section-title {
@@ -2012,6 +2012,102 @@ html, body {
   margin: 0;
 }
 
+/* Section Header Navigation Arrows (< and >) */
+.section-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rail-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.rail-nav-btn:hover:not(.is-disabled) {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+.rail-nav-btn:active:not(.is-disabled) {
+  transform: scale(0.94);
+}
+
+.rail-nav-btn.is-disabled {
+  opacity: 0.25;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Floating Rail Arrows (< and > on Rail Edges) */
+.rail-scroll-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.rail-arrow-float {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 68px;
+  border-radius: 12px;
+  background: rgba(12, 12, 15, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.rail-scroll-wrapper:hover .rail-arrow-float:not(.is-disabled) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rail-arrow-float:hover:not(.is-disabled) {
+  background: rgba(26, 26, 32, 0.96);
+  border-color: rgba(255, 255, 255, 0.38);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.rail-arrow-float:active:not(.is-disabled) {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.rail-arrow-left {
+  left: 0;
+}
+
+.rail-arrow-right {
+  right: 0;
+}
+
+.rail-arrow-float.is-disabled {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* Platform Top 10 Rail (Shared) */
 .platform-top10-rail,
 .netflix-top10-rail {
@@ -2020,7 +2116,7 @@ html, body {
   align-items: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 4px 60px 14px 4px;
+  padding: 16px 60px 20px 4px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -2168,14 +2264,14 @@ html, body {
   letter-spacing: 0.02em;
 }
 
-/* Watchlist Dedicated Rail (No Numbers, Clean Frameless) */
+/* Watchlist Dedicated Rail (No Numbers, Clean Frameless, 16px Top Headroom) */
 .watchlist-rail {
   display: flex;
   gap: 18px;
   align-items: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 4px 60px 14px 4px;
+  padding: 16px 60px 20px 4px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -2247,15 +2343,14 @@ html, body {
   z-index: 2;
 }
 
-/* Watchlist Top Badges Row */
+/* Watchlist Top Bookmark Pin */
 .wl-card-top-row {
   position: absolute;
   top: 10px;
-  left: 10px;
   right: 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   z-index: 4;
   pointer-events: none;
 }

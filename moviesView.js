@@ -31,16 +31,40 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow cw-divider-glow"></div>
       </div>
 
-      <!-- Continue Watching Header -->
+      <!-- Continue Watching Header with < and > Navigation -->
       <div class="movies-cw-header">
         <div class="movies-cw-header-left">
           <h2 class="movies-cw-title">Continue Watching</h2>
         </div>
+        <div class="section-nav-arrows">
+          <button type="button" class="rail-nav-btn rail-nav-prev" data-cw="prev" aria-label="Previous movie" title="Previous movie">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="rail-nav-btn rail-nav-next" data-cw="next" aria-label="Next movie" title="Next movie">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <!-- Horizontal Expanding Accordion Rail (Hidden Scrollbar + Anchored First/Last) -->
-      <div class="movies-cw-rail" id="movies-cw-rail" role="region" aria-label="Continue Watching Movies">
-        ${renderContinueWatchingCards(CONTINUE_WATCHING_MOVIES)}
+      <div class="rail-scroll-wrapper">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-cw="prev" aria-label="Previous movie" title="Previous movie">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="movies-cw-rail" id="movies-cw-rail" role="region" aria-label="Continue Watching Movies">
+          ${renderContinueWatchingCards(CONTINUE_WATCHING_MOVIES)}
+        </div>
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-cw="next" aria-label="Next movie" title="Next movie">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -52,17 +76,41 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow watchlist-divider-glow"></div>
       </div>
 
-      <!-- Section Title: Watchlist with count badge -->
+      <!-- Section Title: Watchlist with count badge & < and > Navigation -->
       <div class="movies-section-header">
         <div class="watchlist-header-left">
           <h2 class="movies-section-title">Watchlist</h2>
           <span class="watchlist-count-pill" id="watchlist-count-pill">${WATCHLIST_MOVIES.length} Saved</span>
         </div>
+        <div class="section-nav-arrows">
+          <button type="button" class="rail-nav-btn rail-nav-prev" data-target="movies-watchlist-rail" aria-label="Scroll left" title="Scroll left">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="rail-nav-btn rail-nav-next" data-target="movies-watchlist-rail" aria-label="Scroll right" title="Scroll right">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Watchlist Rail (No oversized rank numbers; frosted provider pill + hover play/remove) -->
-      <div class="watchlist-rail" id="movies-watchlist-rail" role="region" aria-label="My Saved Watchlist">
-        ${renderWatchlistCards(WATCHLIST_MOVIES)}
+      <!-- Watchlist Rail with Floating Arrows -->
+      <div class="rail-scroll-wrapper">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-target="movies-watchlist-rail" aria-label="Scroll left" title="Scroll left">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="watchlist-rail" id="movies-watchlist-rail" role="region" aria-label="My Saved Watchlist">
+          ${renderWatchlistCards(WATCHLIST_MOVIES)}
+        </div>
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-target="movies-watchlist-rail" aria-label="Scroll right" title="Scroll right">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -74,16 +122,40 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow netflix-divider-glow"></div>
       </div>
 
-      <!-- Section Title: Netflix (no logo) -->
+      <!-- Section Title: Netflix & < and > Navigation -->
       <div class="movies-section-header">
         <div class="netflix-header-left">
           <h2 class="movies-section-title">Netflix</h2>
         </div>
+        <div class="section-nav-arrows">
+          <button type="button" class="rail-nav-btn rail-nav-prev" data-target="movies-netflix-rail" aria-label="Scroll left" title="Scroll left">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="rail-nav-btn rail-nav-next" data-target="movies-netflix-rail" aria-label="Scroll right" title="Scroll right">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Netflix Top 10 Movies Rail (Iconic Oversized Rank Numerals) -->
-      <div class="platform-top10-rail netflix-top10-rail" id="movies-netflix-rail" role="region" aria-label="Top 10 Movies on Netflix India">
-        ${renderPlatformTop10Rail(NETFLIX_TOP_10_INDIA, 'netflix', 'Netflix')}
+      <!-- Netflix Top 10 Movies Rail with Floating Arrows -->
+      <div class="rail-scroll-wrapper">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-target="movies-netflix-rail" aria-label="Scroll left" title="Scroll left">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="platform-top10-rail netflix-top10-rail" id="movies-netflix-rail" role="region" aria-label="Top 10 Movies on Netflix India">
+          ${renderPlatformTop10Rail(NETFLIX_TOP_10_INDIA, 'netflix', 'Netflix')}
+        </div>
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-target="movies-netflix-rail" aria-label="Scroll right" title="Scroll right">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -95,16 +167,40 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow prime-divider-glow"></div>
       </div>
 
-      <!-- Section Title: Prime Video (no logo) -->
+      <!-- Section Title: Prime Video & < and > Navigation -->
       <div class="movies-section-header">
         <div class="prime-header-left">
           <h2 class="movies-section-title">Prime Video</h2>
         </div>
+        <div class="section-nav-arrows">
+          <button type="button" class="rail-nav-btn rail-nav-prev" data-target="movies-prime-rail" aria-label="Scroll left" title="Scroll left">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="rail-nav-btn rail-nav-next" data-target="movies-prime-rail" aria-label="Scroll right" title="Scroll right">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Prime Video Top 10 Movies Rail (Iconic Oversized Rank Numerals) -->
-      <div class="platform-top10-rail prime-top10-rail" id="movies-prime-rail" role="region" aria-label="Top 10 Movies on Prime Video">
-        ${renderPlatformTop10Rail(PRIME_TOP_10, 'prime', 'Prime Video')}
+      <!-- Prime Video Top 10 Movies Rail with Floating Arrows -->
+      <div class="rail-scroll-wrapper">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-target="movies-prime-rail" aria-label="Scroll left" title="Scroll left">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="platform-top10-rail prime-top10-rail" id="movies-prime-rail" role="region" aria-label="Top 10 Movies on Prime Video">
+          ${renderPlatformTop10Rail(PRIME_TOP_10, 'prime', 'Prime Video')}
+        </div>
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-target="movies-prime-rail" aria-label="Scroll right" title="Scroll right">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -116,22 +212,47 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow hotstar-divider-glow"></div>
       </div>
 
-      <!-- Section Title: Hotstar (no logo) -->
+      <!-- Section Title: Hotstar & < and > Navigation -->
       <div class="movies-section-header">
         <div class="hotstar-header-left">
           <h2 class="movies-section-title">Hotstar</h2>
         </div>
+        <div class="section-nav-arrows">
+          <button type="button" class="rail-nav-btn rail-nav-prev" data-target="movies-hotstar-rail" aria-label="Scroll left" title="Scroll left">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="rail-nav-btn rail-nav-next" data-target="movies-hotstar-rail" aria-label="Scroll right" title="Scroll right">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Hotstar Top 10 Movies Rail (Iconic Oversized Rank Numerals) -->
-      <div class="platform-top10-rail hotstar-top10-rail" id="movies-hotstar-rail" role="region" aria-label="Top 10 Movies on Hotstar">
-        ${renderPlatformTop10Rail(HOTSTAR_TOP_10, 'hotstar', 'Hotstar')}
+      <!-- Hotstar Top 10 Movies Rail with Floating Arrows -->
+      <div class="rail-scroll-wrapper">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-target="movies-hotstar-rail" aria-label="Scroll left" title="Scroll left">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="platform-top10-rail hotstar-top10-rail" id="movies-hotstar-rail" role="region" aria-label="Top 10 Movies on Hotstar">
+          ${renderPlatformTop10Rail(HOTSTAR_TOP_10, 'hotstar', 'Hotstar')}
+        </div>
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-target="movies-hotstar-rail" aria-label="Scroll right" title="Scroll right">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
   `;
 
   attachContinueWatchingEvents();
   attachWatchlistEvents();
+  attachRailNavigationEvents();
 
   // Initial position: 1st card stays naturally at the start
   setTimeout(() => {
@@ -273,9 +394,8 @@ function renderWatchlistCards(movies) {
         />
         <div class="wl-card-scrim"></div>
 
-        <!-- Top Badges: Streaming Provider Pill & Bookmark Pin -->
+        <!-- Top Bookmark Pin (Clean Artwork with no provider capsule) -->
         <div class="wl-card-top-row">
-          <span class="wl-provider-pill ${movie.providerBadgeClass || 'badge-prime'}">${movie.providerName}</span>
           <div class="wl-bookmark-badge" title="Saved to Watchlist" aria-label="Saved to Watchlist">
             <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
               <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
@@ -348,6 +468,95 @@ function attachWatchlistEvents() {
   });
 }
 
+function attachRailNavigationEvents() {
+  // 1. Click handlers for header buttons (.rail-nav-btn) and floating edge buttons (.rail-arrow-float)
+  document.querySelectorAll('.rail-nav-btn, .rail-arrow-float').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Continue Watching Accordion navigation
+      if (btn.dataset.cw) {
+        const cards = Array.from(document.querySelectorAll('.movies-cw-card'));
+        if (!cards.length) return;
+        const activeIdx = cards.findIndex(c => c.classList.contains('is-active'));
+        if (btn.dataset.cw === 'prev' && activeIdx > 0) {
+          setActiveCard(cards[activeIdx - 1], true);
+        } else if (btn.dataset.cw === 'next' && activeIdx < cards.length - 1) {
+          setActiveCard(cards[activeIdx + 1], true);
+        }
+        updateContinueWatchingNavArrows();
+        return;
+      }
+
+      // Scrollable platform rails (Watchlist, Netflix, Prime, Hotstar)
+      const targetId = btn.dataset.target;
+      if (!targetId) return;
+      const rail = document.getElementById(targetId);
+      if (!rail) return;
+
+      const isPrev = btn.classList.contains('rail-nav-prev') || btn.classList.contains('rail-arrow-left');
+      const scrollStep = Math.max(380, Math.floor(rail.clientWidth * 0.72));
+
+      rail.scrollBy({
+        left: isPrev ? -scrollStep : scrollStep,
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // 2. Dynamic arrow visibility & disabled state based on scroll position
+  const rails = document.querySelectorAll('.watchlist-rail, .platform-top10-rail');
+  rails.forEach(rail => {
+    const updateArrows = () => {
+      const parent = rail.closest('.movies-platform-section');
+      if (!parent) return;
+
+      const prevButtons = parent.querySelectorAll('.rail-nav-prev, .rail-arrow-left');
+      const nextButtons = parent.querySelectorAll('.rail-nav-next, .rail-arrow-right');
+
+      const isStart = rail.scrollLeft <= 12;
+      const isEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 16;
+
+      prevButtons.forEach(b => {
+        if (isStart) b.classList.add('is-disabled');
+        else b.classList.remove('is-disabled');
+      });
+
+      nextButtons.forEach(b => {
+        if (isEnd) b.classList.add('is-disabled');
+        else b.classList.remove('is-disabled');
+      });
+    };
+
+    rail.addEventListener('scroll', updateArrows, { passive: true });
+    setTimeout(updateArrows, 120);
+    setTimeout(updateArrows, 400);
+  });
+
+  updateContinueWatchingNavArrows();
+}
+
+function updateContinueWatchingNavArrows() {
+  const cwSection = document.getElementById('movies-cw-section');
+  if (!cwSection) return;
+  const cards = Array.from(document.querySelectorAll('.movies-cw-card'));
+  const activeIdx = cards.findIndex(c => c.classList.contains('is-active'));
+
+  const prevBtns = cwSection.querySelectorAll('[data-cw="prev"]');
+  const nextBtns = cwSection.querySelectorAll('[data-cw="next"]');
+
+  prevBtns.forEach(b => {
+    if (activeIdx <= 0) b.classList.add('is-disabled');
+    else b.classList.remove('is-disabled');
+  });
+
+  nextBtns.forEach(b => {
+    if (activeIdx >= cards.length - 1) b.classList.add('is-disabled');
+    else b.classList.remove('is-disabled');
+  });
+}
+
 export function setActiveCard(card, smooth = true) {
   if (!card) return;
   const currentActive = document.querySelector('.movies-cw-card.is-active');
@@ -377,6 +586,7 @@ export function setActiveCard(card, smooth = true) {
 
   // Scroll appropriately: first and last stay as is; middle items center
   centerCard(card, smooth);
+  updateContinueWatchingNavArrows();
 }
 
 function centerCard(card, smooth = true) {
