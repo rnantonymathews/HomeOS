@@ -206,21 +206,9 @@ export function initMoviesView() {
         </div>
       </div>
 
-      <!-- Categories Horizontal Rectangle Blocks Rail with Floating Arrows -->
-      <div class="rail-scroll-wrapper">
-        <button type="button" class="rail-arrow-float rail-arrow-left" data-target="movies-categories-rail" aria-label="Scroll left" title="Scroll left">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-        <div class="categories-rail" id="movies-categories-rail" role="region" aria-label="Movie Categories & Genres">
-          ${renderCategoryCards(MOVIE_CATEGORIES)}
-        </div>
-        <button type="button" class="rail-arrow-float rail-arrow-right" data-target="movies-categories-rail" aria-label="Scroll right" title="Scroll right">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
+      <!-- Categories 2-Row Stacked Grid (6 in Row 1, 6 in Row 2) -->
+      <div class="categories-grid" id="movies-categories-grid" role="region" aria-label="Movie Categories & Genres">
+        ${renderCategoryCards(MOVIE_CATEGORIES)}
       </div>
     </div>
   `;
@@ -431,7 +419,7 @@ function renderCategoryCards(categories) {
     </div>
   `).join('');
 
-  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
+  return cardsHtml;
 }
 
 function attachCategoryEvents() {
@@ -522,7 +510,7 @@ function attachRailNavigationEvents() {
   });
 
   // 2. Dynamic arrow visibility & disabled state based on scroll position
-  const rails = document.querySelectorAll('.watchlist-rail, .platform-top10-rail, .categories-rail');
+  const rails = document.querySelectorAll('.watchlist-rail, .platform-top10-rail');
   rails.forEach(rail => {
     const updateArrows = () => {
       const parent = rail.closest('.movies-platform-section');
