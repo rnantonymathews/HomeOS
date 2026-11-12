@@ -1,6 +1,7 @@
 /**
  * HomeOS - Music View
- * Dedicated Music View powered by YouTube Music, Continue Listening, Listenlist, Categories, and Listen Now Library
+ * Clean, Frameless Architecture floating directly on Matte Desktop Wallpaper
+ * EXACT replica of Movies View format tailored for YouTube Music
  */
 
 import { 
@@ -11,18 +12,16 @@ import {
   LISTEN_NOW_MUSIC_LIBRARY
 } from './musicData.js';
 
-let activeMusicCategoryFilter = null;
-
 export function initMusicView() {
   const overlay = document.getElementById('music-overlay');
   if (!overlay) return;
 
   overlay.innerHTML = `
     <!-- 1. Continue Listening Block (Orange Glow) -->
-    <div class="movies-cw-section music-cw-section" id="music-cw-section">
+    <div class="movies-cw-section" id="music-cw-section">
       <!-- Top Supertitle Tag: MUSIC BLOCK -->
       <div class="movie-block-top">
-        <span class="movie-block-tag music-block-tag">MUSIC BLOCK</span>
+        <span class="movie-block-tag">MUSIC BLOCK</span>
       </div>
 
       <!-- Hairline divider with downward ORANGE glow -->
@@ -40,15 +39,15 @@ export function initMusicView() {
 
       <!-- Horizontal Expanding Accordion Rail (Hidden Scrollbar + Anchored First/Last) -->
       <div class="rail-scroll-wrapper">
-        <button type="button" class="rail-arrow-float rail-arrow-left" data-cw="music-prev" aria-label="Previous track" title="Previous track">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-cw="prev" aria-label="Previous track" title="Previous track">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-        <div class="movies-cw-rail music-cw-rail" id="music-cw-rail" role="region" aria-label="Continue Listening Tracks">
-          ${renderMusicContinueListeningCards(MUSIC_CONTINUE_LISTENING)}
+        <div class="movies-cw-rail" id="music-cw-rail" role="region" aria-label="Continue Listening Tracks">
+          ${renderContinueWatchingCards(MUSIC_CONTINUE_LISTENING)}
         </div>
-        <button type="button" class="rail-arrow-float rail-arrow-right" data-cw="music-next" aria-label="Next track" title="Next track">
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-cw="next" aria-label="Next track" title="Next track">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
@@ -57,7 +56,7 @@ export function initMusicView() {
     </div>
 
     <!-- 2. Listenlist Priority Section (Golden Amber Glow) -->
-    <div class="movies-platform-section music-listenlist-section" id="music-listenlist-section">
+    <div class="movies-platform-section movies-watchlist-section" id="music-watchlist-section">
       <!-- Hairline divider with downward GOLDEN AMBER glow -->
       <div class="movie-block-divider-wrap watchlist-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line watchlist-divider-line"></div>
@@ -68,21 +67,21 @@ export function initMusicView() {
       <div class="movies-section-header">
         <div class="watchlist-header-left">
           <h2 class="movies-section-title">Listenlist</h2>
-          <span class="watchlist-count-pill" id="music-listenlist-count-pill">${MUSIC_LISTENLIST.length} Saved</span>
+          <span class="watchlist-count-pill" id="music-watchlist-count-pill">${MUSIC_LISTENLIST.length} Saved</span>
         </div>
       </div>
 
       <!-- Listenlist Rail with Floating Arrows -->
       <div class="rail-scroll-wrapper">
-        <button type="button" class="rail-arrow-float rail-arrow-left" data-target="music-listenlist-rail" aria-label="Scroll left" title="Scroll left">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-target="music-watchlist-rail" aria-label="Scroll left" title="Scroll left">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-        <div class="watchlist-rail music-square-rail" id="music-listenlist-rail" role="region" aria-label="My Saved Listenlist">
-          ${renderMusicListenlistCards(MUSIC_LISTENLIST)}
+        <div class="watchlist-rail" id="music-watchlist-rail" role="region" aria-label="My Saved Listenlist">
+          ${renderWatchlistCards(MUSIC_LISTENLIST)}
         </div>
-        <button type="button" class="rail-arrow-float rail-arrow-right" data-target="music-listenlist-rail" aria-label="Scroll right" title="Scroll right">
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-target="music-watchlist-rail" aria-label="Scroll right" title="Scroll right">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
@@ -91,16 +90,15 @@ export function initMusicView() {
     </div>
 
     <!-- 3. YouTube Music Top 10 Hits Section with Hairline Divider & Downward RED Glow -->
-    <div class="movies-platform-section music-ytmusic-section" id="music-ytmusic-section">
+    <div class="movies-platform-section movies-netflix-section" id="music-ytmusic-section">
       <div class="movie-block-divider-wrap ytmusic-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line ytmusic-divider-line"></div>
         <div class="movie-block-divider-glow ytmusic-divider-glow"></div>
       </div>
 
       <div class="movies-section-header">
-        <div class="ytmusic-header-left">
-          <h2 class="movies-section-title ytmusic-title">YouTube Music</h2>
-          <span class="ytmusic-trending-pill">Top 10 Trending</span>
+        <div class="netflix-header-left">
+          <h2 class="movies-section-title">YouTube Music</h2>
         </div>
       </div>
 
@@ -110,8 +108,8 @@ export function initMusicView() {
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-        <div class="platform-top10-rail ytmusic-top10-rail" id="music-ytmusic-rail" role="region" aria-label="Top 10 Tracks on YouTube Music">
-          ${renderMusicTop10Rail(YOUTUBE_MUSIC_TOP_10)}
+        <div class="platform-top10-rail netflix-top10-rail" id="music-ytmusic-rail" role="region" aria-label="Top 10 Tracks on YouTube Music">
+          ${renderPlatformTop10Rail(YOUTUBE_MUSIC_TOP_10, 'ytmusic', 'YouTube Music')}
         </div>
         <button type="button" class="rail-arrow-float rail-arrow-right" data-target="music-ytmusic-rail" aria-label="Scroll right" title="Scroll right">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -121,8 +119,8 @@ export function initMusicView() {
       </div>
     </div>
 
-    <!-- 4. Music Categories Section with Hairline Divider & Downward TEAL/CYAN Glow -->
-    <div class="movies-platform-section music-categories-section" id="music-categories-section">
+    <!-- 4. Categories Section with Hairline Divider, Downward TEAL Glow, and "Categories" Title -->
+    <div class="movies-platform-section movies-categories-section" id="music-categories-section">
       <div class="movie-block-divider-wrap categories-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line categories-divider-line"></div>
         <div class="movie-block-divider-glow categories-divider-glow"></div>
@@ -137,12 +135,12 @@ export function initMusicView() {
 
       <!-- Categories 3-Row Stacked Grid (6 Genres in Row 1, 6 Genres in Row 2, 6 Languages in Row 3) -->
       <div class="categories-grid" id="music-categories-grid" role="region" aria-label="Music Categories & Genres">
-        ${renderMusicCategoryCards(MUSIC_CATEGORIES)}
+        ${renderCategoryCards(MUSIC_CATEGORIES)}
       </div>
     </div>
 
-    <!-- 5. Listen Now Section (Unified YouTube Music Library) with Emerald Glow & Dynamic Filtering -->
-    <div class="movies-platform-section music-listennow-section" id="music-listennow-section">
+    <!-- 5. Listen Now Section (The Unified YouTube Music Library) with Emerald Hairline Divider & Radiant Glow -->
+    <div class="movies-platform-section movies-watchnow-section" id="music-watchnow-section">
       <div class="movie-block-divider-wrap watchnow-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line watchnow-divider-line"></div>
         <div class="movie-block-divider-glow watchnow-divider-glow"></div>
@@ -151,10 +149,10 @@ export function initMusicView() {
       <div class="movies-section-header watchnow-section-header">
         <div class="watchnow-header-left">
           <h2 class="movies-section-title">Listen Now</h2>
-          <span class="watchnow-status-pill" id="music-listennow-status-pill">Library • ${LISTEN_NOW_MUSIC_LIBRARY.length} Tracks & Albums</span>
+          <span class="watchnow-status-pill" id="music-watchnow-status-pill">Library • ${LISTEN_NOW_MUSIC_LIBRARY.length} Tracks & Albums</span>
         </div>
-        <div class="watchnow-header-actions" id="music-listennow-header-actions" style="display: none;">
-          <button type="button" class="watchnow-clear-btn" id="music-listennow-clear-btn" title="Reset filter to view all music">
+        <div class="watchnow-header-actions" id="music-watchnow-header-actions" style="display: none;">
+          <button type="button" class="watchnow-clear-btn" id="music-watchnow-clear-btn" title="Reset filter to view all music">
             <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -164,544 +162,649 @@ export function initMusicView() {
         </div>
       </div>
 
-      <div class="watchnow-grid music-library-grid" id="music-listennow-grid" role="region" aria-label="Listen Now YouTube Music Library">
-        ${renderMusicListenNowLibrary(null)}
+      <div class="watchnow-grid" id="music-watchnow-grid" role="region" aria-label="Listen Now YouTube Music Library">
+        ${renderWatchNowLibrary(null)}
       </div>
     </div>
   `;
 
-  attachMusicContinueListeningEvents();
-  attachMusicListenlistEvents();
-  attachMusicRailNavigationEvents();
-  attachMusicCategoryEvents();
-  attachMusicListenNowEvents();
+  attachContinueWatchingEvents();
+  attachWatchlistEvents();
+  attachRailNavigationEvents();
+  attachCategoryEvents();
+  attachWatchNowEvents();
 
   setTimeout(() => {
     const activeCard = document.querySelector('#music-cw-rail .movies-cw-card.is-active');
     if (activeCard) {
-      centerMusicCard(activeCard, false);
+      centerCard(activeCard, false);
     }
   }, 100);
 }
 
-function renderMusicContinueListeningCards(tracks) {
-  return tracks.map((track, index) => {
-    const isActive = index === 0;
-    const progressPct = Math.min(100, Math.max(0, track.progress || 0));
-
+function renderContinueWatchingCards(tracks) {
+  const cardsHtml = tracks.map((track, index) => {
+    const isActive = index === 0 ? 'is-active' : '';
     return `
-      <div class="movies-cw-card music-cw-card ${isActive ? 'is-active' : ''}" 
-           data-track-id="${track.id}" 
-           data-index="${index}"
-           tabindex="0"
-           role="button"
-           aria-expanded="${isActive ? 'true' : 'false'}"
-           aria-label="${track.title} by ${track.artist} (${progressPct}% played)">
-        
-        <div class="cw-card-bg-wrap">
-          <img class="cw-card-backdrop" 
-               src="${track.backdrop || track.cover}" 
-               alt="${track.title} backdrop" 
-               loading="${index < 3 ? 'eager' : 'lazy'}" 
-               onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&auto=format&fit=crop&q=80'" />
-          <div class="cw-card-vignette"></div>
+      <div class="movies-cw-card ${isActive}" data-id="${track.id}" data-index="${index}" tabindex="0" role="button" aria-expanded="${index === 0}">
+        <!-- Widescreen Backdrop for Active Expanded State -->
+        <div class="cw-card-backdrop-wrap">
+          <img class="cw-card-backdrop-img" src="${track.backdrop || track.poster}" alt="${track.title} Backdrop" loading="lazy" />
+          <div class="cw-card-scrim-left"></div>
+          <div class="cw-card-scrim-bottom"></div>
         </div>
 
-        <div class="cw-collapsed-art music-collapsed-art">
-          <img class="cw-collapsed-poster music-collapsed-cover" 
-               src="${track.cover}" 
-               alt="${track.title} album cover" 
-               loading="${index < 3 ? 'eager' : 'lazy'}" 
-               onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80'" />
-          <div class="cw-collapsed-info">
-            <span class="cw-collapsed-title">${track.title}</span>
-            <span class="cw-collapsed-episode">${track.artist}</span>
+        <!-- Vertical Poster for Collapsed State -->
+        <div class="cw-card-poster-wrap">
+          <img class="cw-card-poster-img" src="${track.poster}" alt="${track.title} Poster" loading="lazy" />
+          <div class="cw-card-poster-scrim"></div>
+        </div>
+
+        <!-- Expanded Card Content (Visible when is-active) -->
+        <div class="cw-card-expanded-content">
+          <div class="cw-card-badge-row">
+            <span class="cw-card-badge">CONTINUE LISTENING</span>
+            <span class="cw-card-provider-pill ${track.providerBadgeClass}">${track.providerName}</span>
           </div>
+
+          <h3 class="cw-card-title">${track.title}</h3>
+
+          <div class="cw-card-meta-row">
+            <span>${track.year}</span>
+            <span class="meta-dot">•</span>
+            <span>${track.duration}</span>
+            <span class="meta-dot">•</span>
+            <span>${(track.genres || []).join(', ')}</span>
+            <span class="meta-dot">•</span>
+            <span class="cw-card-director">Artist: ${track.director}</span>
+          </div>
+
+          <p class="cw-card-synopsis">${track.synopsis}</p>
+
+          <div class="cw-card-progress-box">
+            <div class="cw-card-progress-bar">
+              <div class="cw-card-progress-fill fill-music" style="width: ${track.progress}%;"></div>
+            </div>
+            <div class="cw-card-progress-labels">
+              <span class="cw-card-time-left">${track.timeLeft}</span>
+              <span class="cw-card-percent">${track.progress}%</span>
+            </div>
+          </div>
+
+          <div class="cw-card-actions">
+            <a href="${track.streamUrl}" target="_blank" rel="noopener noreferrer" class="cw-card-play-btn" title="Listen on ${track.providerName}">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              <span>Continue Listening</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Collapsed Card Content (Visible when collapsed vertical rectangle) -->
+        <div class="cw-card-collapsed-content">
+          <span class="cw-collapsed-title">${track.title}</span>
           <div class="cw-collapsed-progress-bar">
-            <div class="cw-collapsed-progress-fill fill-music" style="width: ${progressPct}%;"></div>
+            <div class="cw-collapsed-progress-fill fill-music" style="width: ${track.progress}%;"></div>
           </div>
-        </div>
-
-        <div class="cw-expanded-content">
-          <div class="cw-expanded-top">
-            <div class="cw-badge-group">
-              <span class="cw-provider-pill badge-ytmusic">
-                YouTube Music
-              </span>
-              <span class="cw-year-pill">${track.year}</span>
-              <span class="cw-duration-pill">${track.duration}</span>
-            </div>
-            <span class="cw-episode-tag">${track.album || ''}</span>
-          </div>
-
-          <div class="cw-expanded-middle">
-            <h3 class="cw-expanded-title">${track.title}</h3>
-            <p class="cw-expanded-genres">${track.artist} • ${(track.genres || []).join(' • ')}</p>
-            <p class="cw-expanded-synopsis">${track.description || ''}</p>
-          </div>
-
-          <div class="cw-expanded-bottom">
-            <div class="cw-progress-cluster">
-              <div class="cw-progress-meta">
-                <span class="cw-progress-label">Track Progress (${track.timeElapsed} / ${track.duration})</span>
-                <span class="cw-time-left">${track.timeLeft || ''}</span>
-              </div>
-              <div class="cw-progress-track">
-                <div class="cw-progress-indicator fill-music" style="width: ${progressPct}%;"></div>
-              </div>
-            </div>
-
-            <div class="cw-action-row">
-              <button type="button" class="cw-btn cw-btn-play" data-action="play-track" data-id="${track.id}" data-url="${track.streamUrl}">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                <span>Resume Track</span>
-              </button>
-            </div>
-          </div>
+          <span class="cw-collapsed-time-left">${track.timeLeft}</span>
         </div>
       </div>
     `;
   }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
-function renderMusicListenlistCards(tracks) {
-  return tracks.map(track => `
-    <div class="watchlist-card music-square-card" 
-         data-id="${track.id}" 
-         data-url="${track.streamUrl}"
-         tabindex="0"
-         role="button"
-         aria-label="${track.title} by ${track.artist}">
-      
-      <div class="watchlist-poster-wrap music-cover-wrap">
-        <img class="watchlist-poster-img music-cover-img" 
-             src="${track.cover}" 
-             alt="${track.title} cover" 
-             loading="lazy" 
-             onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80'" />
-        <div class="watchlist-card-vignette"></div>
-        
-        <div class="watchlist-hover-actions">
-          <button type="button" class="watchlist-quick-play-btn" data-action="play-track" data-id="${track.id}" data-url="${track.streamUrl}" title="Play ${track.title}">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+function renderPlatformTop10Rail(tracks, platformKey, platformName) {
+  const cardsHtml = tracks.map((track) => {
+    const isTen = track.rank === 10;
+    return `
+      <a href="${track.streamUrl}" target="_blank" rel="noopener noreferrer" class="platform-top10-item platform-item-${platformKey}" title="Listen #${track.rank} ${track.title} on ${platformName}">
+        <div class="platform-rank-wrap ${isTen ? 'is-ten' : ''}">
+          <span class="platform-rank-num ${isTen ? 'platform-rank-ten' : ''}">${track.rank}</span>
+        </div>
+
+        <div class="platform-poster-card">
+          <img 
+            class="platform-poster-img" 
+            src="${track.poster}" 
+            alt="${track.title} Poster" 
+            loading="lazy"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80';" 
+          />
+          <div class="platform-card-scrim"></div>
+
+          <div class="platform-card-info">
+            <span class="platform-card-title">${track.title}</span>
+            <div class="platform-card-meta">
+              <span>${track.year}</span>
+              <span class="meta-dot">•</span>
+              <span>${track.language}</span>
+              <span class="meta-dot">•</span>
+              <span class="platform-rating">★ ${track.rating}</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    `;
+  }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
+}
+
+function renderWatchlistCards(tracks) {
+  if (!tracks || !tracks.length) {
+    return `<div class="watchlist-empty-state"><p>Your listenlist is currently empty.</p></div>`;
+  }
+
+  const cardsHtml = tracks.map((track) => {
+    return `
+      <div class="watchlist-card" data-id="${track.id}" id="music-wl-card-${track.id}">
+        <img 
+          class="wl-card-poster" 
+          src="${track.poster}" 
+          alt="${track.title} Poster" 
+          loading="lazy"
+          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80';" 
+        />
+        <div class="wl-card-scrim"></div>
+
+        <div class="wl-card-top-row">
+          <div class="wl-bookmark-badge" title="Saved to Listenlist" aria-label="Saved to Listenlist">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
             </svg>
+          </div>
+        </div>
+
+        <div class="wl-hover-overlay">
+          <a href="${track.streamUrl}" target="_blank" rel="noopener noreferrer" class="wl-play-btn" title="Stream ${track.title} on ${track.providerName}">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>Stream</span>
+          </a>
+          <button type="button" class="wl-remove-btn" data-id="${track.id}" title="Remove from Listenlist" aria-label="Remove ${track.title} from Listenlist">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span>Remove</span>
           </button>
         </div>
 
-        <div class="watchlist-meta-overlay">
-          <h4 class="watchlist-card-title">${track.title}</h4>
-          <div class="watchlist-card-specs">
-            <span>${track.artist}</span>
-            <span class="watchlist-spec-dot">•</span>
+        <div class="wl-card-info">
+          <span class="wl-card-title">${track.title}</span>
+          <div class="wl-card-meta">
+            <span>${track.year}</span>
+            <span class="meta-dot">•</span>
             <span>${track.duration}</span>
-            <span class="watchlist-spec-dot">•</span>
-            <span class="watchlist-rating">▶ ${track.plays}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderMusicTop10Rail(tracks) {
-  return tracks.map(track => `
-    <div class="top10-item-wrap">
-      <span class="top10-rank-num" aria-hidden="true">${track.rank}</span>
-      <div class="platform-top10-card music-square-card" 
-           data-id="${track.id}" 
-           data-url="${track.streamUrl}"
-           tabindex="0"
-           role="button"
-           aria-label="#${track.rank} in YouTube Music: ${track.title} by ${track.artist}">
-        
-        <div class="top10-poster-wrap music-cover-wrap">
-          <img class="top10-poster-img music-cover-img" 
-               src="${track.cover}" 
-               alt="${track.title} cover" 
-               loading="lazy" 
-               onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80'" />
-          <div class="top10-card-vignette"></div>
-          
-          <div class="top10-rank-badge ytmusic-rank-badge">#${track.rank} ON YOUTUBE MUSIC</div>
-          
-          <div class="top10-meta-overlay">
-            <h4 class="top10-card-title">${track.title}</h4>
-            <div class="top10-card-specs">
-              <span>${track.artist}</span>
-              <span class="top10-spec-dot">•</span>
-              <span>${track.duration}</span>
-              <span class="top10-spec-dot">•</span>
-              <span class="top10-rating">▶ ${track.plays}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderMusicCategoryCards(categories) {
-  return categories.map(cat => {
-    const isSelected = activeMusicCategoryFilter && activeMusicCategoryFilter.id === cat.id;
-    return `
-      <div class="category-card ${isSelected ? 'is-selected' : ''}" 
-           data-category-id="${cat.id}"
-           data-category-type="${cat.categoryType || 'genre'}"
-           data-color="${cat.color}"
-           data-rgb="${cat.rgb}"
-           role="button"
-           tabindex="0"
-           aria-pressed="${isSelected ? 'true' : 'false'}"
-           aria-label="Filter music library by ${cat.name}">
-        <div class="category-card-inner" style="--cat-color: ${cat.color}; --cat-rgb: ${cat.rgb};">
-          <div class="category-emoji-box" aria-hidden="true">
-            ${cat.svg}
-          </div>
-          <div class="category-text-stack">
-            <span class="category-name">${cat.name}</span>
-            <span class="category-desc">${cat.subtitle}</span>
+            <span class="meta-dot">•</span>
+            <span class="wl-rating">★ ${track.rating}</span>
           </div>
         </div>
       </div>
     `;
   }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
-function renderMusicListenNowLibrary(categoryFilter = null) {
-  let matchedTracks = [];
-  let otherTracks = [];
+let activeMusicCategoryFilter = null;
 
-  const normalize = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-
-  if (!categoryFilter) {
-    matchedTracks = [...LISTEN_NOW_MUSIC_LIBRARY];
-    otherTracks = [];
-  } else {
-    const filterId = normalize(categoryFilter.id);
-    const filterType = categoryFilter.categoryType || 'genre';
-
-    LISTEN_NOW_MUSIC_LIBRARY.forEach(track => {
-      let isMatch = false;
-
-      if (filterType === 'language') {
-        const trackLang = normalize(track.language);
-        if (filterId === 'punjabi') {
-          isMatch = trackLang.includes('punjabi') || (!['malayalam', 'hindi', 'kannada', 'tamil', 'english'].some(l => trackLang.includes(l)));
-        } else {
-          isMatch = trackLang.includes(filterId);
-        }
-      } else {
-        const genreList = (track.genres || []).map(g => normalize(g));
-        isMatch = genreList.some(g => g.includes(filterId) || filterId.includes(g));
-      }
-
-      if (isMatch) {
-        matchedTracks.push(track);
-      } else {
-        otherTracks.push(track);
-      }
-    });
-  }
-
-  let html = '';
-
-  if (matchedTracks.length > 0) {
-    html += matchedTracks.map(track => renderMusicListenNowCard(track, !!categoryFilter)).join('');
-  } else if (categoryFilter) {
-    html += `
-      <div class="watchnow-empty-state" style="grid-column: 1 / -1; padding: 36px 0; text-align: center; color: rgba(255,255,255,0.6);">
-        <p style="font-size: 15px; margin: 0 0 6px 0;">No tracks currently tagged with "<strong>${categoryFilter.name}</strong>".</p>
-        <p style="font-size: 12.5px; opacity: 0.7;">Showing all other music in your HomeOS library below.</p>
-      </div>
-    `;
-  }
-
-  if (categoryFilter && otherTracks.length > 0) {
-    html += `
-      <div class="watchnow-dotted-divider" role="separator" aria-label="End of category results; beginning of other library titles">
-        <div class="watchnow-dotted-line"></div>
-        <div class="watchnow-dotted-pill">
-          <span>••••</span>
-          <span>OTHER TRACKS IN LIBRARY (${otherTracks.length})</span>
-          <span>••••</span>
+function renderCategoryCards(categories) {
+  const cardsHtml = categories.map(cat => `
+    <div class="category-card" data-genre="${cat.id}" data-genre-title="${cat.name}" style="--cat-accent: ${cat.color}; --cat-rgb: ${cat.rgb};" role="button" tabindex="0" title="Filter Listen Now by ${cat.name}">
+      <div class="cat-card-ambient" aria-hidden="true"></div>
+      <div class="cat-card-body">
+        <div class="cat-card-content">
+          <span class="cat-card-tag">${cat.count}</span>
+          <h3 class="cat-card-title">${cat.name}</h3>
+          <span class="cat-card-sub">${cat.subtitle}</span>
         </div>
-        <div class="watchnow-dotted-line"></div>
+        <div class="cat-card-emoji-wrap" aria-hidden="true">
+          ${cat.svg}
+        </div>
       </div>
-    `;
-    html += otherTracks.map(track => renderMusicListenNowCard(track, false)).join('');
-  }
+    </div>
+  `).join('');
 
-  return html;
+  return cardsHtml;
 }
 
-function renderMusicListenNowCard(track, isDirectMatch = false) {
-  return `
-    <div class="watchnow-card music-square-card ${isDirectMatch ? 'is-matched-category' : ''}" 
-         data-id="${track.id}" 
-         data-url="${track.streamUrl}"
-         tabindex="0"
-         role="button"
-         aria-label="${track.title} by ${track.artist}">
-      
-      <div class="watchnow-poster-wrap music-cover-wrap">
-        <img class="watchnow-poster-img music-cover-img" 
-             src="${track.cover}" 
-             alt="${track.title} cover" 
-             loading="lazy" 
-             onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80'" />
-        <div class="watchnow-card-vignette"></div>
+function renderWatchNowLibrary(categoryFilter = null) {
+  if (!categoryFilter) {
+    return LISTEN_NOW_MUSIC_LIBRARY.map(track => renderWatchNowCard(track, false)).join('');
+  }
 
-        ${isDirectMatch ? '<span class="watchnow-matched-badge">MATCH</span>' : ''}
-        
-        <div class="watchnow-hover-action">
-          <button type="button" class="watchnow-stream-btn" data-action="play-track" data-id="${track.id}" data-url="${track.streamUrl}" title="Play ${track.title} on YouTube Music">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+  const normalize = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const isLanguage = categoryFilter.categoryType === 'language';
+  const filterId = categoryFilter.id.toLowerCase();
+  const normF = normalize(filterId);
+
+  const matched = [];
+  const others = [];
+
+  LISTEN_NOW_MUSIC_LIBRARY.forEach(track => {
+    let isMatch = false;
+    if (isLanguage) {
+      const trackLang = (track.language || '').toLowerCase();
+      if (filterId === 'punjabi') {
+        isMatch = trackLang.includes('punjabi') || (!['malayalam', 'hindi', 'kannada', 'tamil', 'english'].some(l => trackLang.includes(l)));
+      } else {
+        isMatch = trackLang === filterId;
+      }
+    } else {
+      isMatch = (track.genres || []).some(g => {
+        const normG = normalize(g);
+        return normG === normF || normG.includes(normF) || normF.includes(normG);
+      });
+    }
+
+    if (isMatch) {
+      matched.push(track);
+    } else {
+      others.push(track);
+    }
+  });
+
+  const matchedHtml = matched.map(track => renderWatchNowCard(track, true)).join('');
+  const othersHtml = others.map(track => renderWatchNowCard(track, false)).join('');
+
+  if (others.length === 0) {
+    return matchedHtml;
+  }
+
+  const dividerHtml = `
+    <div class="watchnow-dotted-divider" aria-hidden="true">
+      <div class="watchnow-dotted-line"></div>
+      <div class="watchnow-dotted-pill">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 8v8"></path>
+          <path d="M8 12h8"></path>
+        </svg>
+        <span>OTHER TITLES IN LIBRARY (${others.length})</span>
+      </div>
+      <div class="watchnow-dotted-line"></div>
+    </div>
+  `;
+
+  return `${matchedHtml}${dividerHtml}${othersHtml}`;
+}
+
+function renderWatchNowCard(track, isDirectMatch = false) {
+  const matchClass = isDirectMatch ? 'is-matched-category' : '';
+  const genreList = Array.isArray(track.genres) ? track.genres.slice(0, 2).join(' • ') : '';
+
+  return `
+    <div class="watchnow-card ${matchClass}" data-id="${track.id}" role="article" tabindex="0">
+      <div class="watchnow-poster-wrap">
+        <img class="watchnow-poster-img" src="${track.poster}" alt="${track.title} Poster" loading="lazy" />
+        <div class="watchnow-poster-scrim"></div>
+
+        <div class="watchnow-top-badges">
+          <span class="watchnow-provider-pill ${track.providerBadgeClass || 'badge-ytmusic'}">${track.providerName || 'YouTube Music'}</span>
+          <span class="watchnow-lang-pill">${track.language || 'Music'}</span>
+        </div>
+
+        ${isDirectMatch ? `<div class="watchnow-match-ribbon"><span>MATCH</span></div>` : ''}
+
+        <div class="watchnow-hover-overlay">
+          <a href="${track.streamUrl}" target="_blank" rel="noopener noreferrer" class="watchnow-stream-btn" title="Stream ${track.title} on ${track.providerName || 'YouTube Music'}">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
             </svg>
             <span>Listen Now</span>
-          </button>
+          </a>
         </div>
+      </div>
 
-        <div class="watchnow-top-capsules">
-          <span class="watchnow-provider-pill badge-ytmusic">
-            YouTube Music
-          </span>
-          <span class="watchnow-lang-pill">${track.language}</span>
+      <div class="watchnow-card-info">
+        <h4 class="watchnow-card-title" title="${track.title}">${track.title}</h4>
+        <div class="watchnow-card-meta">
+          <span>${track.year}</span>
+          <span class="meta-dot">•</span>
+          <span>${track.duration}</span>
+          <span class="meta-dot">•</span>
+          <span class="watchnow-rating">★ ${track.rating}</span>
         </div>
-
-        <div class="watchnow-meta-overlay">
-          <h4 class="watchnow-card-title">${track.title}</h4>
-          <div class="watchnow-card-specs">
-            <span>${track.artist}</span>
-            <span class="watchnow-spec-dot">•</span>
-            <span class="watchnow-rating">${track.duration}</span>
-          </div>
-        </div>
+        <span class="watchnow-genres">${genreList}</span>
       </div>
     </div>
   `;
 }
 
-function filterMusicListenNow(category) {
-  if (activeMusicCategoryFilter && activeMusicCategoryFilter.id === category.id) {
+function filterWatchNow(category) {
+  const grid = document.getElementById('music-watchnow-grid');
+  const statusPill = document.getElementById('music-watchnow-status-pill');
+  const clearActions = document.getElementById('music-watchnow-header-actions');
+  const categoryCards = document.querySelectorAll('#music-categories-grid .category-card');
+
+  if (!category) {
     activeMusicCategoryFilter = null;
-  } else {
-    activeMusicCategoryFilter = category;
+    categoryCards.forEach(c => c.classList.remove('is-selected'));
+    if (grid) grid.innerHTML = renderWatchNowLibrary(null);
+    if (statusPill) statusPill.textContent = `Library • ${LISTEN_NOW_MUSIC_LIBRARY.length} Tracks & Albums`;
+    if (clearActions) clearActions.style.display = 'none';
+    if (window.showToast) window.showToast('Showing all library music');
+    return;
   }
 
-  const categoryCards = document.querySelectorAll('#music-categories-grid .category-card');
-  categoryCards.forEach(card => {
-    const cardId = card.dataset.categoryId;
-    const isSelected = activeMusicCategoryFilter && activeMusicCategoryFilter.id === cardId;
-    card.classList.toggle('is-selected', isSelected);
-    card.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+  if (activeMusicCategoryFilter && activeMusicCategoryFilter.id === category.id) {
+    filterWatchNow(null);
+    return;
+  }
+
+  activeMusicCategoryFilter = category;
+
+  categoryCards.forEach(c => {
+    if (c.dataset.genre === category.id) {
+      c.classList.add('is-selected');
+    } else {
+      c.classList.remove('is-selected');
+    }
   });
 
-  const grid = document.getElementById('music-listennow-grid');
-  const statusPill = document.getElementById('music-listennow-status-pill');
-  const clearActions = document.getElementById('music-listennow-header-actions');
-
   if (grid) {
-    grid.innerHTML = renderMusicListenNowLibrary(activeMusicCategoryFilter);
+    grid.innerHTML = renderWatchNowLibrary(category);
   }
 
-  if (statusPill) {
-    if (activeMusicCategoryFilter) {
-      statusPill.innerHTML = `<strong>${activeMusicCategoryFilter.name}</strong> • Filtered Results & Library`;
-      statusPill.classList.add('has-filter');
-    } else {
-      statusPill.textContent = `Library • ${LISTEN_NOW_MUSIC_LIBRARY.length} Tracks & Albums`;
-      statusPill.classList.remove('has-filter');
+  const normalize = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const isLanguage = category.categoryType === 'language';
+  const filterId = category.id.toLowerCase();
+  const normF = normalize(filterId);
+  const matchedCount = LISTEN_NOW_MUSIC_LIBRARY.filter(t => {
+    if (isLanguage) {
+      const tl = (t.language || '').toLowerCase();
+      if (filterId === 'punjabi') {
+        return tl.includes('punjabi') || (!['malayalam', 'hindi', 'kannada', 'tamil', 'english'].some(l => tl.includes(l)));
+      }
+      return tl === filterId;
     }
+    return (t.genres || []).some(g => {
+      const normG = normalize(g);
+      return normG === normF || normG.includes(normF) || normF.includes(normG);
+    });
+  }).length;
+
+  if (statusPill) {
+    statusPill.innerHTML = `<strong>${category.name}</strong> (${matchedCount} Matches) • Plus Library`;
   }
 
   if (clearActions) {
-    clearActions.style.display = activeMusicCategoryFilter ? 'flex' : 'none';
+    clearActions.style.display = 'flex';
   }
 
-  if (activeMusicCategoryFilter) {
-    const listenNowSection = document.getElementById('music-listennow-section');
-    if (listenNowSection) {
-      listenNowSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  if (window.showToast) {
+    window.showToast(`Filtered by ${category.name} (${matchedCount} tracks)`);
+  }
+
+  const section = document.getElementById('music-watchnow-section');
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
-function attachMusicCategoryEvents() {
-  const categoryCards = document.querySelectorAll('#music-categories-grid .category-card');
-  categoryCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const catId = card.dataset.categoryId;
-      const category = MUSIC_CATEGORIES.find(c => c.id === catId);
+function attachCategoryEvents() {
+  const cards = document.querySelectorAll('#music-categories-grid .category-card');
+  cards.forEach(card => {
+    const handleSelect = () => {
+      const genreId = card.dataset.genre;
+      const category = MUSIC_CATEGORIES.find(c => c.id === genreId);
       if (category) {
-        filterMusicListenNow(category);
+        filterWatchNow(category);
       }
-    });
+    };
 
+    card.addEventListener('click', handleSelect);
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        card.click();
+        handleSelect();
       }
     });
   });
 }
 
-function attachMusicListenNowEvents() {
-  const clearBtn = document.getElementById('music-listennow-clear-btn');
+function attachWatchNowEvents() {
+  const clearBtn = document.getElementById('music-watchnow-clear-btn');
   if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
-      activeMusicCategoryFilter = null;
-      filterMusicListenNow({ id: '__none__' });
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      filterWatchNow(null);
     });
   }
 }
 
-function attachMusicListenlistEvents() {
-  const overlay = document.getElementById('music-overlay');
-  if (!overlay) return;
+function attachWatchlistEvents() {
+  const rail = document.getElementById('music-watchlist-rail');
+  if (!rail) return;
 
-  overlay.addEventListener('click', (e) => {
-    const playBtn = e.target.closest('[data-action="play-track"]');
-    if (playBtn) {
+  rail.addEventListener('click', (e) => {
+    const removeBtn = e.target.closest('.wl-remove-btn');
+    if (removeBtn) {
+      e.preventDefault();
       e.stopPropagation();
-      const trackId = playBtn.dataset.id;
-      const url = playBtn.dataset.url;
-      const track = MUSIC_CONTINUE_LISTENING.find(t => t.id === trackId) || 
-                    MUSIC_LISTENLIST.find(t => t.id === trackId) || 
-                    LISTEN_NOW_MUSIC_LIBRARY.find(t => t.id === trackId);
-      if (track) {
-        updateBentoContinueMusicCard(track);
-      }
-      if (url) {
-        window.open(url, '_blank', 'noopener,noreferrer');
-      }
-      return;
-    }
-
-    const card = e.target.closest('.watchlist-card, .platform-top10-card, .watchnow-card');
-    if (card) {
-      const url = card.dataset.url;
-      if (url) {
-        window.open(url, '_blank', 'noopener,noreferrer');
+      const trackId = removeBtn.dataset.id;
+      const card = document.getElementById(`music-wl-card-${trackId}`);
+      if (card) {
+        card.classList.add('is-removing');
+        setTimeout(() => {
+          card.remove();
+          const remaining = rail.querySelectorAll('.watchlist-card').length;
+          const countPill = document.getElementById('music-watchlist-count-pill');
+          if (countPill) {
+            countPill.textContent = `${remaining} Saved`;
+          }
+          if (remaining === 0) {
+            rail.innerHTML = `<div class="watchlist-empty-state"><p>Your listenlist is currently empty.</p></div>`;
+          }
+        }, 280);
       }
     }
   });
 }
 
-function attachMusicRailNavigationEvents() {
+function attachRailNavigationEvents() {
   const overlay = document.getElementById('music-overlay');
   if (!overlay) return;
 
-  const arrows = overlay.querySelectorAll('.rail-arrow-float[data-target]');
-  arrows.forEach(arrow => {
-    arrow.addEventListener('click', (e) => {
+  overlay.querySelectorAll('.rail-arrow-float').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      const targetId = arrow.dataset.target;
+
+      if (btn.dataset.cw) {
+        const cards = Array.from(overlay.querySelectorAll('.movies-cw-card'));
+        if (!cards.length) return;
+        const activeIdx = cards.findIndex(c => c.classList.contains('is-active'));
+        if (btn.dataset.cw === 'prev' && activeIdx > 0) {
+          setActiveCard(cards[activeIdx - 1], true);
+        } else if (btn.dataset.cw === 'next' && activeIdx < cards.length - 1) {
+          setActiveCard(cards[activeIdx + 1], true);
+        }
+        updateContinueWatchingNavArrows();
+        return;
+      }
+
+      const targetId = btn.dataset.target;
+      if (!targetId) return;
       const rail = document.getElementById(targetId);
       if (!rail) return;
 
-      const isLeft = arrow.classList.contains('rail-arrow-left');
-      const scrollAmount = Math.max(rail.clientWidth * 0.75, 400);
+      const isPrev = btn.classList.contains('rail-arrow-left');
+      const scrollStep = Math.max(380, Math.floor(rail.clientWidth * 0.72));
 
       rail.scrollBy({
-        left: isLeft ? -scrollAmount : scrollAmount,
+        left: isPrev ? -scrollStep : scrollStep,
         behavior: 'smooth'
       });
     });
   });
 
-  const cwArrows = overlay.querySelectorAll('.rail-arrow-float[data-cw]');
-  cwArrows.forEach(arrow => {
-    arrow.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isNext = arrow.dataset.cw === 'music-next';
-      const allCards = Array.from(document.querySelectorAll('#music-cw-rail .movies-cw-card'));
-      const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
+  const rails = overlay.querySelectorAll('.watchlist-rail, .platform-top10-rail');
+  rails.forEach(rail => {
+    const updateArrows = () => {
+      const parent = rail.closest('.movies-platform-section');
+      if (!parent) return;
 
-      if (isNext && activeIdx < allCards.length - 1) {
-        setMusicActiveCard(allCards[activeIdx + 1], true);
-      } else if (!isNext && activeIdx > 0) {
-        setMusicActiveCard(allCards[activeIdx - 1], true);
-      }
-    });
+      const prevButtons = parent.querySelectorAll('.rail-arrow-left');
+      const nextButtons = parent.querySelectorAll('.rail-arrow-right');
+
+      const isStart = rail.scrollLeft <= 12;
+      const isEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 16;
+
+      prevButtons.forEach(b => {
+        if (isStart) b.classList.add('is-disabled');
+        else b.classList.remove('is-disabled');
+      });
+
+      nextButtons.forEach(b => {
+        if (isEnd) b.classList.add('is-disabled');
+        else b.classList.remove('is-disabled');
+      });
+    };
+
+    rail.addEventListener('scroll', updateArrows, { passive: true });
+    setTimeout(updateArrows, 120);
+    setTimeout(updateArrows, 400);
+  });
+
+  updateContinueWatchingNavArrows();
+}
+
+function updateContinueWatchingNavArrows() {
+  const cwSection = document.getElementById('music-cw-section');
+  if (!cwSection) return;
+  const cards = Array.from(cwSection.querySelectorAll('.movies-cw-card'));
+  const activeIdx = cards.findIndex(c => c.classList.contains('is-active'));
+
+  const prevBtns = cwSection.querySelectorAll('[data-cw="prev"]');
+  const nextBtns = cwSection.querySelectorAll('[data-cw="next"]');
+
+  prevBtns.forEach(b => {
+    if (activeIdx <= 0) b.classList.add('is-disabled');
+    else b.classList.remove('is-disabled');
+  });
+
+  nextBtns.forEach(b => {
+    if (activeIdx >= cards.length - 1) b.classList.add('is-disabled');
+    else b.classList.remove('is-disabled');
   });
 }
 
-export function setMusicActiveCard(card, smooth = true) {
-  const allCards = document.querySelectorAll('#music-cw-rail .movies-cw-card');
-  allCards.forEach(c => {
-    c.classList.remove('is-active');
-    c.setAttribute('aria-expanded', 'false');
-  });
+export function setActiveCard(card, smooth = true) {
+  if (!card) return;
+  const overlay = document.getElementById('music-overlay');
+  if (!overlay) return;
+
+  const currentActive = overlay.querySelector('.movies-cw-card.is-active');
+  if (currentActive === card) return;
+
+  if (currentActive) {
+    currentActive.classList.remove('is-active');
+    currentActive.setAttribute('aria-expanded', 'false');
+  }
 
   card.classList.add('is-active');
   card.setAttribute('aria-expanded', 'true');
 
-  centerMusicCard(card, smooth);
-
-  const trackId = card.dataset.trackId;
+  const trackId = card.dataset.id;
   const trackData = MUSIC_CONTINUE_LISTENING.find(t => t.id === trackId);
   if (trackData) {
-    updateBentoContinueMusicCard(trackData);
+    updateBentoContinueMusicCard({
+      title: trackData.title,
+      timeLeft: trackData.timeLeft,
+      progress: trackData.progress,
+      poster: trackData.poster,
+      url: trackData.streamUrl,
+      providerName: trackData.providerName,
+      artist: trackData.director
+    });
   }
+
+  centerCard(card, smooth);
+  updateContinueWatchingNavArrows();
 }
 
-function centerMusicCard(card, smooth = true) {
+function centerCard(card, smooth = true) {
+  if (!card) return;
   const rail = document.getElementById('music-cw-rail');
-  if (!rail || !card) return;
+  if (!rail) return;
 
-  const allCards = Array.from(rail.querySelectorAll('.movies-cw-card'));
-  const cardIndex = allCards.indexOf(card);
+  const cards = Array.from(rail.querySelectorAll('.movies-cw-card'));
+  const cardIndex = cards.indexOf(card);
 
-  if (cardIndex === 0) {
-    rail.scrollTo({ left: 0, behavior: smooth ? 'smooth' : 'auto' });
-    return;
-  }
+  const performScroll = () => {
+    if (cardIndex === 0) {
+      rail.scrollTo({
+        left: 0,
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+      return;
+    }
 
-  if (cardIndex === allCards.length - 1) {
-    rail.scrollTo({ left: rail.scrollWidth - rail.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
-    return;
-  }
+    if (cardIndex === cards.length - 1) {
+      rail.scrollTo({
+        left: Math.max(0, rail.scrollWidth - rail.clientWidth),
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+      return;
+    }
 
-  const railWidth = rail.clientWidth;
-  const cardLeft = card.offsetLeft;
-  const cardWidth = card.offsetWidth;
+    const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+    const targetScroll = cardCenter - (rail.clientWidth / 2);
 
-  const targetScrollLeft = cardLeft - (railWidth / 2) + (cardWidth / 2);
+    rail.scrollTo({
+      left: Math.max(0, Math.min(rail.scrollWidth - rail.clientWidth, targetScroll)),
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+  };
 
-  rail.scrollTo({
-    left: Math.max(0, targetScrollLeft),
-    behavior: smooth ? 'smooth' : 'auto'
-  });
+  performScroll();
+  setTimeout(performScroll, 120);
+  setTimeout(performScroll, 280);
 }
 
-function attachMusicContinueListeningEvents() {
+function attachContinueWatchingEvents() {
   const rail = document.getElementById('music-cw-rail');
   if (!rail) return;
 
   const cards = rail.querySelectorAll('.movies-cw-card');
+  if (!cards.length) return;
+
   cards.forEach(card => {
     card.addEventListener('click', (e) => {
-      const playBtn = e.target.closest('[data-action="play-track"]');
-      if (playBtn) {
-        e.stopPropagation();
-        const url = playBtn.dataset.url;
-        if (url) window.open(url, '_blank', 'noopener,noreferrer');
+      if (e.target.closest('.cw-card-play-btn')) {
         return;
       }
-      setMusicActiveCard(card, true);
+      setActiveCard(card, true);
     });
 
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        setMusicActiveCard(card, true);
+        setActiveCard(card, true);
       }
     });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const overlay = document.getElementById('music-overlay');
+    if (!overlay || !overlay.classList.contains('active')) return;
+
+    const allCards = Array.from(overlay.querySelectorAll('.movies-cw-card'));
+    const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
+
+    if (e.key === 'ArrowRight' && activeIdx < allCards.length - 1) {
+      e.preventDefault();
+      setActiveCard(allCards[activeIdx + 1], true);
+    } else if (e.key === 'ArrowLeft' && activeIdx > 0) {
+      e.preventDefault();
+      setActiveCard(allCards[activeIdx - 1], true);
+    }
   });
 }
 
@@ -725,7 +828,7 @@ export function openMusicView() {
   setTimeout(() => {
     const activeCard = document.querySelector('#music-cw-rail .movies-cw-card.is-active');
     if (activeCard) {
-      centerMusicCard(activeCard, false);
+      centerCard(activeCard, false);
     }
   }, 80);
 }
@@ -764,7 +867,7 @@ export function updateBentoContinueMusicCard(data) {
     const resumeBtn = document.getElementById('btn-play-music-cw');
 
     if (titleEl && data.title) {
-      titleEl.innerHTML = `${data.title} <span style="font-size:11px; opacity:0.75; font-weight:normal;">(${data.artist || ''})</span>`;
+      titleEl.innerHTML = `${data.title} <span class="cw-sub-detail">• ${data.artist || ''}</span>`;
     }
     if (timeLeftEl && (data.timeLeft || data.duration)) {
       timeLeftEl.textContent = data.timeLeft || data.duration;
@@ -772,22 +875,22 @@ export function updateBentoContinueMusicCard(data) {
     if (progressFill && data.progress) {
       progressFill.style.width = `${data.progress}%`;
     }
-    if (posterImg && (data.cover || data.backdrop)) {
-      posterImg.src = data.cover || data.backdrop;
+    if (posterImg && (data.poster || data.backdrop)) {
+      posterImg.src = data.poster || data.backdrop;
       posterImg.alt = data.title || 'Music Track';
     }
     if (resumeBtn) {
       resumeBtn.title = `Resume ${data.title} on YouTube Music`;
       resumeBtn.onclick = (e) => {
         e.stopPropagation();
-        if (data.streamUrl) {
-          window.open(data.streamUrl, '_blank', 'noopener,noreferrer');
+        if (data.url || data.streamUrl) {
+          window.open(data.url || data.streamUrl, '_blank', 'noopener,noreferrer');
         }
       };
     }
   }
 
-  // Also update in-page Bento music player widget
+  // Also sync in-page Bento ambient player
   if (bentoPlayer && data) {
     const musicTitle = document.getElementById('music-title');
     const musicArtist = document.getElementById('music-artist');
@@ -795,7 +898,7 @@ export function updateBentoContinueMusicCard(data) {
     const musicScrubber = document.getElementById('music-scrubber');
 
     if (musicTitle && data.title) musicTitle.textContent = data.title;
-    if (musicArtist && data.artist) musicArtist.textContent = data.artist;
+    if (musicArtist && (data.artist || data.director)) musicArtist.textContent = data.artist || data.director;
     if (musicFill && data.progress) musicFill.style.width = `${data.progress}%`;
     if (musicScrubber && data.progress) musicScrubber.style.left = `${data.progress}%`;
   }

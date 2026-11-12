@@ -1,6 +1,7 @@
 /**
  * HomeOS - Shows View
- * Ditto replica of Movies View architecture tailored for TV Series & Episodes
+ * Clean, Frameless Architecture floating directly on Matte Desktop Wallpaper
+ * EXACT replica of Movies View format tailored for TV Shows
  */
 
 import { 
@@ -13,15 +14,13 @@ import {
   WATCH_NOW_SHOWS_LIBRARY
 } from './showsData.js';
 
-let activeCategoryFilter = null;
-
 export function initShowsView() {
   const overlay = document.getElementById('shows-overlay');
   if (!overlay) return;
 
   overlay.innerHTML = `
     <!-- 1. Continue Watching Block (Orange Glow) -->
-    <div class="movies-cw-section shows-cw-section" id="shows-cw-section">
+    <div class="movies-cw-section" id="shows-cw-section">
       <!-- Top Supertitle Tag: SHOWS BLOCK -->
       <div class="movie-block-top">
         <span class="movie-block-tag">SHOWS BLOCK</span>
@@ -42,15 +41,15 @@ export function initShowsView() {
 
       <!-- Horizontal Expanding Accordion Rail (Hidden Scrollbar + Anchored First/Last) -->
       <div class="rail-scroll-wrapper">
-        <button type="button" class="rail-arrow-float rail-arrow-left" data-cw="shows-prev" aria-label="Previous show" title="Previous show">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-cw="prev" aria-label="Previous show" title="Previous show">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-        <div class="movies-cw-rail shows-cw-rail" id="shows-cw-rail" role="region" aria-label="Continue Watching TV Shows">
-          ${renderShowsContinueWatchingCards(SHOWS_CONTINUE_WATCHING)}
+        <div class="movies-cw-rail" id="shows-cw-rail" role="region" aria-label="Continue Watching TV Shows">
+          ${renderContinueWatchingCards(SHOWS_CONTINUE_WATCHING)}
         </div>
-        <button type="button" class="rail-arrow-float rail-arrow-right" data-cw="shows-next" aria-label="Next show" title="Next show">
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-cw="next" aria-label="Next show" title="Next show">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
@@ -59,7 +58,7 @@ export function initShowsView() {
     </div>
 
     <!-- 2. Watchlist Priority Section (Golden Amber Glow) -->
-    <div class="movies-platform-section shows-watchlist-section" id="shows-watchlist-section">
+    <div class="movies-platform-section movies-watchlist-section" id="shows-watchlist-section">
       <!-- Hairline divider with downward GOLDEN AMBER glow -->
       <div class="movie-block-divider-wrap watchlist-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line watchlist-divider-line"></div>
@@ -81,8 +80,8 @@ export function initShowsView() {
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-        <div class="watchlist-rail" id="shows-watchlist-rail" role="region" aria-label="My Saved Shows Watchlist">
-          ${renderShowsWatchlistCards(SHOWS_WATCHLIST)}
+        <div class="watchlist-rail" id="shows-watchlist-rail" role="region" aria-label="My Saved Watchlist">
+          ${renderWatchlistCards(SHOWS_WATCHLIST)}
         </div>
         <button type="button" class="rail-arrow-float rail-arrow-right" data-target="shows-watchlist-rail" aria-label="Scroll right" title="Scroll right">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -92,8 +91,8 @@ export function initShowsView() {
       </div>
     </div>
 
-    <!-- 3. Netflix Section with Hairline Divider & Downward RED Glow -->
-    <div class="movies-platform-section shows-netflix-section" id="shows-netflix-section">
+    <!-- 3. Netflix Section with Hairline Divider, Downward RED Glow, and "Netflix" Title -->
+    <div class="movies-platform-section movies-netflix-section" id="shows-netflix-section">
       <div class="movie-block-divider-wrap netflix-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line netflix-divider-line"></div>
         <div class="movie-block-divider-glow netflix-divider-glow"></div>
@@ -112,7 +111,7 @@ export function initShowsView() {
           </svg>
         </button>
         <div class="platform-top10-rail netflix-top10-rail" id="shows-netflix-rail" role="region" aria-label="Top 10 Shows on Netflix">
-          ${renderShowsTop10Rail(NETFLIX_TOP_10_SHOWS, 'netflix', 'Netflix')}
+          ${renderPlatformTop10Rail(NETFLIX_TOP_10_SHOWS, 'netflix', 'Netflix')}
         </div>
         <button type="button" class="rail-arrow-float rail-arrow-right" data-target="shows-netflix-rail" aria-label="Scroll right" title="Scroll right">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -122,8 +121,8 @@ export function initShowsView() {
       </div>
     </div>
 
-    <!-- 4. Prime Video Section with Hairline Divider & Downward BLUE Glow -->
-    <div class="movies-platform-section shows-prime-section" id="shows-prime-section">
+    <!-- 4. Prime Video Section with Hairline Divider, Downward BLUE Glow, and "Prime Video" Title -->
+    <div class="movies-platform-section movies-prime-section" id="shows-prime-section">
       <div class="movie-block-divider-wrap prime-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line prime-divider-line"></div>
         <div class="movie-block-divider-glow prime-divider-glow"></div>
@@ -142,7 +141,7 @@ export function initShowsView() {
           </svg>
         </button>
         <div class="platform-top10-rail prime-top10-rail" id="shows-prime-rail" role="region" aria-label="Top 10 Shows on Prime Video">
-          ${renderShowsTop10Rail(PRIME_TOP_10_SHOWS, 'prime', 'Prime Video')}
+          ${renderPlatformTop10Rail(PRIME_TOP_10_SHOWS, 'prime', 'Prime Video')}
         </div>
         <button type="button" class="rail-arrow-float rail-arrow-right" data-target="shows-prime-rail" aria-label="Scroll right" title="Scroll right">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -152,8 +151,8 @@ export function initShowsView() {
       </div>
     </div>
 
-    <!-- 5. Hotstar Section with Hairline Divider & Downward PURPLE Glow -->
-    <div class="movies-platform-section shows-hotstar-section" id="shows-hotstar-section">
+    <!-- 5. Hotstar Section with Hairline Divider, Downward PURPLE Glow, and "Hotstar" Title -->
+    <div class="movies-platform-section movies-hotstar-section" id="shows-hotstar-section">
       <div class="movie-block-divider-wrap hotstar-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line hotstar-divider-line"></div>
         <div class="movie-block-divider-glow hotstar-divider-glow"></div>
@@ -172,7 +171,7 @@ export function initShowsView() {
           </svg>
         </button>
         <div class="platform-top10-rail hotstar-top10-rail" id="shows-hotstar-rail" role="region" aria-label="Top 10 Shows on Hotstar">
-          ${renderShowsTop10Rail(HOTSTAR_TOP_10_SHOWS, 'hotstar', 'Hotstar')}
+          ${renderPlatformTop10Rail(HOTSTAR_TOP_10_SHOWS, 'hotstar', 'Hotstar')}
         </div>
         <button type="button" class="rail-arrow-float rail-arrow-right" data-target="shows-hotstar-rail" aria-label="Scroll right" title="Scroll right">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -182,8 +181,8 @@ export function initShowsView() {
       </div>
     </div>
 
-    <!-- 6. Categories Section with Hairline Divider & Downward TEAL Glow -->
-    <div class="movies-platform-section shows-categories-section" id="shows-categories-section">
+    <!-- 6. Categories Section with Hairline Divider, Downward TEAL Glow, and "Categories" Title -->
+    <div class="movies-platform-section movies-categories-section" id="shows-categories-section">
       <div class="movie-block-divider-wrap categories-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line categories-divider-line"></div>
         <div class="movie-block-divider-glow categories-divider-glow"></div>
@@ -198,12 +197,12 @@ export function initShowsView() {
 
       <!-- Categories 3-Row Stacked Grid (6 Genres in Row 1, 6 Genres in Row 2, 6 Languages in Row 3) -->
       <div class="categories-grid" id="shows-categories-grid" role="region" aria-label="Show Categories & Languages">
-        ${renderShowsCategoryCards(SHOWS_CATEGORIES)}
+        ${renderCategoryCards(SHOWS_CATEGORIES)}
       </div>
     </div>
 
-    <!-- 7. Watch Now Section (Unified Shows Library) with Emerald Glow & Dynamic Filtering -->
-    <div class="movies-platform-section shows-watchnow-section" id="shows-watchnow-section">
+    <!-- 7. Watch Now Section (The Unified Library) with Emerald Hairline Divider & Radiant Glow -->
+    <div class="movies-platform-section movies-watchnow-section" id="shows-watchnow-section">
       <div class="movie-block-divider-wrap watchnow-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line watchnow-divider-line"></div>
         <div class="movie-block-divider-glow watchnow-divider-glow"></div>
@@ -226,538 +225,647 @@ export function initShowsView() {
       </div>
 
       <div class="watchnow-grid" id="shows-watchnow-grid" role="region" aria-label="Watch Now Library TV Shows">
-        ${renderShowsWatchNowLibrary(null)}
+        ${renderWatchNowLibrary(null)}
       </div>
     </div>
   `;
 
-  attachShowsContinueWatchingEvents();
-  attachShowsWatchlistEvents();
-  attachShowsRailNavigationEvents();
-  attachShowsCategoryEvents();
-  attachShowsWatchNowEvents();
+  attachContinueWatchingEvents();
+  attachWatchlistEvents();
+  attachRailNavigationEvents();
+  attachCategoryEvents();
+  attachWatchNowEvents();
 
   setTimeout(() => {
     const activeCard = document.querySelector('#shows-cw-rail .movies-cw-card.is-active');
     if (activeCard) {
-      centerShowsCard(activeCard, false);
+      centerCard(activeCard, false);
     }
   }, 100);
 }
 
-function renderShowsContinueWatchingCards(shows) {
-  return shows.map((show, index) => {
-    const isActive = index === 0;
-    const progressPct = Math.min(100, Math.max(0, show.progress || 0));
-
+function renderContinueWatchingCards(shows) {
+  const cardsHtml = shows.map((show, index) => {
+    const isActive = index === 0 ? 'is-active' : '';
     return `
-      <div class="movies-cw-card ${isActive ? 'is-active' : ''}" 
-           data-show-id="${show.id}" 
-           data-index="${index}"
-           tabindex="0"
-           role="button"
-           aria-expanded="${isActive ? 'true' : 'false'}"
-           aria-label="${show.title} - ${show.episodeInfo || ''} (${progressPct}% completed)">
-        
-        <div class="cw-card-bg-wrap">
-          <img class="cw-card-backdrop" 
-               src="${show.backdrop || show.poster}" 
-               alt="${show.title} backdrop" 
-               loading="${index < 3 ? 'eager' : 'lazy'}" 
-               onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop&q=80'" />
-          <div class="cw-card-vignette"></div>
+      <div class="movies-cw-card ${isActive}" data-id="${show.id}" data-index="${index}" tabindex="0" role="button" aria-expanded="${index === 0}">
+        <!-- Widescreen Backdrop for Active Expanded State -->
+        <div class="cw-card-backdrop-wrap">
+          <img class="cw-card-backdrop-img" src="${show.backdrop || show.poster}" alt="${show.title} Backdrop" loading="lazy" />
+          <div class="cw-card-scrim-left"></div>
+          <div class="cw-card-scrim-bottom"></div>
         </div>
 
-        <div class="cw-collapsed-art">
-          <img class="cw-collapsed-poster" 
-               src="${show.poster}" 
-               alt="${show.title} poster" 
-               loading="${index < 3 ? 'eager' : 'lazy'}" 
-               onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80'" />
-          <div class="cw-collapsed-info">
-            <span class="cw-collapsed-title">${show.title}</span>
-            <span class="cw-collapsed-episode">${show.episodeInfo || ''}</span>
+        <!-- Vertical Poster for Collapsed State -->
+        <div class="cw-card-poster-wrap">
+          <img class="cw-card-poster-img" src="${show.poster}" alt="${show.title} Poster" loading="lazy" />
+          <div class="cw-card-poster-scrim"></div>
+        </div>
+
+        <!-- Expanded Card Content (Visible when is-active) -->
+        <div class="cw-card-expanded-content">
+          <div class="cw-card-badge-row">
+            <span class="cw-card-badge">CONTINUE WATCHING</span>
+            <span class="cw-card-provider-pill ${show.providerBadgeClass}">${show.providerName}</span>
           </div>
+
+          <h3 class="cw-card-title">${show.title}</h3>
+
+          <div class="cw-card-meta-row">
+            <span>${show.year}</span>
+            <span class="meta-dot">•</span>
+            <span>${show.duration}</span>
+            <span class="meta-dot">•</span>
+            <span>${(show.genres || []).join(', ')}</span>
+            <span class="meta-dot">•</span>
+            <span class="cw-card-director">Creator: ${show.director || 'Showrunner'}</span>
+          </div>
+
+          <p class="cw-card-synopsis">${show.synopsis}</p>
+
+          <div class="cw-card-progress-box">
+            <div class="cw-card-progress-bar">
+              <div class="cw-card-progress-fill" style="width: ${show.progress}%;"></div>
+            </div>
+            <div class="cw-card-progress-labels">
+              <span class="cw-card-time-left">${show.timeLeft}</span>
+              <span class="cw-card-percent">${show.progress}%</span>
+            </div>
+          </div>
+
+          <div class="cw-card-actions">
+            <a href="${show.streamUrl}" target="_blank" rel="noopener noreferrer" class="cw-card-play-btn" title="Resume on ${show.providerName}">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              <span>Continue Watching</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Collapsed Card Content (Visible when collapsed vertical rectangle) -->
+        <div class="cw-card-collapsed-content">
+          <span class="cw-collapsed-title">${show.title}</span>
           <div class="cw-collapsed-progress-bar">
-            <div class="cw-collapsed-progress-fill" style="width: ${progressPct}%;"></div>
+            <div class="cw-collapsed-progress-fill" style="width: ${show.progress}%;"></div>
           </div>
-        </div>
-
-        <div class="cw-expanded-content">
-          <div class="cw-expanded-top">
-            <div class="cw-badge-group">
-              <span class="cw-provider-pill ${show.providerBadgeClass || 'badge-netflix'}">
-                ${show.providerName || 'Streaming'}
-              </span>
-              <span class="cw-year-pill">${show.year}</span>
-              <span class="cw-duration-pill">${show.duration}</span>
-            </div>
-            <span class="cw-episode-tag">${show.episodeInfo || ''}</span>
-          </div>
-
-          <div class="cw-expanded-middle">
-            <h3 class="cw-expanded-title">${show.title}</h3>
-            <p class="cw-expanded-genres">${(show.genres || []).join(' • ')}</p>
-            <p class="cw-expanded-synopsis">${show.synopsis || ''}</p>
-          </div>
-
-          <div class="cw-expanded-bottom">
-            <div class="cw-progress-cluster">
-              <div class="cw-progress-meta">
-                <span class="cw-progress-label">Episode Progress</span>
-                <span class="cw-time-left">${show.timeLeft || ''}</span>
-              </div>
-              <div class="cw-progress-track">
-                <div class="cw-progress-indicator" style="width: ${progressPct}%;"></div>
-              </div>
-            </div>
-
-            <div class="cw-action-row">
-              <button type="button" class="cw-btn cw-btn-play" data-action="play-show" data-url="${show.streamUrl}">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-                <span>Resume Episode</span>
-              </button>
-            </div>
-          </div>
+          <span class="cw-collapsed-time-left">${show.timeLeft}</span>
         </div>
       </div>
     `;
   }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
-function renderShowsTop10Rail(shows, platformKey, platformName) {
-  return shows.map(show => `
-    <div class="top10-item-wrap">
-      <span class="top10-rank-num" aria-hidden="true">${show.rank}</span>
-      <div class="platform-top10-card" 
-           data-id="${show.id}" 
-           data-platform="${platformKey}"
-           data-url="${show.streamUrl}"
-           tabindex="0"
-           role="button"
-           aria-label="#${show.rank} in ${platformName} Shows: ${show.title}">
-        
-        <div class="top10-poster-wrap">
-          <img class="top10-poster-img" 
-               src="${show.poster}" 
-               alt="${show.title} poster" 
-               loading="lazy" 
-               onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80'" />
-          <div class="top10-card-vignette"></div>
-          
-          <div class="top10-rank-badge">#${show.rank} IN SHOWS TODAY</div>
-          
-          <div class="top10-meta-overlay">
-            <h4 class="top10-card-title">${show.title}</h4>
-            <div class="top10-card-specs">
-              <span>${show.seasons || show.year}</span>
-              <span class="top10-spec-dot">•</span>
+function renderPlatformTop10Rail(shows, platformKey, platformName) {
+  const cardsHtml = shows.map((show) => {
+    const isTen = show.rank === 10;
+    return `
+      <a href="${show.streamUrl}" target="_blank" rel="noopener noreferrer" class="platform-top10-item platform-item-${platformKey}" title="Watch #${show.rank} ${show.title} on ${platformName}">
+        <div class="platform-rank-wrap ${isTen ? 'is-ten' : ''}">
+          <span class="platform-rank-num ${isTen ? 'platform-rank-ten' : ''}">${show.rank}</span>
+        </div>
+
+        <div class="platform-poster-card">
+          <img 
+            class="platform-poster-img" 
+            src="${show.poster}" 
+            alt="${show.title} Poster" 
+            loading="lazy"
+            onerror="this.onerror=null; this.src='assets/posters/dune-2.jpg';" 
+          />
+          <div class="platform-card-scrim"></div>
+
+          <div class="platform-card-info">
+            <span class="platform-card-title">${show.title}</span>
+            <div class="platform-card-meta">
+              <span>${show.year}</span>
+              <span class="meta-dot">•</span>
               <span>${show.language}</span>
-              <span class="top10-spec-dot">•</span>
-              <span class="top10-rating">★ ${show.rating}</span>
+              <span class="meta-dot">•</span>
+              <span class="platform-rating">★ ${show.rating}</span>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  `).join('');
+      </a>
+    `;
+  }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
-function renderShowsWatchlistCards(shows) {
-  return shows.map(show => `
-    <div class="watchlist-card" 
-         data-id="${show.id}" 
-         data-url="${show.streamUrl}"
-         tabindex="0"
-         role="button"
-         aria-label="${show.title} (${show.seasons || show.year})">
-      
-      <div class="watchlist-poster-wrap">
-        <img class="watchlist-poster-img" 
-             src="${show.poster}" 
-             alt="${show.title} poster" 
-             loading="lazy" 
-             onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80'" />
-        <div class="watchlist-card-vignette"></div>
-        
-        <div class="watchlist-hover-actions">
-          <button type="button" class="watchlist-quick-play-btn" data-action="play-show" data-url="${show.streamUrl}" title="Watch ${show.title}">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+function renderWatchlistCards(shows) {
+  if (!shows || !shows.length) {
+    return `<div class="watchlist-empty-state"><p>Your watchlist is currently empty.</p></div>`;
+  }
+
+  const cardsHtml = shows.map((show) => {
+    return `
+      <div class="watchlist-card" data-id="${show.id}" id="shows-wl-card-${show.id}">
+        <img 
+          class="wl-card-poster" 
+          src="${show.poster}" 
+          alt="${show.title} Poster" 
+          loading="lazy"
+          onerror="this.onerror=null; this.src='assets/posters/dune-2.jpg';" 
+        />
+        <div class="wl-card-scrim"></div>
+
+        <div class="wl-card-top-row">
+          <div class="wl-bookmark-badge" title="Saved to Watchlist" aria-label="Saved to Watchlist">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
             </svg>
+          </div>
+        </div>
+
+        <div class="wl-hover-overlay">
+          <a href="${show.streamUrl}" target="_blank" rel="noopener noreferrer" class="wl-play-btn" title="Stream ${show.title} on ${show.providerName}">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>Stream</span>
+          </a>
+          <button type="button" class="wl-remove-btn" data-id="${show.id}" title="Remove from Watchlist" aria-label="Remove ${show.title} from Watchlist">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span>Remove</span>
           </button>
         </div>
 
-        <div class="watchlist-meta-overlay">
-          <h4 class="watchlist-card-title">${show.title}</h4>
-          <div class="watchlist-card-specs">
-            <span>${show.seasons || show.year}</span>
-            <span class="watchlist-spec-dot">•</span>
-            <span>${show.language}</span>
-            <span class="watchlist-spec-dot">•</span>
-            <span class="watchlist-rating">★ ${show.rating}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderShowsCategoryCards(categories) {
-  return categories.map(cat => {
-    const isSelected = activeCategoryFilter && activeCategoryFilter.id === cat.id;
-    return `
-      <div class="category-card ${isSelected ? 'is-selected' : ''}" 
-           data-category-id="${cat.id}"
-           data-category-type="${cat.categoryType || 'genre'}"
-           data-color="${cat.color}"
-           data-rgb="${cat.rgb}"
-           role="button"
-           tabindex="0"
-           aria-pressed="${isSelected ? 'true' : 'false'}"
-           aria-label="Filter library by ${cat.name}">
-        <div class="category-card-inner" style="--cat-color: ${cat.color}; --cat-rgb: ${cat.rgb};">
-          <div class="category-emoji-box" aria-hidden="true">
-            ${cat.svg}
-          </div>
-          <div class="category-text-stack">
-            <span class="category-name">${cat.name}</span>
-            <span class="category-desc">${cat.subtitle}</span>
+        <div class="wl-card-info">
+          <span class="wl-card-title">${show.title}</span>
+          <div class="wl-card-meta">
+            <span>${show.year}</span>
+            <span class="meta-dot">•</span>
+            <span>${show.duration}</span>
+            <span class="meta-dot">•</span>
+            <span class="wl-rating">★ ${show.rating}</span>
           </div>
         </div>
       </div>
     `;
   }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
-function renderShowsWatchNowLibrary(categoryFilter = null) {
-  let matchedShows = [];
-  let otherShows = [];
+let activeShowsCategoryFilter = null;
 
-  const normalize = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-
-  if (!categoryFilter) {
-    matchedShows = [...WATCH_NOW_SHOWS_LIBRARY];
-    otherShows = [];
-  } else {
-    const filterId = normalize(categoryFilter.id);
-    const filterType = categoryFilter.categoryType || 'genre';
-
-    WATCH_NOW_SHOWS_LIBRARY.forEach(show => {
-      let isMatch = false;
-
-      if (filterType === 'language') {
-        const showLang = normalize(show.language);
-        if (filterId === 'others') {
-          const mainLangs = ['malayalam', 'hindi', 'kannada', 'tamil', 'english'];
-          isMatch = !mainLangs.some(l => showLang.includes(l));
-        } else {
-          isMatch = showLang.includes(filterId);
-        }
-      } else {
-        const genreList = (show.genres || []).map(g => normalize(g));
-        isMatch = genreList.some(g => g.includes(filterId) || filterId.includes(g));
-      }
-
-      if (isMatch) {
-        matchedShows.push(show);
-      } else {
-        otherShows.push(show);
-      }
-    });
-  }
-
-  let html = '';
-
-  if (matchedShows.length > 0) {
-    html += matchedShows.map(show => renderShowsWatchNowCard(show, !!categoryFilter)).join('');
-  } else if (categoryFilter) {
-    html += `
-      <div class="watchnow-empty-state" style="grid-column: 1 / -1; padding: 36px 0; text-align: center; color: rgba(255,255,255,0.6);">
-        <p style="font-size: 15px; margin: 0 0 6px 0;">No TV series currently tagged with "<strong>${categoryFilter.name}</strong>".</p>
-        <p style="font-size: 12.5px; opacity: 0.7;">Showing all other series in your HomeOS library below.</p>
-      </div>
-    `;
-  }
-
-  if (categoryFilter && otherShows.length > 0) {
-    html += `
-      <div class="watchnow-dotted-divider" role="separator" aria-label="End of category results; beginning of other library titles">
-        <div class="watchnow-dotted-line"></div>
-        <div class="watchnow-dotted-pill">
-          <span>••••</span>
-          <span>OTHER SHOWS IN LIBRARY (${otherShows.length})</span>
-          <span>••••</span>
+function renderCategoryCards(categories) {
+  const cardsHtml = categories.map(cat => `
+    <div class="category-card" data-genre="${cat.id}" data-genre-title="${cat.name}" style="--cat-accent: ${cat.color}; --cat-rgb: ${cat.rgb};" role="button" tabindex="0" title="Filter Watch Now by ${cat.name}">
+      <div class="cat-card-ambient" aria-hidden="true"></div>
+      <div class="cat-card-body">
+        <div class="cat-card-content">
+          <span class="cat-card-tag">${cat.count}</span>
+          <h3 class="cat-card-title">${cat.name}</h3>
+          <span class="cat-card-sub">${cat.subtitle}</span>
         </div>
-        <div class="watchnow-dotted-line"></div>
+        <div class="cat-card-emoji-wrap" aria-hidden="true">
+          ${cat.svg}
+        </div>
       </div>
-    `;
-    html += otherShows.map(show => renderShowsWatchNowCard(show, false)).join('');
-  }
+    </div>
+  `).join('');
 
-  return html;
+  return cardsHtml;
 }
 
-function renderShowsWatchNowCard(show, isDirectMatch = false) {
-  return `
-    <div class="watchnow-card ${isDirectMatch ? 'is-matched-category' : ''}" 
-         data-id="${show.id}" 
-         data-url="${show.streamUrl}"
-         tabindex="0"
-         role="button"
-         aria-label="${show.title} (${show.seasons || show.year})">
-      
-      <div class="watchnow-poster-wrap">
-        <img class="watchnow-poster-img" 
-             src="${show.poster}" 
-             alt="${show.title} poster" 
-             loading="lazy" 
-             onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80'" />
-        <div class="watchnow-card-vignette"></div>
+function renderWatchNowLibrary(categoryFilter = null) {
+  if (!categoryFilter) {
+    return WATCH_NOW_SHOWS_LIBRARY.map(show => renderWatchNowCard(show, false)).join('');
+  }
 
-        ${isDirectMatch ? '<span class="watchnow-matched-badge">MATCH</span>' : ''}
-        
-        <div class="watchnow-hover-action">
-          <button type="button" class="watchnow-stream-btn" data-action="play-show" data-url="${show.streamUrl}" title="Watch ${show.title} on ${show.providerName}">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+  const normalize = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const isLanguage = categoryFilter.categoryType === 'language';
+  const filterId = categoryFilter.id.toLowerCase();
+  const normF = normalize(filterId);
+
+  const matched = [];
+  const others = [];
+
+  WATCH_NOW_SHOWS_LIBRARY.forEach(show => {
+    let isMatch = false;
+    if (isLanguage) {
+      const showLang = (show.language || '').toLowerCase();
+      if (filterId === 'others') {
+        isMatch = showLang && !['malayalam', 'hindi', 'kannada', 'tamil', 'english'].includes(showLang);
+      } else {
+        isMatch = showLang === filterId;
+      }
+    } else {
+      isMatch = (show.genres || []).some(g => {
+        const normG = normalize(g);
+        return normG === normF || normG.includes(normF) || normF.includes(normG);
+      });
+    }
+
+    if (isMatch) {
+      matched.push(show);
+    } else {
+      others.push(show);
+    }
+  });
+
+  const matchedHtml = matched.map(show => renderWatchNowCard(show, true)).join('');
+  const othersHtml = others.map(show => renderWatchNowCard(show, false)).join('');
+
+  if (others.length === 0) {
+    return matchedHtml;
+  }
+
+  const dividerHtml = `
+    <div class="watchnow-dotted-divider" aria-hidden="true">
+      <div class="watchnow-dotted-line"></div>
+      <div class="watchnow-dotted-pill">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 8v8"></path>
+          <path d="M8 12h8"></path>
+        </svg>
+        <span>OTHER TITLES IN LIBRARY (${others.length})</span>
+      </div>
+      <div class="watchnow-dotted-line"></div>
+    </div>
+  `;
+
+  return `${matchedHtml}${dividerHtml}${othersHtml}`;
+}
+
+function renderWatchNowCard(show, isDirectMatch = false) {
+  const matchClass = isDirectMatch ? 'is-matched-category' : '';
+  const genreList = Array.isArray(show.genres) ? show.genres.slice(0, 2).join(' • ') : '';
+
+  return `
+    <div class="watchnow-card ${matchClass}" data-id="${show.id}" role="article" tabindex="0">
+      <div class="watchnow-poster-wrap">
+        <img class="watchnow-poster-img" src="${show.poster}" alt="${show.title} Poster" loading="lazy" />
+        <div class="watchnow-poster-scrim"></div>
+
+        <div class="watchnow-top-badges">
+          <span class="watchnow-provider-pill ${show.providerBadgeClass || 'badge-streaming'}">${show.providerName || 'Streaming'}</span>
+          <span class="watchnow-lang-pill">${show.language || 'Series'}</span>
+        </div>
+
+        ${isDirectMatch ? `<div class="watchnow-match-ribbon"><span>MATCH</span></div>` : ''}
+
+        <div class="watchnow-hover-overlay">
+          <a href="${show.streamUrl}" target="_blank" rel="noopener noreferrer" class="watchnow-stream-btn" title="Stream ${show.title} on ${show.providerName || 'Streaming'}">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
             </svg>
             <span>Watch Now</span>
-          </button>
+          </a>
         </div>
+      </div>
 
-        <div class="watchnow-top-capsules">
-          <span class="watchnow-provider-pill ${show.providerBadgeClass || 'badge-netflix'}">
-            ${show.providerName}
-          </span>
-          <span class="watchnow-lang-pill">${show.language}</span>
+      <div class="watchnow-card-info">
+        <h4 class="watchnow-card-title" title="${show.title}">${show.title}</h4>
+        <div class="watchnow-card-meta">
+          <span>${show.year}</span>
+          <span class="meta-dot">•</span>
+          <span>${show.duration}</span>
+          <span class="meta-dot">•</span>
+          <span class="watchnow-rating">★ ${show.rating}</span>
         </div>
-
-        <div class="watchnow-meta-overlay">
-          <h4 class="watchnow-card-title">${show.title}</h4>
-          <div class="watchnow-card-specs">
-            <span>${show.seasons || show.year}</span>
-            <span class="watchnow-spec-dot">•</span>
-            <span class="watchnow-rating">★ ${show.rating}</span>
-          </div>
-        </div>
+        <span class="watchnow-genres">${genreList}</span>
       </div>
     </div>
   `;
 }
 
-function filterShowsWatchNow(category) {
-  if (activeCategoryFilter && activeCategoryFilter.id === category.id) {
-    activeCategoryFilter = null;
-  } else {
-    activeCategoryFilter = category;
-  }
-
-  const categoryCards = document.querySelectorAll('#shows-categories-grid .category-card');
-  categoryCards.forEach(card => {
-    const cardId = card.dataset.categoryId;
-    const isSelected = activeCategoryFilter && activeCategoryFilter.id === cardId;
-    card.classList.toggle('is-selected', isSelected);
-    card.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
-  });
-
+function filterWatchNow(category) {
   const grid = document.getElementById('shows-watchnow-grid');
   const statusPill = document.getElementById('shows-watchnow-status-pill');
   const clearActions = document.getElementById('shows-watchnow-header-actions');
+  const categoryCards = document.querySelectorAll('#shows-categories-grid .category-card');
 
-  if (grid) {
-    grid.innerHTML = renderShowsWatchNowLibrary(activeCategoryFilter);
+  if (!category) {
+    activeShowsCategoryFilter = null;
+    categoryCards.forEach(c => c.classList.remove('is-selected'));
+    if (grid) grid.innerHTML = renderWatchNowLibrary(null);
+    if (statusPill) statusPill.textContent = `Library • ${WATCH_NOW_SHOWS_LIBRARY.length} TV Shows`;
+    if (clearActions) clearActions.style.display = 'none';
+    if (window.showToast) window.showToast('Showing all library TV shows');
+    return;
   }
 
-  if (statusPill) {
-    if (activeCategoryFilter) {
-      statusPill.innerHTML = `<strong>${activeCategoryFilter.name}</strong> • Filtered Results & Library`;
-      statusPill.classList.add('has-filter');
+  if (activeShowsCategoryFilter && activeShowsCategoryFilter.id === category.id) {
+    filterWatchNow(null);
+    return;
+  }
+
+  activeShowsCategoryFilter = category;
+
+  categoryCards.forEach(c => {
+    if (c.dataset.genre === category.id) {
+      c.classList.add('is-selected');
     } else {
-      statusPill.textContent = `Library • ${WATCH_NOW_SHOWS_LIBRARY.length} TV Shows`;
-      statusPill.classList.remove('has-filter');
+      c.classList.remove('is-selected');
     }
+  });
+
+  if (grid) {
+    grid.innerHTML = renderWatchNowLibrary(category);
+  }
+
+  const normalize = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const isLanguage = category.categoryType === 'language';
+  const filterId = category.id.toLowerCase();
+  const normF = normalize(filterId);
+  const matchedCount = WATCH_NOW_SHOWS_LIBRARY.filter(s => {
+    if (isLanguage) {
+      const sl = (s.language || '').toLowerCase();
+      return filterId === 'others' 
+        ? sl && !['malayalam', 'hindi', 'kannada', 'tamil', 'english'].includes(sl)
+        : sl === filterId;
+    }
+    return (s.genres || []).some(g => {
+      const normG = normalize(g);
+      return normG === normF || normG.includes(normF) || normF.includes(normG);
+    });
+  }).length;
+
+  if (statusPill) {
+    statusPill.innerHTML = `<strong>${category.name}</strong> (${matchedCount} Matches) • Plus Library`;
   }
 
   if (clearActions) {
-    clearActions.style.display = activeCategoryFilter ? 'flex' : 'none';
+    clearActions.style.display = 'flex';
   }
 
-  if (activeCategoryFilter) {
-    const watchNowSection = document.getElementById('shows-watchnow-section');
-    if (watchNowSection) {
-      watchNowSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  if (window.showToast) {
+    window.showToast(`Filtered by ${category.name} (${matchedCount} shows)`);
+  }
+
+  const section = document.getElementById('shows-watchnow-section');
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
-function attachShowsCategoryEvents() {
-  const categoryCards = document.querySelectorAll('#shows-categories-grid .category-card');
-  categoryCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const catId = card.dataset.categoryId;
-      const category = SHOWS_CATEGORIES.find(c => c.id === catId);
+function attachCategoryEvents() {
+  const cards = document.querySelectorAll('#shows-categories-grid .category-card');
+  cards.forEach(card => {
+    const handleSelect = () => {
+      const genreId = card.dataset.genre;
+      const category = SHOWS_CATEGORIES.find(c => c.id === genreId);
       if (category) {
-        filterShowsWatchNow(category);
+        filterWatchNow(category);
       }
-    });
+    };
 
+    card.addEventListener('click', handleSelect);
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        card.click();
+        handleSelect();
       }
     });
   });
 }
 
-function attachShowsWatchNowEvents() {
+function attachWatchNowEvents() {
   const clearBtn = document.getElementById('shows-watchnow-clear-btn');
   if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
-      activeCategoryFilter = null;
-      filterShowsWatchNow({ id: '__none__' });
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      filterWatchNow(null);
     });
   }
 }
 
-function attachShowsWatchlistEvents() {
-  const overlay = document.getElementById('shows-overlay');
-  if (!overlay) return;
+function attachWatchlistEvents() {
+  const rail = document.getElementById('shows-watchlist-rail');
+  if (!rail) return;
 
-  overlay.addEventListener('click', (e) => {
-    const playBtn = e.target.closest('[data-action="play-show"]');
-    if (playBtn) {
+  rail.addEventListener('click', (e) => {
+    const removeBtn = e.target.closest('.wl-remove-btn');
+    if (removeBtn) {
+      e.preventDefault();
       e.stopPropagation();
-      const url = playBtn.dataset.url;
-      if (url) {
-        window.open(url, '_blank', 'noopener,noreferrer');
-      }
-      return;
-    }
-
-    const card = e.target.closest('.watchlist-card, .platform-top10-card, .watchnow-card');
-    if (card) {
-      const url = card.dataset.url;
-      if (url) {
-        window.open(url, '_blank', 'noopener,noreferrer');
+      const showId = removeBtn.dataset.id;
+      const card = document.getElementById(`shows-wl-card-${showId}`);
+      if (card) {
+        card.classList.add('is-removing');
+        setTimeout(() => {
+          card.remove();
+          const remaining = rail.querySelectorAll('.watchlist-card').length;
+          const countPill = document.getElementById('shows-watchlist-count-pill');
+          if (countPill) {
+            countPill.textContent = `${remaining} Saved`;
+          }
+          if (remaining === 0) {
+            rail.innerHTML = `<div class="watchlist-empty-state"><p>Your watchlist is currently empty.</p></div>`;
+          }
+        }, 280);
       }
     }
   });
 }
 
-function attachShowsRailNavigationEvents() {
+function attachRailNavigationEvents() {
   const overlay = document.getElementById('shows-overlay');
   if (!overlay) return;
 
-  const arrows = overlay.querySelectorAll('.rail-arrow-float[data-target]');
-  arrows.forEach(arrow => {
-    arrow.addEventListener('click', (e) => {
+  overlay.querySelectorAll('.rail-arrow-float').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      const targetId = arrow.dataset.target;
+
+      if (btn.dataset.cw) {
+        const cards = Array.from(overlay.querySelectorAll('.movies-cw-card'));
+        if (!cards.length) return;
+        const activeIdx = cards.findIndex(c => c.classList.contains('is-active'));
+        if (btn.dataset.cw === 'prev' && activeIdx > 0) {
+          setActiveCard(cards[activeIdx - 1], true);
+        } else if (btn.dataset.cw === 'next' && activeIdx < cards.length - 1) {
+          setActiveCard(cards[activeIdx + 1], true);
+        }
+        updateContinueWatchingNavArrows();
+        return;
+      }
+
+      const targetId = btn.dataset.target;
+      if (!targetId) return;
       const rail = document.getElementById(targetId);
       if (!rail) return;
 
-      const isLeft = arrow.classList.contains('rail-arrow-left');
-      const scrollAmount = Math.max(rail.clientWidth * 0.75, 400);
+      const isPrev = btn.classList.contains('rail-arrow-left');
+      const scrollStep = Math.max(380, Math.floor(rail.clientWidth * 0.72));
 
       rail.scrollBy({
-        left: isLeft ? -scrollAmount : scrollAmount,
+        left: isPrev ? -scrollStep : scrollStep,
         behavior: 'smooth'
       });
     });
   });
 
-  const cwArrows = overlay.querySelectorAll('.rail-arrow-float[data-cw]');
-  cwArrows.forEach(arrow => {
-    arrow.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isNext = arrow.dataset.cw === 'shows-next';
-      const allCards = Array.from(document.querySelectorAll('#shows-cw-rail .movies-cw-card'));
-      const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
+  const rails = overlay.querySelectorAll('.watchlist-rail, .platform-top10-rail');
+  rails.forEach(rail => {
+    const updateArrows = () => {
+      const parent = rail.closest('.movies-platform-section');
+      if (!parent) return;
 
-      if (isNext && activeIdx < allCards.length - 1) {
-        setShowsActiveCard(allCards[activeIdx + 1], true);
-      } else if (!isNext && activeIdx > 0) {
-        setShowsActiveCard(allCards[activeIdx - 1], true);
-      }
-    });
+      const prevButtons = parent.querySelectorAll('.rail-arrow-left');
+      const nextButtons = parent.querySelectorAll('.rail-arrow-right');
+
+      const isStart = rail.scrollLeft <= 12;
+      const isEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 16;
+
+      prevButtons.forEach(b => {
+        if (isStart) b.classList.add('is-disabled');
+        else b.classList.remove('is-disabled');
+      });
+
+      nextButtons.forEach(b => {
+        if (isEnd) b.classList.add('is-disabled');
+        else b.classList.remove('is-disabled');
+      });
+    };
+
+    rail.addEventListener('scroll', updateArrows, { passive: true });
+    setTimeout(updateArrows, 120);
+    setTimeout(updateArrows, 400);
+  });
+
+  updateContinueWatchingNavArrows();
+}
+
+function updateContinueWatchingNavArrows() {
+  const cwSection = document.getElementById('shows-cw-section');
+  if (!cwSection) return;
+  const cards = Array.from(cwSection.querySelectorAll('.movies-cw-card'));
+  const activeIdx = cards.findIndex(c => c.classList.contains('is-active'));
+
+  const prevBtns = cwSection.querySelectorAll('[data-cw="prev"]');
+  const nextBtns = cwSection.querySelectorAll('[data-cw="next"]');
+
+  prevBtns.forEach(b => {
+    if (activeIdx <= 0) b.classList.add('is-disabled');
+    else b.classList.remove('is-disabled');
+  });
+
+  nextBtns.forEach(b => {
+    if (activeIdx >= cards.length - 1) b.classList.add('is-disabled');
+    else b.classList.remove('is-disabled');
   });
 }
 
-export function setShowsActiveCard(card, smooth = true) {
-  const allCards = document.querySelectorAll('#shows-cw-rail .movies-cw-card');
-  allCards.forEach(c => {
-    c.classList.remove('is-active');
-    c.setAttribute('aria-expanded', 'false');
-  });
+export function setActiveCard(card, smooth = true) {
+  if (!card) return;
+  const overlay = document.getElementById('shows-overlay');
+  if (!overlay) return;
+
+  const currentActive = overlay.querySelector('.movies-cw-card.is-active');
+  if (currentActive === card) return;
+
+  if (currentActive) {
+    currentActive.classList.remove('is-active');
+    currentActive.setAttribute('aria-expanded', 'false');
+  }
 
   card.classList.add('is-active');
   card.setAttribute('aria-expanded', 'true');
 
-  centerShowsCard(card, smooth);
-
-  const showId = card.dataset.showId;
+  const showId = card.dataset.id;
   const showData = SHOWS_CONTINUE_WATCHING.find(s => s.id === showId);
   if (showData) {
-    updateBentoContinueShowsCard(showData);
+    updateBentoContinueShowsCard({
+      title: showData.title,
+      timeLeft: showData.timeLeft,
+      progress: showData.progress,
+      poster: showData.poster,
+      url: showData.streamUrl,
+      providerName: showData.providerName,
+      duration: showData.duration
+    });
   }
+
+  centerCard(card, smooth);
+  updateContinueWatchingNavArrows();
 }
 
-function centerShowsCard(card, smooth = true) {
+function centerCard(card, smooth = true) {
+  if (!card) return;
   const rail = document.getElementById('shows-cw-rail');
-  if (!rail || !card) return;
+  if (!rail) return;
 
-  const allCards = Array.from(rail.querySelectorAll('.movies-cw-card'));
-  const cardIndex = allCards.indexOf(card);
+  const cards = Array.from(rail.querySelectorAll('.movies-cw-card'));
+  const cardIndex = cards.indexOf(card);
 
-  if (cardIndex === 0) {
-    rail.scrollTo({ left: 0, behavior: smooth ? 'smooth' : 'auto' });
-    return;
-  }
+  const performScroll = () => {
+    if (cardIndex === 0) {
+      rail.scrollTo({
+        left: 0,
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+      return;
+    }
 
-  if (cardIndex === allCards.length - 1) {
-    rail.scrollTo({ left: rail.scrollWidth - rail.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
-    return;
-  }
+    if (cardIndex === cards.length - 1) {
+      rail.scrollTo({
+        left: Math.max(0, rail.scrollWidth - rail.clientWidth),
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+      return;
+    }
 
-  const railWidth = rail.clientWidth;
-  const cardLeft = card.offsetLeft;
-  const cardWidth = card.offsetWidth;
+    const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+    const targetScroll = cardCenter - (rail.clientWidth / 2);
 
-  const targetScrollLeft = cardLeft - (railWidth / 2) + (cardWidth / 2);
+    rail.scrollTo({
+      left: Math.max(0, Math.min(rail.scrollWidth - rail.clientWidth, targetScroll)),
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+  };
 
-  rail.scrollTo({
-    left: Math.max(0, targetScrollLeft),
-    behavior: smooth ? 'smooth' : 'auto'
-  });
+  performScroll();
+  setTimeout(performScroll, 120);
+  setTimeout(performScroll, 280);
 }
 
-function attachShowsContinueWatchingEvents() {
+function attachContinueWatchingEvents() {
   const rail = document.getElementById('shows-cw-rail');
   if (!rail) return;
 
   const cards = rail.querySelectorAll('.movies-cw-card');
+  if (!cards.length) return;
+
   cards.forEach(card => {
     card.addEventListener('click', (e) => {
-      const playBtn = e.target.closest('[data-action="play-show"]');
-      if (playBtn) {
-        e.stopPropagation();
-        const url = playBtn.dataset.url;
-        if (url) window.open(url, '_blank', 'noopener,noreferrer');
+      if (e.target.closest('.cw-card-play-btn')) {
         return;
       }
-      setShowsActiveCard(card, true);
+      setActiveCard(card, true);
     });
 
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        setShowsActiveCard(card, true);
+        setActiveCard(card, true);
       }
     });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const overlay = document.getElementById('shows-overlay');
+    if (!overlay || !overlay.classList.contains('active')) return;
+
+    const allCards = Array.from(overlay.querySelectorAll('.movies-cw-card'));
+    const activeIdx = allCards.findIndex(c => c.classList.contains('is-active'));
+
+    if (e.key === 'ArrowRight' && activeIdx < allCards.length - 1) {
+      e.preventDefault();
+      setActiveCard(allCards[activeIdx + 1], true);
+    } else if (e.key === 'ArrowLeft' && activeIdx > 0) {
+      e.preventDefault();
+      setActiveCard(allCards[activeIdx - 1], true);
+    }
   });
 }
 
@@ -781,7 +889,7 @@ export function openShowsView() {
   setTimeout(() => {
     const activeCard = document.querySelector('#shows-cw-rail .movies-cw-card.is-active');
     if (activeCard) {
-      centerShowsCard(activeCard, false);
+      centerCard(activeCard, false);
     }
   }, 80);
 }
@@ -818,7 +926,7 @@ export function updateBentoContinueShowsCard(data) {
     const resumeBtn = document.getElementById('btn-play-show-cw');
 
     if (titleEl && data.title) {
-      titleEl.innerHTML = `${data.title} <span style="font-size:11px; opacity:0.75; font-weight:normal;">(${data.episodeInfo || ''})</span>`;
+      titleEl.innerHTML = `${data.title} <span class="cw-sub-detail">• ${data.duration || ''}</span>`;
     }
     if (timeLeftEl && data.timeLeft) {
       timeLeftEl.textContent = data.timeLeft;
@@ -834,8 +942,8 @@ export function updateBentoContinueShowsCard(data) {
       resumeBtn.title = `Resume ${data.title || 'Show'} on ${data.providerName || 'Streaming'}`;
       resumeBtn.onclick = (e) => {
         e.stopPropagation();
-        if (data.streamUrl) {
-          window.open(data.streamUrl, '_blank', 'noopener,noreferrer');
+        if (data.url || data.streamUrl) {
+          window.open(data.url || data.streamUrl, '_blank', 'noopener,noreferrer');
         }
       };
     }

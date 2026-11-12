@@ -1485,15 +1485,15 @@ html, body {
   margin: 0;
 }
 
-/* Horizontal Expanding Accordion Rail (Zero Scrollbar + No Bottom or Right Cutoff) */
+/* Horizontal Expanding Accordion Rail (Zero Scrollbar + No Top/Bottom/Right Cutoff) */
 .movies-cw-rail {
   display: flex;
   gap: 18px;
   align-items: flex-start;
-  min-height: 415px;
+  min-height: 430px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 16px 60px 20px 4px;
+  padding: 24px 60px 24px 8px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE / Edge */
 }
@@ -2177,7 +2177,7 @@ html, body {
   align-items: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 16px 60px 20px 4px;
+  padding: 24px 60px 24px 8px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -2325,14 +2325,14 @@ html, body {
   letter-spacing: 0.02em;
 }
 
-/* Watchlist Dedicated Rail (No Numbers, Clean Frameless, 16px Top Headroom) */
+/* Watchlist Dedicated Rail (No Numbers, Clean Frameless, 24px Top Headroom) */
 .watchlist-rail {
   display: flex;
   gap: 18px;
   align-items: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 16px 60px 20px 4px;
+  padding: 24px 60px 24px 8px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -3291,28 +3291,8 @@ html, body {
 }
 
 /* ==========================================================================
-   HomeOS - Music Specific Styling (YouTube Music & Square Art)
+   HomeOS - Music Specific Styling (YouTube Music & Theming)
    ========================================================================== */
-.music-square-card .watchlist-poster-wrap,
-.music-square-card .top10-poster-wrap,
-.music-square-card .watchnow-poster-wrap,
-.music-cover-wrap {
-  aspect-ratio: 1 / 1 !important;
-}
-
-.music-square-card .watchlist-poster-img,
-.music-square-card .top10-poster-img,
-.music-square-card .watchnow-poster-img,
-.music-cover-img {
-  aspect-ratio: 1 / 1 !important;
-  object-fit: cover !important;
-}
-
-.music-collapsed-cover {
-  aspect-ratio: 1 / 1 !important;
-  border-radius: 8px !important;
-}
-
 .badge-ytmusic {
   background: rgba(255, 0, 51, 0.16) !important;
   color: #ff3366 !important;
