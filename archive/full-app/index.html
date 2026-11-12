@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="HomeOS - Minimalist entertainment launcher and luxury bento desktop">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HomeOS">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/homeos.svg">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet">
+  <title>HomeOS</title>
+  <link rel="stylesheet" href="style.css?v=9.0">
+</head>
+
+<body>
+  <!-- Full Matte Black Wallpaper Canvas -->
+  <div class="wallpaper-container desktop-background" id="desktop">
+    <div class="matte-texture"></div>
+  </div>
+
+  <!-- Luxury Vertical Navigation Dock (Profile, Movies, Shows, Music) -->
+  <nav class="vertical-dock" id="vertical-dock" role="navigation" aria-label="Main Navigation">
+    <!-- Purple Ambient Atmospheric Glow Bloom behind active item -->
+    <div class="dock-active-bloom" id="dock-active-bloom"></div>
+
+    <!-- Active Neon Magenta Pill Indicator on Left Rim -->
+    <div class="dock-active-pill" id="dock-active-pill"></div>
+
+    <!-- 1. Profile (Selected by default) -->
+    <button class="dock-item active" data-nav="profile" id="nav-profile" title="Profile: Aaron Antony"
+      aria-label="Profile">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8" />
+        <circle cx="12" cy="10" r="2.8" stroke="currentColor" stroke-width="1.8" />
+        <path d="M7 17.5a5.5 5.5 0 0 1 10 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </button>
+
+    <div class="dock-divider"></div>
+
+    <!-- 2. Movies -->
+    <button class="dock-item" data-nav="movie" id="nav-movie" title="Movies" aria-label="Movies">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <rect x="3" y="6" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8" />
+        <path d="M3 11h18M7.5 6l2 5M13.5 6l2 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        <polygon points="10 14 15 16.5 10 19" fill="currentColor" />
+      </svg>
+    </button>
+
+    <!-- 3. Shows -->
+    <button class="dock-item" data-nav="shows" id="nav-shows" title="Shows" aria-label="Shows">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <rect x="3" y="7" width="18" height="13" rx="3" stroke="currentColor" stroke-width="1.8" />
+        <path d="M8.5 3.5l3.5 3.5 3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round" />
+        <circle cx="17" cy="11" r="1" fill="currentColor" />
+        <circle cx="17" cy="15" r="1" fill="currentColor" />
+      </svg>
+    </button>
+
+    <!-- 4. Music -->
+    <button class="dock-item" data-nav="music" id="nav-music" title="Music" aria-label="Music">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <path d="M9 17V5l11-2v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round" />
+        <circle cx="6.5" cy="17.5" r="2.5" stroke="currentColor" stroke-width="1.8" />
+        <circle cx="17.5" cy="15.5" r="2.5" stroke="currentColor" stroke-width="1.8" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Bento Grid Dashboard -->
+  <main class="bento-dashboard" id="bento-dashboard" role="main" aria-label="HomeOS Dashboard">
+
+    <!-- LEFT COLUMN (388px) -->
+    <div class="bento-col bento-col-left">
+
+      <!-- 1. Expanded Profile Card: User Name & 3 Continue Cards (Movie, Show, Music) -->
+      <div class="bento-card card-user-continue" id="card-user-continue">
+        <div class="card-glow glow-emerald"></div>
+        <div class="user-greeting-header">
+          <span class="user-fullname">Aaron Antony</span>
+        </div>
+
+        <div class="continue-items-stack" id="continue-items-stack">
+
+          <!-- 1. Movies: CONTINUE WATCHING -->
+          <div class="cw-card-item cw-movie-item" id="cw-item-movie" title="Resume Movie: Dune: Part Two">
+            <div class="cw-poster-box">
+              <img src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg" alt="Dune: Part Two" class="cw-poster-img" />
+              <div class="cw-poster-glow"></div>
+            </div>
+            <div class="cw-item-info">
+              <div class="cw-item-top">
+                <span class="cw-type-badge badge-movie">CONTINUE WATCHING</span>
+                <span class="cw-time-remaining">1h 14m left</span>
+              </div>
+              <div class="cw-title-row">
+                <span class="cw-item-title">Dune: Part Two</span>
+              </div>
+              <div class="cw-progress-track">
+                <div class="cw-progress-fill fill-movie" style="width: 58%;"></div>
+              </div>
+            </div>
+            <button class="cw-action-btn btn-play-movie" id="btn-play-movie-cw" title="Resume Dune: Part Two" aria-label="Resume Dune: Part Two">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- 2. Shows: CONTINUE BINGING -->
+          <div class="cw-card-item cw-show-item" id="cw-item-show" title="Resume Show: Severance S1:E4">
+            <div class="cw-poster-box">
+              <img src="https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg" alt="Severance" class="cw-poster-img" />
+              <div class="cw-poster-glow"></div>
+            </div>
+            <div class="cw-item-info">
+              <div class="cw-item-top">
+                <span class="cw-type-badge badge-show">CONTINUE BINGING</span>
+                <span class="cw-time-remaining">42m left</span>
+              </div>
+              <div class="cw-title-row">
+                <span class="cw-item-title">Severance <span class="cw-sub-detail">• S1:E4</span></span>
+              </div>
+              <div class="cw-progress-track">
+                <div class="cw-progress-fill fill-show" style="width: 64%;"></div>
+              </div>
+            </div>
+            <button class="cw-action-btn btn-play-show" id="btn-play-show-cw" title="Resume Severance S1:E4" aria-label="Resume Severance S1:E4">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- 3. Music: CONTINUE LISTENING -->
+          <div class="cw-card-item cw-music-item" id="cw-item-music" title="Resume Track: After Hours - The Weeknd">
+            <div class="cw-poster-box">
+              <img src="https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png" alt="After Hours - The Weeknd" class="cw-poster-img" />
+              <div class="cw-poster-glow"></div>
+            </div>
+            <div class="cw-item-info">
+              <div class="cw-item-top">
+                <span class="cw-type-badge badge-music">CONTINUE LISTENING</span>
+                <span class="cw-time-remaining">2:41 left</span>
+              </div>
+              <div class="cw-title-row">
+                <span class="cw-item-title">After Hours <span class="cw-sub-detail">• The Weeknd</span></span>
+              </div>
+              <div class="cw-progress-track">
+                <div class="cw-progress-fill fill-music" style="width: 48%;"></div>
+              </div>
+            </div>
+            <button class="cw-action-btn btn-play-music" id="btn-play-music-cw" title="Resume After Hours" aria-label="Resume After Hours">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 2. Horizontal Medium Card: Weather Card (Day Forecast: 3am, 9am, 3pm, 9pm) -->
+      <div class="bento-card card-weather" id="card-weather">
+        <div class="card-glow glow-cyan"></div>
+        <div class="weather-top-section">
+          <div class="weather-header-row">
+            <div class="weather-location-group">
+              <span class="weather-city-name" id="weather-city">Ejipura</span>
+            </div>
+          </div>
+
+          <div class="weather-main-row">
+            <div class="weather-temp-display">
+              <span class="weather-big-temp" id="weather-temp">27°</span>
+              <span class="weather-range-tag" id="weather-range">H: 28° &nbsp; L: 18°</span>
+            </div>
+            <div class="weather-metrics-pills">
+              <div class="weather-metric aqi-pill" title="Air Quality Index">
+                <span class="metric-icon">🍃</span>
+                <div class="metric-text-group">
+                  <span class="metric-val" id="weather-aqi">AQI 107</span>
+                  <span class="metric-status status-good">Good</span>
+                </div>
+              </div>
+              <div class="weather-metric rain-pill" title="Chances of Rain">
+                <span class="metric-icon">💧</span>
+                <div class="metric-text-group">
+                  <span class="metric-val" id="weather-rain">15%</span>
+                  <span class="metric-status">Rain</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Daily Time Slots: 3 AM, 9 AM, 3 PM, 9 PM -->
+        <div class="weather-day-forecast" id="weather-day-forecast">
+          <div class="forecast-slot-col" id="slot-3am">
+            <span class="slot-time">3 AM</span>
+            <span class="slot-icon" id="slot-icon-3am">🌙</span>
+            <span class="slot-temp" id="slot-temp-3am">18°</span>
+          </div>
+          <div class="forecast-slot-col" id="slot-9am">
+            <span class="slot-time">9 AM</span>
+            <span class="slot-icon" id="slot-icon-9am">🌤️</span>
+            <span class="slot-temp" id="slot-temp-9am">24°</span>
+          </div>
+          <div class="forecast-slot-col" id="slot-3pm">
+            <span class="slot-time">3 PM</span>
+            <span class="slot-icon" id="slot-icon-3pm">☀️</span>
+            <span class="slot-temp" id="slot-temp-3pm">28°</span>
+          </div>
+          <div class="forecast-slot-col" id="slot-9pm">
+            <span class="slot-time">9 PM</span>
+            <span class="slot-icon" id="slot-icon-9pm">🌙</span>
+            <span class="slot-temp" id="slot-temp-9pm">22°</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CENTER COLUMN (336px) -->
+    <div class="bento-col bento-col-center">
+
+      <!-- 3. Horizontal Small Card: Today's Date -->
+      <div class="bento-card card-date" id="card-date">
+        <div class="card-glow glow-white-specular"></div>
+        <div class="date-card-inner">
+          <div class="date-num-box">
+            <span class="date-big-num" id="date-day">11</span>
+          </div>
+          <div class="date-details-stack">
+            <span class="date-weekday" id="date-weekday">Wednesday</span>
+            <span class="date-month-year" id="date-month-year">November 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Split Row: 2 Vertical Small Cards (Time + Music) -->
+      <div class="bento-split-row">
+
+        <!-- 4. Vertical Small Card: Current Time -->
+        <div class="bento-card card-time" id="card-time">
+          <div class="card-glow glow-violet"></div>
+          <div class="time-card-inner">
+            <div class="time-header-tag">
+              <span class="time-pulse-dot"></span>
+              <span class="time-zone-label">IST • BLR</span>
+            </div>
+            <div class="time-clock-display">
+              <span class="time-hours" id="time-hours">03</span>
+              <div class="time-dots" id="time-dots" aria-hidden="true">
+                <span class="h-dot"></span>
+                <span class="h-dot"></span>
+              </div>
+              <span class="time-minutes" id="time-minutes">28</span>
+            </div>
+            <div class="time-footer-row">
+              <span class="time-ampm-pill" id="time-ampm">AM</span>
+              <div class="time-seconds-meter" title="Seconds Ticker">
+                <div class="seconds-bar" id="seconds-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Vertical Small Card: Music Player -->
+        <div class="bento-card card-music" id="card-music">
+          <div class="card-glow glow-amber"></div>
+          <div class="music-card-inner">
+            <div class="music-mini-header">
+              <div class="music-album-art">
+                <div class="disc-glow"></div>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+                  <circle cx="12" cy="12" r="3" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="music-equalizer" id="equalizer">
+                <span class="eq-bar eq-1"></span>
+                <span class="eq-bar eq-2"></span>
+                <span class="eq-bar eq-3"></span>
+                <span class="eq-bar eq-4"></span>
+              </div>
+            </div>
+
+            <div class="music-meta-stack">
+              <span class="music-title" id="music-title">After Hours</span>
+              <span class="music-artist" id="music-artist">The Weeknd</span>
+            </div>
+
+            <div class="music-progress-wrapper" id="music-progress-wrapper" title="Seek Audio">
+              <div class="music-progress-bar">
+                <div class="music-progress-fill" id="music-progress-fill" style="width: 32%;"></div>
+                <div class="music-scrubber" id="music-scrubber" style="left: 32%;"></div>
+              </div>
+            </div>
+
+            <div class="music-controls">
+              <button class="music-btn" id="btn-prev" title="Previous Track" aria-label="Previous Track">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+                  <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" />
+                </svg>
+              </button>
+              <button class="music-btn play-btn" id="btn-play" title="Play Ambient Synth"
+                aria-label="Play Ambient Synth">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" id="play-icon">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </button>
+              <button class="music-btn" id="btn-next" title="Next Track" aria-label="Next Track">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+                  <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN (320px) -->
+    <div class="bento-col bento-col-right">
+
+      <!-- 6. Vertical Large Card: Fresh Drops (Automatic Spotlight) -->
+      <div class="bento-card card-spotlight" id="card-spotlight">
+        <div class="card-glow glow-spotlight" id="spotlight-glow"></div>
+        <div class="spotlight-card-inner">
+
+          <!-- Top Header: Clean Left-Aligned Fresh Drops -->
+          <div class="spotlight-top-bar">
+            <span class="spotlight-header-title">Fresh Drops</span>
+          </div>
+
+          <!-- Poster Stage: Starts right below Fresh Drops, smooth fade into background -->
+          <div class="spotlight-poster-stage" id="spotlight-poster-stage">
+            <img class="spotlight-poster-img" id="spotlight-poster-img" src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg" alt="Dune: Part Two Poster" />
+            <div class="spotlight-poster-fade"></div>
+          </div>
+
+          <!-- Title & Creator Metadata Stage -->
+          <div class="spotlight-title-stage">
+            <h2 class="spotlight-main-title" id="spotlight-main-title">Dune: Part Two</h2>
+            <span class="spotlight-meta-info" id="spotlight-meta-info">Denis Villeneuve • 2024 • Sci-Fi / Adventure</span>
+          </div>
+
+          <!-- Description & Action Stage -->
+          <div class="spotlight-desc-stage">
+            <p class="spotlight-synopsis-text" id="spotlight-synopsis">
+              Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family, endeavoring to prevent a terrible future only he can foresee.
+            </p>
+            <div class="spotlight-action-row">
+              <a href="https://www.hotstar.com/in/movies/dune-part-two/1271318044" target="_blank" rel="noopener noreferrer" class="spotlight-action-btn" id="spotlight-action-btn">
+                <span class="btn-action-label" id="spotlight-btn-label">Stream on JioHotstar</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Movies Experience Overlay (Clean Canvas - Ready to Build Step-by-Step) -->
+  <section class="movies-overlay" id="movies-overlay" aria-label="Movies Catalog"></section>
+
+  <!-- Shows Experience Overlay (Ditto Replica for TV Series) -->
+  <section class="shows-overlay" id="shows-overlay" aria-label="Shows Catalog"></section>
+
+  <!-- Music Experience Overlay (YouTube Music & Audio Library) -->
+  <section class="music-overlay" id="music-overlay" aria-label="Music Catalog"></section>
+
+  <!-- Clean Floating Toast Notification for Interactions -->
+  <div class="homeos-toast" id="homeos-toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="app.js?v=9.0"></script>
+</body>
+
+</html>

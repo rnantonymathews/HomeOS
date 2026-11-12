@@ -130,3 +130,4 @@ export function closeShowsView() {
 export function updateBentoContinueShowsCard(data) {
   // Retained for dashboard compatibility
 }
+

@@ -1,42 +1,42 @@
 /**
- * HomeOS - Clean Music & Audio Services Launcher
- * Instant one-click launcher for premier music streaming platforms.
+ * HomeOS - Clean Movies OTT Launcher
+ * Instant one-click launcher for premier movie streaming platforms.
  * Zero lag, zero network dependencies, 100% reliable.
  */
 
-import { MUSIC_PLATFORMS } from './ottData.js';
+import { MOVIE_PLATFORMS } from './ottData.js';
 
-export function initMusicView() {
-  const overlay = document.getElementById('music-overlay');
+export function initMoviesView() {
+  const overlay = document.getElementById('movies-overlay');
   if (!overlay) return;
 
   overlay.innerHTML = `
     <div class="ott-view-container">
       <!-- Top Supertitle Tag -->
       <div class="movie-block-top">
-        <span class="movie-block-tag">MUSIC & AUDIO SERVICES</span>
+        <span class="movie-block-tag">MOVIES & CINEMA</span>
       </div>
 
-      <!-- Hairline divider with subtle RED / AMBER glow -->
+      <!-- Hairline divider with subtle CYAN / TEAL glow -->
       <div class="movie-block-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line"></div>
-        <div class="movie-block-divider-glow" style="background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.45) 0%, transparent 70%);"></div>
+        <div class="movie-block-divider-glow" style="background: radial-gradient(ellipse at center, rgba(0, 229, 255, 0.45) 0%, transparent 70%);"></div>
       </div>
 
       <!-- Section Header -->
       <div class="ott-view-header">
         <div class="ott-header-left">
-          <h2 class="ott-view-title">Music Streaming Apps</h2>
-          <span class="ott-count-pill">${MUSIC_PLATFORMS.length} Services</span>
+          <h2 class="ott-view-title">Movie Streaming Apps</h2>
+          <span class="ott-count-pill">${MOVIE_PLATFORMS.length} Services</span>
         </div>
         <div class="ott-header-right">
-          <span class="ott-hint-text">Click any service to listen directly</span>
+          <span class="ott-hint-text">Click any service to launch directly</span>
         </div>
       </div>
 
       <!-- Grid of Premium OTT Platform Cards -->
-      <div class="ott-platform-grid" role="region" aria-label="Music Streaming Platforms">
-        ${renderPlatformCards(MUSIC_PLATFORMS)}
+      <div class="ott-platform-grid" role="region" aria-label="Movie Streaming Platforms">
+        ${renderPlatformCards(MOVIE_PLATFORMS)}
       </div>
     </div>
   `;
@@ -87,15 +87,15 @@ function renderPlatformCards(platforms) {
   `).join('');
 }
 
-export function openMusicView() {
-  const overlay = document.getElementById('music-overlay');
-  const moviesOverlay = document.getElementById('movies-overlay');
+export function openMoviesView() {
+  const overlay = document.getElementById('movies-overlay');
   const showsOverlay = document.getElementById('shows-overlay');
+  const musicOverlay = document.getElementById('music-overlay');
   const bento = document.getElementById('bento-dashboard');
   if (!overlay) return;
 
-  if (moviesOverlay) moviesOverlay.classList.remove('active');
   if (showsOverlay) showsOverlay.classList.remove('active');
+  if (musicOverlay) musicOverlay.classList.remove('active');
 
   if (bento) {
     bento.classList.add('view-hidden');
@@ -105,8 +105,8 @@ export function openMusicView() {
   overlay.scrollTop = 0;
 }
 
-export function closeMusicView() {
-  const overlay = document.getElementById('music-overlay');
+export function closeMoviesView() {
+  const overlay = document.getElementById('movies-overlay');
   const bento = document.getElementById('bento-dashboard');
   if (!overlay) return;
 
@@ -127,6 +127,7 @@ export function closeMusicView() {
   }
 }
 
-export function updateBentoContinueMusicCard(data) {
+export function updateBentoContinueWatchingCard(data) {
   // Retained for dashboard compatibility
 }
+
