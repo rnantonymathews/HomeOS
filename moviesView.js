@@ -31,22 +31,10 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow cw-divider-glow"></div>
       </div>
 
-      <!-- Continue Watching Header with < and > Navigation -->
+      <!-- Continue Watching Header -->
       <div class="movies-cw-header">
         <div class="movies-cw-header-left">
           <h2 class="movies-cw-title">Continue Watching</h2>
-        </div>
-        <div class="section-nav-arrows">
-          <button type="button" class="rail-nav-btn rail-nav-prev" data-cw="prev" aria-label="Previous movie" title="Previous movie">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button type="button" class="rail-nav-btn rail-nav-next" data-cw="next" aria-label="Next movie" title="Next movie">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -76,23 +64,11 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow watchlist-divider-glow"></div>
       </div>
 
-      <!-- Section Title: Watchlist with count badge & < and > Navigation -->
+      <!-- Section Title: Watchlist with count badge -->
       <div class="movies-section-header">
         <div class="watchlist-header-left">
           <h2 class="movies-section-title">Watchlist</h2>
           <span class="watchlist-count-pill" id="watchlist-count-pill">${WATCHLIST_MOVIES.length} Saved</span>
-        </div>
-        <div class="section-nav-arrows">
-          <button type="button" class="rail-nav-btn rail-nav-prev" data-target="movies-watchlist-rail" aria-label="Scroll left" title="Scroll left">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button type="button" class="rail-nav-btn rail-nav-next" data-target="movies-watchlist-rail" aria-label="Scroll right" title="Scroll right">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -122,22 +98,10 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow netflix-divider-glow"></div>
       </div>
 
-      <!-- Section Title: Netflix & < and > Navigation -->
+      <!-- Section Title: Netflix -->
       <div class="movies-section-header">
         <div class="netflix-header-left">
           <h2 class="movies-section-title">Netflix</h2>
-        </div>
-        <div class="section-nav-arrows">
-          <button type="button" class="rail-nav-btn rail-nav-prev" data-target="movies-netflix-rail" aria-label="Scroll left" title="Scroll left">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button type="button" class="rail-nav-btn rail-nav-next" data-target="movies-netflix-rail" aria-label="Scroll right" title="Scroll right">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -167,22 +131,10 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow prime-divider-glow"></div>
       </div>
 
-      <!-- Section Title: Prime Video & < and > Navigation -->
+      <!-- Section Title: Prime Video -->
       <div class="movies-section-header">
         <div class="prime-header-left">
           <h2 class="movies-section-title">Prime Video</h2>
-        </div>
-        <div class="section-nav-arrows">
-          <button type="button" class="rail-nav-btn rail-nav-prev" data-target="movies-prime-rail" aria-label="Scroll left" title="Scroll left">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button type="button" class="rail-nav-btn rail-nav-next" data-target="movies-prime-rail" aria-label="Scroll right" title="Scroll right">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -212,22 +164,10 @@ export function initMoviesView() {
         <div class="movie-block-divider-glow hotstar-divider-glow"></div>
       </div>
 
-      <!-- Section Title: Hotstar & < and > Navigation -->
+      <!-- Section Title: Hotstar -->
       <div class="movies-section-header">
         <div class="hotstar-header-left">
           <h2 class="movies-section-title">Hotstar</h2>
-        </div>
-        <div class="section-nav-arrows">
-          <button type="button" class="rail-nav-btn rail-nav-prev" data-target="movies-hotstar-rail" aria-label="Scroll left" title="Scroll left">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button type="button" class="rail-nav-btn rail-nav-next" data-target="movies-hotstar-rail" aria-label="Scroll right" title="Scroll right">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -469,8 +409,8 @@ function attachWatchlistEvents() {
 }
 
 function attachRailNavigationEvents() {
-  // 1. Click handlers for header buttons (.rail-nav-btn) and floating edge buttons (.rail-arrow-float)
-  document.querySelectorAll('.rail-nav-btn, .rail-arrow-float').forEach(btn => {
+  // 1. Click handlers for floating edge buttons (.rail-arrow-float)
+  document.querySelectorAll('.rail-arrow-float').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -512,8 +452,8 @@ function attachRailNavigationEvents() {
       const parent = rail.closest('.movies-platform-section');
       if (!parent) return;
 
-      const prevButtons = parent.querySelectorAll('.rail-nav-prev, .rail-arrow-left');
-      const nextButtons = parent.querySelectorAll('.rail-nav-next, .rail-arrow-right');
+      const prevButtons = parent.querySelectorAll('.rail-arrow-left');
+      const nextButtons = parent.querySelectorAll('.rail-arrow-right');
 
       const isStart = rail.scrollLeft <= 12;
       const isEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 16;

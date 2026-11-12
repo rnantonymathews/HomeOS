@@ -2012,45 +2012,6 @@ html, body {
   margin: 0;
 }
 
-/* Section Header Navigation Arrows (< and >) */
-.section-nav-arrows {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.rail-nav-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #FFFFFF;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.rail-nav-btn:hover:not(.is-disabled) {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: scale(1.08);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
-}
-
-.rail-nav-btn:active:not(.is-disabled) {
-  transform: scale(0.94);
-}
-
-.rail-nav-btn.is-disabled {
-  opacity: 0.25;
-  cursor: default;
-  pointer-events: none;
-}
-
 /* Floating Rail Arrows (< and > on Rail Edges) */
 .rail-scroll-wrapper {
   position: relative;
