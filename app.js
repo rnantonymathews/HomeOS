@@ -5,6 +5,7 @@
 import { initMoviesView, openMoviesView, closeMoviesView, updateBentoContinueWatchingCard } from './moviesView.js';
 import { initShowsView, openShowsView, closeShowsView, updateBentoContinueShowsCard } from './showsView.js';
 import { initMusicView, openMusicView, closeMusicView, updateBentoContinueMusicCard } from './musicView.js';
+import { initMusicPlayer as initInAppMusicPlayer } from './musicPlayer.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initServiceWorker();
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initClockAndDate();
   initWeatherLive();
   initMusicPlayer();
+  initInAppMusicPlayer();
   initSpotlightCard();
   initContinueWatching();
   initVerticalDock();

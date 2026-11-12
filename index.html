@@ -18,7 +18,7 @@
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
     rel="stylesheet">
   <title>HomeOS</title>
-  <link rel="stylesheet" href="style.css?v=8.1">
+  <link rel="stylesheet" href="style.css?v=8.2">
 </head>
 
 <body>
@@ -390,7 +390,59 @@
   <!-- Clean Floating Toast Notification for Interactions -->
   <div class="homeos-toast" id="homeos-toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="app.js?v=8.1"></script>
+  <!-- In-App Floating YouTube Music Player (Plays inside HomeOS) -->
+  <aside class="homeos-music-player is-hidden" id="homeos-music-player" aria-label="HomeOS Music Player">
+    <!-- Top Header Bar -->
+    <div class="player-header">
+      <div class="player-track-info">
+        <img class="player-track-cover" id="player-track-cover" src="./assets/icons/music.svg" alt="Track Artwork" />
+        <div class="player-text-wrap">
+          <h4 class="player-track-title" id="player-track-title">Playing Track</h4>
+          <span class="player-track-artist" id="player-track-artist">YouTube Music</span>
+        </div>
+      </div>
+      <div class="player-equalizer-bars" aria-hidden="true">
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+      </div>
+      <div class="player-actions">
+        <a class="player-action-btn player-popout-btn" id="player-ytmusic-link" href="https://music.youtube.com" target="_blank" rel="noopener noreferrer" title="Open in YouTube Music web">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+        <button type="button" class="player-action-btn player-min-btn" id="player-minimize-btn" title="Minimize / Expand Player">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+          </svg>
+        </button>
+        <button type="button" class="player-action-btn player-close-btn" id="player-close-btn" title="Close and Stop Music">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Embedded YouTube Player Body -->
+    <div class="player-body">
+      <iframe 
+        id="homeos-player-iframe" 
+        src="" 
+        title="YouTube Music Playback" 
+        allow="autoplay; encrypted-media; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </aside>
+
+  <script type="module" src="app.js?v=8.2"></script>
 </body>
 
 </html>

@@ -12,6 +12,10 @@ import {
   LISTEN_NOW_MUSIC_LIBRARY
 } from './musicData.js';
 
+let currentMusicTop10 = [...YOUTUBE_MUSIC_TOP_10];
+let currentMusicLibrary = [...LISTEN_NOW_MUSIC_LIBRARY];
+let activeMusicCategoryFilter = null;
+
 export function initMusicView() {
   const overlay = document.getElementById('music-overlay');
   if (!overlay) return;
@@ -109,7 +113,7 @@ export function initMusicView() {
           </svg>
         </button>
         <div class="platform-top10-rail netflix-top10-rail" id="music-ytmusic-rail" role="region" aria-label="Top 10 Tracks on YouTube Music">
-          ${renderPlatformTop10Rail(YOUTUBE_MUSIC_TOP_10, 'ytmusic', 'YouTube Music')}
+          ${renderPlatformTop10Rail(currentMusicTop10, 'ytmusic', 'YouTube Music')}
         </div>
         <button type="button" class="rail-arrow-float rail-arrow-right" data-target="music-ytmusic-rail" aria-label="Scroll right" title="Scroll right">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -129,7 +133,7 @@ export function initMusicView() {
       <div class="movies-section-header watchnow-section-header">
         <div class="watchnow-header-left">
           <h2 class="movies-section-title">Listen Now</h2>
-          <span class="watchnow-status-pill" id="music-watchnow-status-pill">Library • ${LISTEN_NOW_MUSIC_LIBRARY.length} Tracks & Albums</span>
+          <span class="watchnow-status-pill" id="music-watchnow-status-pill">Library • ${currentMusicLibrary.length} Tracks & Albums</span>
         </div>
         <div class="watchnow-header-actions" id="music-watchnow-header-actions" style="display: none;">
           <button type="button" class="watchnow-clear-btn" id="music-watchnow-clear-btn" title="Reset filter to view all music">
@@ -158,6 +162,16 @@ export function initMusicView() {
   attachRailNavigationEvents();
   attachCategoryEvents();
   attachWatchNowEvents();
+  attachInAppMusicPlayerEvents();
+  loadLiveMusicContent();
+
+  setTimeout(() => {
+    const activeCard = document.querySelector('#music-cw-rail .movies-cw-card.is-active');
+    if (activeCard) {
+      centerCard(activeCard, false);
+    }
+  }, 100);
+}
 
   setTimeout(() => {
     const activeCard = document.querySelector('#music-cw-rail .movies-cw-card.is-active');
@@ -360,7 +374,7 @@ function renderCategoryCards(categories) {
 
 function renderWatchNowLibrary(categoryFilter = null) {
   if (!categoryFilter) {
-    return LISTEN_NOW_MUSIC_LIBRARY.map(track => renderWatchNowCard(track, false)).join('');
+    return currentMusicLibrary.map(track => renderWatchNowCard(track, false)).join('');
   }
 
   const normalize = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -371,7 +385,7 @@ function renderWatchNowLibrary(categoryFilter = null) {
   const matched = [];
   const others = [];
 
-  LISTEN_NOW_MUSIC_LIBRARY.forEach(track => {
+  currentMusicLibrary.forEach(track => {
     let isMatch = false;
     if (isLanguage) {
       const trackLang = (track.language || '').toLowerCase();
@@ -560,6 +574,105 @@ function attachWatchNowEvents() {
       e.preventDefault();
       filterWatchNow(null);
     });
+  }
+}
+
+function playTrackInApp(track) {
+  if (window.playHomeOSMusic) {
+    window.playHomeOSMusic(track);
+  } else if (track.streamUrl) {
+    window.open(track.streamUrl, '_blank', 'noopener,noreferrer');
+  }
+}
+
+function attachInAppMusicPlayerEvents() {
+  const overlay = document.getElementById('music-overlay');
+  if (!overlay) return;
+
+  overlay.addEventListener('click', (e) => {
+    // 1. Continue Listening play button
+    const cwPlay = e.target.closest('.cw-card-play-btn');
+    if (cwPlay) {
+      e.preventDefault();
+      e.stopPropagation();
+      const card = cwPlay.closest('.movies-cw-card');
+      const trackId = card?.dataset.id;
+      const track = MUSIC_CONTINUE_LISTENING.find(t => t.id === trackId);
+      if (track) playTrackInApp(track);
+      return;
+    }
+
+    // 2. Watchlist / Listenlist play button
+    const wlPlay = e.target.closest('.wl-play-btn');
+    if (wlPlay) {
+      e.preventDefault();
+      e.stopPropagation();
+      const card = wlPlay.closest('.watchlist-card');
+      const trackId = card?.dataset.id;
+      const track = MUSIC_LISTENLIST.find(t => t.id === trackId);
+      if (track) playTrackInApp(track);
+      return;
+    }
+
+    // 3. YouTube Music Top 10 items
+    const top10Item = e.target.closest('.platform-item-ytmusic');
+    if (top10Item) {
+      e.preventDefault();
+      e.stopPropagation();
+      const title = top10Item.querySelector('.platform-card-title')?.textContent?.trim();
+      const track = currentMusicTop10.find(t => t.title === title) || {
+        title: title || 'YouTube Music Hit',
+        artist: 'Top Chart India',
+        poster: top10Item.querySelector('.platform-poster-img')?.src,
+        streamUrl: top10Item.getAttribute('href')
+      };
+      playTrackInApp(track);
+      return;
+    }
+
+    // 4. Listen Now Library stream button or card click
+    const streamBtn = e.target.closest('.watchnow-stream-btn') || e.target.closest('.watchnow-card');
+    if (streamBtn) {
+      const card = streamBtn.closest('.watchnow-card');
+      const trackId = card?.dataset.id;
+      const track = currentMusicLibrary.find(t => t.id === trackId);
+      if (track) {
+        e.preventDefault();
+        e.stopPropagation();
+        playTrackInApp(track);
+      }
+    }
+  });
+}
+
+async function loadLiveMusicContent() {
+  try {
+    const res = await fetch('/api/content');
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.music) {
+        if (data.music.top10 && data.music.top10.length > 0) {
+          currentMusicTop10 = data.music.top10;
+          const rail = document.getElementById('music-ytmusic-rail');
+          if (rail) {
+            rail.innerHTML = renderPlatformTop10Rail(currentMusicTop10, 'ytmusic', 'YouTube Music');
+          }
+        }
+        if (data.music.library && data.music.library.length > 0) {
+          currentMusicLibrary = data.music.library;
+          const grid = document.getElementById('music-watchnow-grid');
+          if (grid && !activeMusicCategoryFilter) {
+            grid.innerHTML = renderWatchNowLibrary(null);
+          }
+          const pill = document.getElementById('music-watchnow-status-pill');
+          if (pill) {
+            pill.textContent = `Library • ${currentMusicLibrary.length} Tracks & Albums`;
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.log('[HomeOS] Using bundled YouTube Music dataset');
   }
 }
 

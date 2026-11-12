@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const contentService = require('./contentService');
 
 const PORT = process.env.PORT || 8085;
 const BASE_DIR = __dirname;
@@ -18,13 +19,55 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon'
 };
 
-const server = http.createServer((req, res) => {
-  let reqPath = decodeURI(req.url.split('?')[0]);
-  if (reqPath === '/' || reqPath === '') {
-    reqPath = '/index.html';
+const server = http.createServer(async (req, res) => {
+  const urlParts = req.url.split('?');
+  const reqPath = decodeURI(urlParts[0]);
+
+  // Handle API Endpoints
+  if (reqPath.startsWith('/api/')) {
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+
+    if (reqPath === '/api/content' || reqPath === '/api/content/all') {
+      try {
+        const force = urlParts[1] && urlParts[1].includes('refresh=true');
+        const catalog = await contentService.getFullCatalog(force);
+        res.writeHead(200);
+        res.end(JSON.stringify(catalog));
+      } catch (err) {
+        res.writeHead(500);
+        res.end(JSON.stringify({ error: err.message }));
+      }
+      return;
+    }
+
+    if (reqPath === '/api/content/refresh') {
+      try {
+        const catalog = await contentService.getFullCatalog(true);
+        res.writeHead(200);
+        res.end(JSON.stringify({ success: true, catalog }));
+      } catch (err) {
+        res.writeHead(500);
+        res.end(JSON.stringify({ error: err.message }));
+      }
+      return;
+    }
+
+    res.writeHead(404);
+    res.end(JSON.stringify({ error: 'Endpoint not found' }));
+    return;
   }
 
-  const filePath = path.join(BASE_DIR, reqPath);
+  // Handle Static File Serving
+  let filePath = path.join(BASE_DIR, reqPath === '/' || reqPath === '' ? '/index.html' : reqPath);
 
   // Security check: ensure path stays within base directory
   if (!filePath.startsWith(BASE_DIR)) {

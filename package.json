@@ -14,5 +14,8 @@
     "launcher"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "youtubei.js": "^18.3.0"
+  }
 }
