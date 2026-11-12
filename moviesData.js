@@ -547,7 +547,6 @@ export const HOTSTAR_TOP_10 = [
 
 export const WATCHLIST_MOVIES = [
   {
-    rank: 1,
     id: 'watchlist-inception',
     title: 'Inception',
     year: 2010,
@@ -556,11 +555,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Action', 'Sci-Fi'],
     language: 'English',
     providerName: 'JioHotstar',
+    providerBadgeClass: 'badge-hotstar',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=Inception',
     poster: 'assets/posters/inception.jpg'
   },
   {
-    rank: 2,
     id: 'watchlist-interstellar',
     title: 'Interstellar',
     year: 2014,
@@ -569,11 +568,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Sci-Fi', 'Drama'],
     language: 'English',
     providerName: 'Prime Video',
+    providerBadgeClass: 'badge-prime',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Interstellar',
     poster: 'assets/posters/interstellar.jpg'
   },
   {
-    rank: 3,
     id: 'watchlist-dark-knight',
     title: 'The Dark Knight',
     year: 2008,
@@ -582,11 +581,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Action', 'Crime'],
     language: 'English',
     providerName: 'JioHotstar',
+    providerBadgeClass: 'badge-hotstar',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=The%20Dark%20Knight',
     poster: 'assets/posters/the-dark-knight.jpg'
   },
   {
-    rank: 4,
     id: 'watchlist-dune-2',
     title: 'Dune: Part Two',
     year: 2024,
@@ -595,11 +594,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Sci-Fi', 'Adventure'],
     language: 'English',
     providerName: 'JioHotstar',
+    providerBadgeClass: 'badge-hotstar',
     streamUrl: 'https://www.hotstar.com/in/movies/dune-part-two/1271318044',
     poster: 'assets/posters/dune-2.jpg'
   },
   {
-    rank: 5,
     id: 'watchlist-spider-verse',
     title: 'Spider-Man: Across the Spider-Verse',
     year: 2023,
@@ -608,11 +607,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Animation', 'Action'],
     language: 'English',
     providerName: 'Netflix',
+    providerBadgeClass: 'badge-netflix',
     streamUrl: 'https://www.netflix.com/search?q=Spider-Man%20Across%20the%20Spider-Verse',
     poster: 'assets/posters/spider-man-spider-verse.jpg'
   },
   {
-    rank: 6,
     id: 'watchlist-parasite',
     title: 'Parasite',
     year: 2019,
@@ -621,11 +620,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Comedy', 'Thriller'],
     language: 'Korean',
     providerName: 'Prime Video',
+    providerBadgeClass: 'badge-prime',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Parasite',
     poster: 'assets/posters/parasite.jpg'
   },
   {
-    rank: 7,
     id: 'watchlist-whiplash',
     title: 'Whiplash',
     year: 2014,
@@ -634,11 +633,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Drama', 'Music'],
     language: 'English',
     providerName: 'Prime Video',
+    providerBadgeClass: 'badge-prime',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Whiplash',
     poster: 'assets/posters/whiplash.jpg'
   },
   {
-    rank: 8,
     id: 'watchlist-fight-club',
     title: 'Fight Club',
     year: 1999,
@@ -647,11 +646,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Drama', 'Thriller'],
     language: 'English',
     providerName: 'Prime Video',
+    providerBadgeClass: 'badge-prime',
     streamUrl: 'https://www.primevideo.com/search/ref=atv_nb_sr?phrase=Fight%20Club',
     poster: 'assets/posters/fight-club.jpg'
   },
   {
-    rank: 9,
     id: 'watchlist-matrix',
     title: 'The Matrix',
     year: 1999,
@@ -660,11 +659,11 @@ export const WATCHLIST_MOVIES = [
     genres: ['Action', 'Sci-Fi'],
     language: 'English',
     providerName: 'JioHotstar',
+    providerBadgeClass: 'badge-hotstar',
     streamUrl: 'https://www.hotstar.com/in/explore?search_query=The%20Matrix',
     poster: 'assets/posters/the-matrix.jpg'
   },
   {
-    rank: 10,
     id: 'watchlist-rrr',
     title: 'RRR',
     year: 2022,
@@ -673,6 +672,7 @@ export const WATCHLIST_MOVIES = [
     genres: ['Action', 'Drama'],
     language: 'Telugu',
     providerName: 'Netflix',
+    providerBadgeClass: 'badge-netflix',
     streamUrl: 'https://www.netflix.com/search?q=RRR',
     poster: 'assets/posters/rrr.jpg'
   }

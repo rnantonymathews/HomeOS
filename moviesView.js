@@ -44,7 +44,29 @@ export function initMoviesView() {
       </div>
     </div>
 
-    <!-- 2. Netflix Section with Hairline Divider, Downward RED Glow, and "Netflix" Title (No Logo) -->
+    <!-- 2. Watchlist Priority Section (Golden Amber Glow, Clean Artwork, Quick Actions) -->
+    <div class="movies-platform-section movies-watchlist-section" id="movies-watchlist-section">
+      <!-- Hairline divider with downward GOLDEN AMBER glow -->
+      <div class="movie-block-divider-wrap watchlist-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line watchlist-divider-line"></div>
+        <div class="movie-block-divider-glow watchlist-divider-glow"></div>
+      </div>
+
+      <!-- Section Title: Watchlist with count badge -->
+      <div class="movies-section-header">
+        <div class="watchlist-header-left">
+          <h2 class="movies-section-title">Watchlist</h2>
+          <span class="watchlist-count-pill" id="watchlist-count-pill">${WATCHLIST_MOVIES.length} Saved</span>
+        </div>
+      </div>
+
+      <!-- Watchlist Rail (No oversized rank numbers; frosted provider pill + hover play/remove) -->
+      <div class="watchlist-rail" id="movies-watchlist-rail" role="region" aria-label="My Saved Watchlist">
+        ${renderWatchlistCards(WATCHLIST_MOVIES)}
+      </div>
+    </div>
+
+    <!-- 3. Netflix Section with Hairline Divider, Downward RED Glow, and "Netflix" Title (No Logo) -->
     <div class="movies-platform-section movies-netflix-section" id="movies-netflix-section">
       <!-- Hairline divider with downward RED glow -->
       <div class="movie-block-divider-wrap netflix-divider-wrap" aria-hidden="true">
@@ -65,7 +87,7 @@ export function initMoviesView() {
       </div>
     </div>
 
-    <!-- 3. Prime Video Section with Hairline Divider, Downward BLUE Glow, and "Prime Video" Title (No Logo) -->
+    <!-- 4. Prime Video Section with Hairline Divider, Downward BLUE Glow, and "Prime Video" Title (No Logo) -->
     <div class="movies-platform-section movies-prime-section" id="movies-prime-section">
       <!-- Hairline divider with downward BLUE glow -->
       <div class="movie-block-divider-wrap prime-divider-wrap" aria-hidden="true">
@@ -86,7 +108,7 @@ export function initMoviesView() {
       </div>
     </div>
 
-    <!-- 4. Hotstar Section with Hairline Divider, Downward PURPLE Glow, and "Hotstar" Title (No Logo) -->
+    <!-- 5. Hotstar Section with Hairline Divider, Downward PURPLE Glow, and "Hotstar" Title (No Logo) -->
     <div class="movies-platform-section movies-hotstar-section" id="movies-hotstar-section">
       <!-- Hairline divider with downward PURPLE glow -->
       <div class="movie-block-divider-wrap hotstar-divider-wrap" aria-hidden="true">
@@ -106,30 +128,10 @@ export function initMoviesView() {
         ${renderPlatformTop10Rail(HOTSTAR_TOP_10, 'hotstar', 'Hotstar')}
       </div>
     </div>
-
-    <!-- 5. Watchlist Section with Hairline Divider, Downward EMERALD Glow, and "Watchlist" Title (No Logo) -->
-    <div class="movies-platform-section movies-watchlist-section" id="movies-watchlist-section">
-      <!-- Hairline divider with downward EMERALD glow -->
-      <div class="movie-block-divider-wrap watchlist-divider-wrap" aria-hidden="true">
-        <div class="movie-block-divider-line watchlist-divider-line"></div>
-        <div class="movie-block-divider-glow watchlist-divider-glow"></div>
-      </div>
-
-      <!-- Section Title: Watchlist (no logo) -->
-      <div class="movies-section-header">
-        <div class="watchlist-header-left">
-          <h2 class="movies-section-title">Watchlist</h2>
-        </div>
-      </div>
-
-      <!-- Watchlist Movies Rail (Iconic Oversized Rank Numerals) -->
-      <div class="platform-top10-rail watchlist-top10-rail" id="movies-watchlist-rail" role="region" aria-label="My Watchlist Movies">
-        ${renderPlatformTop10Rail(WATCHLIST_MOVIES, 'watchlist', 'Watchlist')}
-      </div>
-    </div>
   `;
 
   attachContinueWatchingEvents();
+  attachWatchlistEvents();
 
   // Initial position: 1st card stays naturally at the start
   setTimeout(() => {
@@ -217,15 +219,8 @@ function renderContinueWatchingCards(movies) {
 function renderPlatformTop10Rail(movies, platformKey, platformName) {
   const cardsHtml = movies.map((movie) => {
     const isTen = movie.rank === 10;
-    const rankSub = platformKey === 'watchlist'
-      ? `#${movie.rank} in Watchlist`
-      : `#${movie.rank} in Movies Today`;
-    const watchTitle = platformKey === 'watchlist'
-      ? `Watch #${movie.rank} ${movie.title} (${movie.providerName || 'Streaming'})`
-      : `Watch #${movie.rank} ${movie.title} on ${platformName}`;
-
     return `
-      <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="platform-top10-item platform-item-${platformKey}" title="${watchTitle}">
+      <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="platform-top10-item platform-item-${platformKey}" title="Watch #${movie.rank} ${movie.title} on ${platformName}">
         <!-- Iconic Stylized Rank Numeral -->
         <div class="platform-rank-wrap ${isTen ? 'is-ten' : ''}">
           <span class="platform-rank-num ${isTen ? 'platform-rank-ten' : ''}">${movie.rank}</span>
@@ -243,12 +238,11 @@ function renderPlatformTop10Rail(movies, platformKey, platformName) {
           <div class="platform-card-scrim"></div>
 
           <div class="platform-card-info">
-            <span class="platform-card-rank-sub rank-sub-${platformKey}">${rankSub}</span>
             <span class="platform-card-title">${movie.title}</span>
             <div class="platform-card-meta">
               <span>${movie.year}</span>
               <span class="meta-dot">•</span>
-              <span>${movie.providerName || movie.language}</span>
+              <span>${movie.language}</span>
               <span class="meta-dot">•</span>
               <span class="platform-rating">★ ${movie.rating}</span>
             </div>
@@ -259,6 +253,99 @@ function renderPlatformTop10Rail(movies, platformKey, platformName) {
   }).join('');
 
   return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
+}
+
+function renderWatchlistCards(movies) {
+  if (!movies || !movies.length) {
+    return `<div class="watchlist-empty-state"><p>Your watchlist is currently empty.</p></div>`;
+  }
+
+  const cardsHtml = movies.map((movie) => {
+    return `
+      <div class="watchlist-card" data-id="${movie.id}" id="wl-card-${movie.id}">
+        <!-- High-Res Movie Poster -->
+        <img 
+          class="wl-card-poster" 
+          src="${movie.poster}" 
+          alt="${movie.title} Poster" 
+          loading="lazy"
+          onerror="this.onerror=null; this.src='assets/posters/dune-2.jpg';" 
+        />
+        <div class="wl-card-scrim"></div>
+
+        <!-- Top Badges: Streaming Provider Pill & Bookmark Pin -->
+        <div class="wl-card-top-row">
+          <span class="wl-provider-pill ${movie.providerBadgeClass || 'badge-prime'}">${movie.providerName}</span>
+          <div class="wl-bookmark-badge" title="Saved to Watchlist" aria-label="Saved to Watchlist">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Hover Action Overlay (Stream Link + Quick Remove Button) -->
+        <div class="wl-hover-overlay">
+          <a href="${movie.streamUrl}" target="_blank" rel="noopener noreferrer" class="wl-play-btn" title="Stream ${movie.title} on ${movie.providerName}">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>Stream</span>
+          </a>
+          <button type="button" class="wl-remove-btn" data-id="${movie.id}" title="Remove from Watchlist" aria-label="Remove ${movie.title} from Watchlist">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span>Remove</span>
+          </button>
+        </div>
+
+        <!-- Bottom Metadata Info -->
+        <div class="wl-card-info">
+          <span class="wl-card-title">${movie.title}</span>
+          <div class="wl-card-meta">
+            <span>${movie.year}</span>
+            <span class="meta-dot">•</span>
+            <span>${movie.duration}</span>
+            <span class="meta-dot">•</span>
+            <span class="wl-rating">★ ${movie.rating}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
+}
+
+function attachWatchlistEvents() {
+  const rail = document.getElementById('movies-watchlist-rail');
+  if (!rail) return;
+
+  rail.addEventListener('click', (e) => {
+    const removeBtn = e.target.closest('.wl-remove-btn');
+    if (removeBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const movieId = removeBtn.dataset.id;
+      const card = document.getElementById(`wl-card-${movieId}`);
+      if (card) {
+        card.classList.add('is-removing');
+        setTimeout(() => {
+          card.remove();
+          // Update count badge
+          const remaining = rail.querySelectorAll('.watchlist-card').length;
+          const countPill = document.getElementById('watchlist-count-pill');
+          if (countPill) {
+            countPill.textContent = `${remaining} Saved`;
+          }
+          if (remaining === 0) {
+            rail.innerHTML = `<div class="watchlist-empty-state"><p>Your watchlist is currently empty.</p></div>`;
+          }
+        }, 280);
+      }
+    }
+  });
 }
 
 export function setActiveCard(card, smooth = true) {
