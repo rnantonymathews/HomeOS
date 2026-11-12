@@ -1052,3 +1052,114 @@ export const MOVIES_CATALOG = [
   }
 ];
 
+export const MOVIE_CATEGORIES = [
+  {
+    id: 'action',
+    name: 'Action',
+    subtitle: 'High Octane & Stunts',
+    count: '148 Titles',
+    color: '#ef4444',
+    rgb: '239, 68, 68',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="22" r="18" /><path d="M9.5 18h25v3c0 3.5-3 6-6.5 6s-5.5-2.5-6-6h-0c-0.5 3.5-2.5 6-6 6s-6.5-2.5-6.5-6v-3z" /><line x1="20" y1="18" x2="24" y2="18" /><line x1="9.5" y1="19" x2="5" y2="17" /><line x1="34.5" y1="19" x2="39" y2="17" /><path d="M16 30c2 2 4.5 3 6 3s4-1 6-3" /></svg>`
+  },
+  {
+    id: 'scifi',
+    name: 'Sci-Fi',
+    subtitle: 'Cosmic & AI Worlds',
+    count: '112 Titles',
+    color: '#06b6d4',
+    rgb: '6, 182, 212',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4C13 4 6 12 6 22c0 8.5 7.5 18 16 18s16-9.5 16-18c0-10-7-18-16-18z" /><ellipse cx="14.5" cy="21" rx="4.5" ry="7" transform="rotate(-20 14.5 21)" /><ellipse cx="29.5" cy="21" rx="4.5" ry="7" transform="rotate(20 29.5 21)" /><circle cx="20.5" cy="31" r="0.75" fill="currentColor" /><circle cx="23.5" cy="31" r="0.75" fill="currentColor" /><path d="M19 34.5c1.5 1 4.5 1 6 0" /></svg>`
+  },
+  {
+    id: 'comedy',
+    name: 'Comedy',
+    subtitle: 'Laughs & Good Vibes',
+    count: '135 Titles',
+    color: '#f59e0b',
+    rgb: '245, 158, 11',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="22" r="18" /><path d="M12.5 18c2-2.5 5.5-2.5 7.5 0" /><path d="M24 18c2-2.5 5.5-2.5 7.5 0" /><path d="M13 25c2 6.5 6 9 9 9s7-2.5 9-9H13z" /><line x1="13" y1="25" x2="31" y2="25" /><path d="M8.5 19.5c-2.5-1-3.5-3.5-2-5.5 1.8-1 3.8 1.5 2 5.5z" /><path d="M35.5 19.5c2.5-1 3.5-3.5 2-5.5-1.8-1-3.8 1.5-2 5.5z" /></svg>`
+  },
+  {
+    id: 'horror',
+    name: 'Horror',
+    subtitle: 'Chills & Paranormal',
+    count: '84 Titles',
+    color: '#a855f7',
+    rgb: '168, 85, 247',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 5C13 5 8 13 8 23c0 8 3 14 6 15 2 0.5 4-1 8-1s6 1.5 8 1c3-1 6-7 6-15C36 13 31 5 22 5z" /><ellipse cx="15.5" cy="18" rx="3" ry="5" /><ellipse cx="28.5" cy="18" rx="3" ry="5" /><ellipse cx="22" cy="29" rx="4.5" ry="6.5" /><path d="M6 24c2.5-2 4.5-0.5 4.5 3s-1 6-3.5 6" /><path d="M38 24c-2.5-2-4.5-0.5-4.5 3s1 6 3.5 6" /></svg>`
+  },
+  {
+    id: 'romance',
+    name: 'Romance',
+    subtitle: 'Love & Heartbreak',
+    count: '96 Titles',
+    color: '#ec4899',
+    rgb: '236, 72, 153',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="22" r="18" /><path d="M15 14c-2-2.5-5-1.5-5 1.5 0 3.5 5 7.5 5 7.5s5-4 5-7.5c0-3-3-4-5-1.5z" /><path d="M29 14c-2-2.5-5-1.5-5 1.5 0 3.5 5 7.5 5 7.5s5-4 5-7.5c0-3-3-4-5-1.5z" /><path d="M15 28.5c2 3 4.5 4 7 4s5-1 7-4" /></svg>`
+  },
+  {
+    id: 'thriller',
+    name: 'Thriller',
+    subtitle: 'Suspense & Twists',
+    count: '124 Titles',
+    color: '#eab308',
+    rgb: '234, 179, 8',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16c4-1 10-1.5 15-1.5s11 0.5 15 1.5" /><path d="M12 15.5l3-10c1-2 4-2.5 7-2.5s6 0.5 7 2.5l3 10" /><path d="M18.5 5.5c2 1.5 5 1.5 7 0" /><path d="M11 17v7c0 6.5 5 12 11 12s11-5.5 11-12v-7" /><rect x="13.5" y="20.5" width="7" height="5" rx="1.5" /><rect x="23.5" y="20.5" width="7" height="5" rx="1.5" /><line x1="20.5" y1="23" x2="23.5" y2="23" /><path d="M15 36l2-4 5 1.5 5-1.5 2 4" /></svg>`
+  },
+  {
+    id: 'drama',
+    name: 'Drama',
+    subtitle: 'Deep Emotion & Heart',
+    count: '160 Titles',
+    color: '#3b82f6',
+    rgb: '59, 130, 246',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7C9.5 7 6 13 6 21s4.5 14 12 14c2 0 4-1 4-3L20 17c0-6-1.5-10-3-10z" /><circle cx="11.5" cy="16.5" r="1.5" /><circle cx="17.5" cy="16.5" r="1.5" /><path d="M10.5 24.5c2 2.5 4.5 3.5 6.5 2.5" /><path d="M23 11c3-1 6-1 9 1s6 6 6 13-4 13.5-11 13.5c-3 0-5-1-6-3l1.8-15.5c0-4 0-8 0.2-9z" /><circle cx="28" cy="19.5" r="1.5" /><circle cx="34" cy="19.5" r="1.5" /><path d="M27.5 28c2-2 5-2 7 0" /></svg>`
+  },
+  {
+    id: 'animation',
+    name: 'Animation',
+    subtitle: 'Anime & CGI Worlds',
+    count: '92 Titles',
+    color: '#10b981',
+    rgb: '16, 185, 129',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="22" r="18" /><path d="M14 13.5l1.5 3 3.5 0.5-2.5 2.5 0.5 3.5-3-1.5-3 1.5 0.5-3.5-2.5-2.5 3.5-0.5z" /><path d="M28 13.5l1.5 3 3.5 0.5-2.5 2.5 0.5 3.5-3-1.5-3 1.5 0.5-3.5-2.5-2.5 3.5-0.5z" /><path d="M14 26.5c2 4 5 5.5 8 5.5s6-1.5 8-5.5H14z" /></svg>`
+  },
+  {
+    id: 'adventure',
+    name: 'Adventure',
+    subtitle: 'Quests & Expeditions',
+    count: '108 Titles',
+    color: '#14b8a6',
+    rgb: '20, 184, 166',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="22" r="17" /><circle cx="22" cy="22" r="13" stroke-dasharray="2 3" /><line x1="22" y1="5" x2="22" y2="8" /><line x1="22" y1="36" x2="22" y2="39" /><line x1="5" y1="22" x2="8" y2="22" /><line x1="36" y1="22" x2="39" y2="22" /><polygon points="22,12 25,22 22,20 19,22" /><polygon points="22,32 25,22 22,24 19,22" /><circle cx="22" cy="22" r="2" fill="currentColor" /></svg>`
+  },
+  {
+    id: 'crime',
+    name: 'Crime',
+    subtitle: 'Heists & Noir',
+    count: '78 Titles',
+    color: '#f43f5e',
+    rgb: '244, 63, 94',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 32V20c0-6 4-11 9-11s9 5 9 11v12" /><rect x="9" y="32" width="26" height="6" rx="2" /><path d="M18 19c2-2 6-2 8 0" /><line x1="22" y1="12" x2="22" y2="20" /><line x1="8" y1="13" x2="4" y2="10" /><line x1="36" y1="13" x2="40" y2="10" /><line x1="22" y1="6" x2="22" y2="2" /></svg>`
+  },
+  {
+    id: 'documentary',
+    name: 'Documentary',
+    subtitle: 'True Stories & Nature',
+    count: '65 Titles',
+    color: '#8b5cf6',
+    rgb: '139, 92, 246',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="11" r="5" /><circle cx="15" cy="11" r="1.5" /><circle cx="27" cy="11" r="5" /><circle cx="27" cy="11" r="1.5" /><rect x="10" y="17" width="20" height="15" rx="3" /><polygon points="30,21 38,16 38,33 30,28" /><line x1="20" y1="32" x2="16" y2="40" /><line x1="20" y1="32" x2="24" y2="40" /><circle cx="17" cy="24.5" r="3" /></svg>`
+  },
+  {
+    id: 'fantasy',
+    name: 'Fantasy',
+    subtitle: 'Myth & Magic',
+    count: '88 Titles',
+    color: '#c084fc',
+    rgb: '192, 132, 252',
+    svg: `<svg viewBox="0 0 44 44" class="cat-outline-emoji-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="18" r="13" /><path d="M22 10l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" /><circle cx="16" cy="21" r="1" /><circle cx="27" cy="22" r="1.2" /><path d="M14 13a10 10 0 0 1 7-5" /><path d="M15 30c2 2 4 3 7 3s5-1 7-3" /><path d="M12 39c2-2 5-4 10-4s8 2 10 4H12z" /></svg>`
+  }
+];
+

@@ -1866,7 +1866,8 @@ html, body {
 .netflix-divider-wrap,
 .prime-divider-wrap,
 .hotstar-divider-wrap,
-.watchlist-divider-wrap {
+.watchlist-divider-wrap,
+.categories-divider-wrap {
   position: relative;
   width: 100%;
   margin: 0 0 12px 0;
@@ -1990,6 +1991,37 @@ html, body {
     rgba(217, 119, 6, 0.22) 22%,
     rgba(180, 83, 9, 0.1) 48%,
     rgba(180, 83, 9, 0.02) 75%,
+    transparent 100%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+/* 5. Categories (Electric Teal / Cyan Glow) */
+.categories-divider-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(20, 184, 166, 0.9) 0%,
+    rgba(6, 182, 212, 0.55) 25%,
+    rgba(255, 255, 255, 0.12) 65%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+}
+
+.categories-divider-glow {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 184, 166, 0.42) 0%,
+    rgba(6, 182, 212, 0.22) 22%,
+    rgba(13, 148, 136, 0.1) 48%,
+    rgba(13, 148, 136, 0.02) 75%,
     transparent 100%
   );
   filter: blur(20px);
@@ -2562,6 +2594,208 @@ html, body {
   font-weight: 600;
 }
 
+/* ==========================================================================
+   HomeOS - Movies View: Categories Section (Horizontal Rectangle Blocks)
+   ========================================================================== */
+.categories-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.categories-count-pill {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #14b8a6;
+  background: rgba(20, 184, 166, 0.12);
+  border: 1px solid rgba(20, 184, 166, 0.32);
+  padding: 3px 10px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(20, 184, 166, 0.18);
+}
+
+/* Horizontal Categories Rail */
+.categories-rail {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 16px 60px 24px 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.categories-rail::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Horizontal Rectangle Category Block */
+.category-card {
+  position: relative;
+  flex: 0 0 260px;
+  width: 260px;
+  height: 118px;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(22, 22, 30, 0.88) 0%,
+    rgba(14, 14, 20, 0.96) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 16px 18px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s ease,
+              box-shadow 0.28s ease,
+              background 0.28s ease;
+  user-select: none;
+}
+
+/* Ambient Corner Color Glow */
+.cat-card-ambient {
+  position: absolute;
+  right: -25px;
+  top: -25px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(var(--cat-rgb), 0.28) 0%,
+    rgba(var(--cat-rgb), 0.08) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0.65;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1;
+}
+
+/* Card Body Layout */
+.cat-card-body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  gap: 12px;
+}
+
+.cat-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cat-card-tag {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--cat-accent, #14b8a6);
+  opacity: 0.95;
+}
+
+.cat-card-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+  margin: 0;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.cat-card-sub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+}
+
+/* Line-drawn Outline Emoji Box */
+.cat-card-emoji-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: rgba(var(--cat-rgb), 0.12);
+  border: 1px solid rgba(var(--cat-rgb), 0.3);
+  color: var(--cat-accent, #14b8a6);
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+.cat-outline-emoji-svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--cat-accent, #14b8a6);
+  transition: transform 0.3s ease, stroke 0.25s ease;
+}
+
+/* Hover & Active States */
+.category-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: rgba(var(--cat-rgb), 0.6);
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.85),
+              0 0 24px rgba(var(--cat-rgb), 0.32);
+}
+
+.category-card:hover .cat-card-ambient {
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+.category-card:hover .cat-card-title {
+  color: #FFFFFF;
+  text-shadow: 0 2px 12px rgba(var(--cat-rgb), 0.45);
+}
+
+.category-card:hover .cat-card-emoji-wrap {
+  background: rgba(var(--cat-rgb), 0.22);
+  border-color: rgba(var(--cat-rgb), 0.65);
+  box-shadow: 0 0 16px rgba(var(--cat-rgb), 0.45);
+  transform: scale(1.08) rotate(3deg);
+}
+
+.category-card:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+.category-card:focus-visible {
+  outline: 2px solid var(--cat-accent, #14b8a6);
+  outline-offset: 3px;
+}
+
 /* Responsive Adaptations */
 @media (max-width: 1080px) {
   .movies-cw-section {
@@ -2605,5 +2839,22 @@ html, body {
   }
   .cw-card-title {
     font-size: 22px;
+  }
+  .category-card {
+    flex: 0 0 220px;
+    width: 220px;
+    height: 106px;
+    padding: 12px 14px;
+  }
+  .cat-card-title {
+    font-size: 17px;
+  }
+  .cat-card-emoji-wrap {
+    width: 44px;
+    height: 44px;
+  }
+  .cat-outline-emoji-svg {
+    width: 30px;
+    height: 30px;
   }
 }

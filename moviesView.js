@@ -9,7 +9,8 @@ import {
   NETFLIX_TOP_10_INDIA,
   PRIME_TOP_10,
   HOTSTAR_TOP_10,
-  WATCHLIST_MOVIES
+  WATCHLIST_MOVIES,
+  MOVIE_CATEGORIES
 } from './moviesData.js';
 
 export function initMoviesView() {
@@ -188,11 +189,46 @@ export function initMoviesView() {
         </button>
       </div>
     </div>
+
+    <!-- 6. Categories Section with Hairline Divider, Downward TEAL Glow, and "Categories" Title -->
+    <div class="movies-platform-section movies-categories-section" id="movies-categories-section">
+      <!-- Hairline divider with downward TEAL glow -->
+      <div class="movie-block-divider-wrap categories-divider-wrap" aria-hidden="true">
+        <div class="movie-block-divider-line categories-divider-line"></div>
+        <div class="movie-block-divider-glow categories-divider-glow"></div>
+      </div>
+
+      <!-- Section Title: Categories -->
+      <div class="movies-section-header">
+        <div class="categories-header-left">
+          <h2 class="movies-section-title">Categories</h2>
+          <span class="categories-count-pill">${MOVIE_CATEGORIES.length} Genres</span>
+        </div>
+      </div>
+
+      <!-- Categories Horizontal Rectangle Blocks Rail with Floating Arrows -->
+      <div class="rail-scroll-wrapper">
+        <button type="button" class="rail-arrow-float rail-arrow-left" data-target="movies-categories-rail" aria-label="Scroll left" title="Scroll left">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="categories-rail" id="movies-categories-rail" role="region" aria-label="Movie Categories & Genres">
+          ${renderCategoryCards(MOVIE_CATEGORIES)}
+        </div>
+        <button type="button" class="rail-arrow-float rail-arrow-right" data-target="movies-categories-rail" aria-label="Scroll right" title="Scroll right">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
   `;
 
   attachContinueWatchingEvents();
   attachWatchlistEvents();
   attachRailNavigationEvents();
+  attachCategoryEvents();
 
   // Initial position: 1st card stays naturally at the start
   setTimeout(() => {
@@ -378,6 +414,46 @@ function renderWatchlistCards(movies) {
   return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
 }
 
+function renderCategoryCards(categories) {
+  const cardsHtml = categories.map(cat => `
+    <div class="category-card" data-genre="${cat.id}" data-genre-title="${cat.name}" style="--cat-accent: ${cat.color}; --cat-rgb: ${cat.rgb};" role="button" tabindex="0" title="Browse ${cat.name} Movies">
+      <div class="cat-card-ambient" aria-hidden="true"></div>
+      <div class="cat-card-body">
+        <div class="cat-card-content">
+          <span class="cat-card-tag">${cat.count}</span>
+          <h3 class="cat-card-title">${cat.name}</h3>
+          <span class="cat-card-sub">${cat.subtitle}</span>
+        </div>
+        <div class="cat-card-emoji-wrap" aria-hidden="true">
+          ${cat.svg}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  return `${cardsHtml}<div class="cw-rail-end-spacer" aria-hidden="true"></div>`;
+}
+
+function attachCategoryEvents() {
+  const cards = document.querySelectorAll('.category-card');
+  cards.forEach(card => {
+    const handleSelect = () => {
+      const genre = card.dataset.genreTitle || card.dataset.genre;
+      if (window.showToast) {
+        window.showToast(`Exploring ${genre} movies...`);
+      }
+    };
+
+    card.addEventListener('click', handleSelect);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleSelect();
+      }
+    });
+  });
+}
+
 function attachWatchlistEvents() {
   const rail = document.getElementById('movies-watchlist-rail');
   if (!rail) return;
@@ -446,7 +522,7 @@ function attachRailNavigationEvents() {
   });
 
   // 2. Dynamic arrow visibility & disabled state based on scroll position
-  const rails = document.querySelectorAll('.watchlist-rail, .platform-top10-rail');
+  const rails = document.querySelectorAll('.watchlist-rail, .platform-top10-rail, .categories-rail');
   rails.forEach(rail => {
     const updateArrows = () => {
       const parent = rail.closest('.movies-platform-section');
