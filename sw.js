@@ -1,5 +1,5 @@
 // HomeOS Service Worker
-const CACHE_NAME = 'homeos-v8.0';
+const CACHE_NAME = 'homeos-v8.1';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -71,11 +71,11 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
   const isCodeAsset = url.pathname.endsWith('.html') ||
-                      url.pathname.endsWith('.css') ||
-                      url.pathname.endsWith('.js') ||
-                      url.pathname === '/' ||
-                      url.pathname.endsWith('/HomeOS/') ||
-                      url.pathname.endsWith('index.html');
+    url.pathname.endsWith('.css') ||
+    url.pathname.endsWith('.js') ||
+    url.pathname === '/' ||
+    url.pathname.endsWith('/HomeOS/') ||
+    url.pathname.endsWith('index.html');
 
   if (isCodeAsset) {
     event.respondWith(

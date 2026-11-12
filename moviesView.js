@@ -191,34 +191,12 @@ export function initMoviesView() {
       </div>
     </div>
 
-    <!-- 6. Categories Section with Hairline Divider, Downward TEAL Glow, and "Categories" Title -->
-    <div class="movies-platform-section movies-categories-section" id="movies-categories-section">
+    <!-- 6. Watch Now Section (Genres & Full Library) -->
+    <div class="movies-platform-section movies-watchnow-section" id="movies-watchnow-section">
       <!-- Hairline divider with downward TEAL glow -->
       <div class="movie-block-divider-wrap categories-divider-wrap" aria-hidden="true">
         <div class="movie-block-divider-line categories-divider-line"></div>
         <div class="movie-block-divider-glow categories-divider-glow"></div>
-      </div>
-
-      <!-- Section Title: Categories -->
-      <div class="movies-section-header">
-        <div class="categories-header-left">
-          <h2 class="movies-section-title">Categories</h2>
-          <span class="categories-count-pill">${MOVIE_CATEGORIES.length} Categories (Genres & Languages)</span>
-        </div>
-      </div>
-
-      <!-- Categories 3-Row Stacked Grid (6 Genres in Row 1, 6 Genres in Row 2, 6 Languages in Row 3) -->
-      <div class="categories-grid" id="movies-categories-grid" role="region" aria-label="Movie Categories & Languages">
-        ${renderCategoryCards(MOVIE_CATEGORIES)}
-      </div>
-    </div>
-
-    <!-- 7. Watch Now Section (The Unified Library) with Emerald Hairline Divider & Radiant Glow -->
-    <div class="movies-platform-section movies-watchnow-section" id="movies-watchnow-section">
-      <!-- Hairline divider with downward EMERALD glow -->
-      <div class="movie-block-divider-wrap watchnow-divider-wrap" aria-hidden="true">
-        <div class="movie-block-divider-line watchnow-divider-line"></div>
-        <div class="movie-block-divider-glow watchnow-divider-glow"></div>
       </div>
 
       <!-- Section Title: Watch Now with Dynamic Filter Pills and Reset Action -->
@@ -238,7 +216,12 @@ export function initMoviesView() {
         </div>
       </div>
 
-      <!-- Watch Now Movie Grid Container (Dynamic Rendering based on Selected Category) -->
+      <!-- Categories 3-Row Stacked Grid (6 Genres in Row 1, 6 Genres in Row 2, 6 Languages in Row 3) -->
+      <div class="categories-grid" id="movies-categories-grid" role="region" aria-label="Movie Categories & Languages">
+        ${renderCategoryCards(MOVIE_CATEGORIES)}
+      </div>
+
+      <!-- Watch Now Movie Grid Container (Library comes directly under genres) -->
       <div class="watchnow-grid" id="movies-watchnow-grid" role="region" aria-label="Watch Now Library Movies">
         ${renderWatchNowLibrary(null)}
       </div>
@@ -638,7 +621,7 @@ function filterWatchNow(category) {
 }
 
 function attachCategoryEvents() {
-  const cards = document.querySelectorAll('.category-card');
+  const cards = document.querySelectorAll('#movies-categories-grid .category-card');
   cards.forEach(card => {
     const handleSelect = () => {
       const genreId = card.dataset.genre;
